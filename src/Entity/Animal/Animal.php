@@ -23,13 +23,13 @@ use AppBundle\Entity\Traits as EntityTraits;
  */
 abstract class Animal
 {
-      use EntityTraits\IdTrait;
-      use EntityTraits\DescriptionTrait;
-      use EntityTraits\StatusTrait;
+    use EntityTraits\IdTrait;
+    use EntityTraits\DescriptionTrait;
+    use EntityTraits\StatusTrait;
 
-      const STATUS_DISABLED = 'disabled';
-      const STATUS_ACTIVE   = 'active';
-      const STATUS_DELETED  = 'deleted';
+    const STATUS_DISABLED = 'disabled';
+    const STATUS_ACTIVE = 'active';
+    const STATUS_DELETED = 'deleted';
 
     const DISCRIMINATORS = [
         'Chien' => 'dog'
@@ -37,27 +37,21 @@ abstract class Animal
 
     /**
      * @var string
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $breed1;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $breed2;
-
-    /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="string", nullable=false)
      */
     private $name;
 
     /**
      * @var string
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $birthDate;
+
+    /**
+     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $vaccination;
+    private $weight;
 
     /**
      * @var Offer
@@ -66,39 +60,17 @@ abstract class Animal
     private $offer;
 
     /**
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $vaccination;
+
+    /**
      * @return string
      */
     public function getBreed1()
     {
         return $this->breed1;
-    }
-
-    /**
-     * @param string $breed1
-     * @return $this
-     */
-    public function setBreed1($breed1)
-    {
-        $this->breed1 = $breed1;
-        return $this;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getBreed2()
-    {
-        return $this->breed2;
-    }
-
-    /**
-     * @param mixed $breed2
-     * @return $this
-     */
-    public function setBreed2($breed2)
-    {
-        $this->breed2 = $breed2;
-        return $this;
     }
 
     /**
@@ -137,21 +109,21 @@ abstract class Animal
         return $this;
     }
 
-      /**
-       * @return Offer
-       */
-      public function getOffer()
-      {
-            return $this->offer;
-      }
+    /**
+     * @return Offer
+     */
+    public function getOffer()
+    {
+        return $this->offer;
+    }
 
-      /**
-       * @param Offer $offer
-       * @return $this
-       */
-      public function setOffer($offer)
-      {
-            $this->offer = $offer;
-            return $this;
-      }
+    /**
+     * @param Offer $offer
+     * @return $this
+     */
+    public function setOffer($offer)
+    {
+        $this->offer = $offer;
+        return $this;
+    }
 }

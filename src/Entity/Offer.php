@@ -22,123 +22,123 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Offer
 {
-      use EntityTraits\IdTrait;
-      use EntityTraits\DescriptionTrait;
-      use EntityTraits\AddressTrait;
-      use EntityTraits\StatusTrait;
-      use EntityTraits\SlugTrait;
-      use EntityTraits\TimestampableTrait;
-      use EntityTraits\ViewTrait;
+    use EntityTraits\IdTrait;
+    use EntityTraits\DescriptionTrait;
+    use EntityTraits\AddressTrait;
+    use EntityTraits\StatusTrait;
+    use EntityTraits\SlugTrait;
+    use EntityTraits\TimestampableTrait;
+    use EntityTraits\ViewTrait;
 
-      const STATUS_DISABLED = 'disabled';
-      const STATUS_ACTIVE   = 'active';
-      const STATUS_DELETED  = 'deleted';
-      const ANIMAL_TYPE_DOG     = 'Chien';
+    const STATUS_DISABLED = 'disabled';
+    const STATUS_ACTIVE = 'active';
+    const STATUS_DELETED = 'deleted';
+    const ANIMAL_TYPE_DOG = 'Chien';
 
 
-      /**
-       * @var ArrayCollection
-       * @ORM\OneToMany(targetEntity="AppBundle\Entity\Animal\Animal", mappedBy="offer", cascade={"persist"})
-       */
-      private $animals;
+    /**
+     * @var ArrayCollection
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Animal\Animal", mappedBy="offer", cascade={"persist"})
+     */
+    private $animals;
 
-      /**
-       * @var string
-       * @Assert\NotNull()
-       * @ORM\Column(type="string", nullable=false)
-       */
-      private $title;
+    /**
+     * @var string
+     * @Assert\NotNull()
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $title;
 
-      /**
-       * @var string
-       * @Assert\NotNull()
-       * @ORM\Column(type="string", nullable=false)
-       */
-      private $animalType;
+    /**
+     * @var string
+     * @Assert\NotNull()
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $animalType;
 
-      public function __construct()
-      {
-            $this->animals = new ArrayCollection();
-      }
+    public function __construct()
+    {
+        $this->animals = new ArrayCollection();
+    }
 
-      /**
-       * @return ArrayCollection
-       */
-      public function getAnimals()
-      {
-            return $this->animals;
-      }
+    /**
+     * @return ArrayCollection
+     */
+    public function getAnimals(): ArrayCollection
+    {
+        return $this->animals;
+    }
 
-      /**
-       * @param ArrayCollection $animals
-       * @return $this
-       */
-      public function setAnimals($animals)
-      {
-            $this->animals = $animals;
-            return $this;
-      }
+    /**
+     * @param ArrayCollection $animals
+     * @return $this
+     */
+    public function setAnimals($animals): Offer
+    {
+        $this->animals = $animals;
+        return $this;
+    }
 
-      /**
-       * @param Animal $animal
-       * @return $this
-       */
-      public function addAnimal(Animal $animal)
-      {
-            if (! $this->animals->contains($animal)) {
-                  $this->animals->add($animal);
-                  $animal->setOffer($this);
-            } elseif ($animal->getStatus() !== Animal::STATUS_ACTIVE) {
-                  $animal->setStatus(Animal::STATUS_ACTIVE);
-            }
-            return $this;
-      }
+    /**
+     * @param Animal $animal
+     * @return $this
+     */
+    public function addAnimal(Animal $animal): Offer
+    {
+        if (!$this->animals->contains($animal)) {
+            $this->animals->add($animal);
+            $animal->setOffer($this);
+        } elseif ($animal->getStatus() !== Animal::STATUS_ACTIVE) {
+            $animal->setStatus(Animal::STATUS_ACTIVE);
+        }
+        return $this;
+    }
 
-      /**
-       * @param Animal $animal
-       * @return $this
-       */
-      public function removeAnimal(Animal $animal)
-      {
-            if ($this->animals->contains($animal)) {
-                  $animal->setStatus(Animal::STATUS_DELETED);
-            }
-            return $this;
-      }
+    /**
+     * @param Animal $animal
+     * @return $this
+     */
+    public function removeAnimal(Animal $animal): Offer
+    {
+        if ($this->animals->contains($animal)) {
+            $animal->setStatus(Animal::STATUS_DELETED);
+        }
+        return $this;
+    }
 
-      /**
-       * @return string
-       */
-      public function getTitle()
-      {
-            return $this->title;
-      }
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
 
-      /**
-       * @param string $title
-       * @return $this
-       */
-      public function setTitle($title)
-      {
-            $this->title = $title;
-            return $this;
-      }
+    /**
+     * @param string $title
+     * @return $this
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+        return $this;
+    }
 
-      /**
-       * @return string
-       */
-      public function getAnimalType()
-      {
-            return $this->animalType;
-      }
+    /**
+     * @return string
+     */
+    public function getAnimalType()
+    {
+        return $this->animalType;
+    }
 
-      /**
-       * @param string $animalType
-       * @return $this
-       */
-      public function setAnimalType($animalType)
-      {
-            $this->animalType = $animalType;
-            return $this;
-      }
+    /**
+     * @param string $animalType
+     * @return $this
+     */
+    public function setAnimalType($animalType)
+    {
+        $this->animalType = $animalType;
+        return $this;
+    }
 }
