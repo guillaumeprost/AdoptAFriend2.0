@@ -6,7 +6,7 @@
  * Time: 18:33
  */
 
-namespace AppBundle\Entity;
+namespace App\Entity;
 
 use AppBundle\Entity\Animal\Animal;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -38,7 +38,7 @@ class Offer
 
     /**
      * @var ArrayCollection
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Animal\Animal", mappedBy="offer", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="App\Entity\Animal\Animal", mappedBy="offer", cascade={"persist"})
      */
     private $animals;
 

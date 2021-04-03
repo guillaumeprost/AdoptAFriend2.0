@@ -6,7 +6,7 @@
  * Time: 11:24
  */
 
-namespace AppBundle\Entity\Animal;
+namespace App\Entity\Animal;
 
 use Doctrine\ORM\Mapping as ORM;
 

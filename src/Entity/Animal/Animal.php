@@ -6,7 +6,7 @@
  * Time: 11:06
  */
 
-namespace AppBundle\Entity\Animal;
+namespace App\Entity\Animal;
 
 use AppBundle\Entity\Offer;
 use Doctrine\ORM\Mapping as ORM;
@@ -55,7 +55,7 @@ abstract class Animal
 
     /**
      * @var Offer
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Offer", inversedBy="animals", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Offer", inversedBy="animals", cascade={"persist"})
      */
     private $offer;
 
