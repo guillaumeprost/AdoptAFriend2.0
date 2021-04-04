@@ -6,13 +6,13 @@
  * Time: 19:12
  */
 
-namespace AppBundle\Entity\Traits;
+namespace App\Trait\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class AddressTrait
- * @package AppBundle\Entity\Traits
+ * @package App\Trait\Entity
  */
 trait AddressTrait
 {

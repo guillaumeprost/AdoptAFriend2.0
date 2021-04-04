@@ -8,7 +8,7 @@
 
 namespace App\Controller;
 
-use AppBundle\Entity\Offer;
+use App\Entity\Offer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Config\Definition\Exception\Exception;
@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class HomeController
- * @package AppBundle\Controller
+ * @package App\Controller
  */
 class HomeController extends AbstractController
 {

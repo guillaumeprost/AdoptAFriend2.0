@@ -1,12 +1,12 @@
 <?php
 
-namespace AppBundle\Entity\Traits;
+namespace App\Trait\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class IdTrait
- * @package AppBundle\Entity\Traits
+ * @package App\Trait\Entity
  */
 trait IdTrait
 {
@@ -21,7 +21,7 @@ trait IdTrait
     /**
      * @return int
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }

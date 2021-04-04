@@ -6,18 +6,20 @@
  * Time: 11:15
  */
 
-namespace AppBundle\Entity\Traits;
+namespace App\Trait\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class DescriptionTrait
- * @package AppBundle\Entity\Traits
+ * @package App\Trait\Entity
  */
 trait DescriptionTrait
 {
     /**
      * @var string
+     * @Assert\NotBlank(message="Veuillez ajouter une description")
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;

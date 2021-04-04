@@ -6,7 +6,7 @@
  * Time: 19:34
  */
 
-namespace AppBundle\Entity\Traits;
+namespace App\Trait\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

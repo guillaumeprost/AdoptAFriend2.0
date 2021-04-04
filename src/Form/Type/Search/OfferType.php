@@ -6,7 +6,7 @@
  * Time: 11:30
  */
 
-namespace AppBundle\Form\Type\Search;
+namespace App\Form\Type\Search;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
  * Class OfferType
- * @package AppBundle\Form\Type\Search
+ * @package App\Form\Type\Search
  */
 class OfferType extends AbstractType
 {
@@ -40,7 +40,7 @@ class OfferType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'AppBundle\Form\Model\Search\OfferModel'
+            'data_class' => 'App\Form\Model\Search\OfferModel'
         ]);
     }
 }

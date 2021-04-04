@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8"/>
-    <title>{% block title %}Welcome!{% endblock %}</title>
+    <title>{% block title %}Adopt a Friend{% endblock %}</title>
     {% block stylesheets %}
         {# 'app' must match the first argument to addEntry() in webpack.config.js #}
         {{ encore_entry_link_tags('app') }}
@@ -10,18 +10,15 @@
         <!-- Renders a link tag (if your module requires any CSS)
              <link rel="stylesheet" href="/build/app.css"> -->
     {% endblock %}
-    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>
+{#    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>#}
 </head>
 
-{# <script src="/docs/5.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script> #}
-
-
+<body class="d-flex flex-column h-100">
 {% block header %}
     <header>
         <div class="navbar navbar-dark bg-dark shadow-sm">
             <div class="container">
                 <a href="#" class="navbar-brand d-flex align-items-center">
-                    {# <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" aria-hidden="true" class="me-2" viewBox="0 0 24 24"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg> #}
                     <strong>Adopt A Friend</strong>
                 </a>
                 <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
@@ -34,7 +31,7 @@
     </header>
 {% endblock %}
 {% block content %}
-    <main>
+    <main class="flex-shrink-0">
         <section class="py-5 text-center container">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
@@ -260,7 +257,7 @@
     </main>
 {% endblock %}
 {% block footer %}
-    <footer class="text-muted py-5">
+    <footer class="footer mt-auto py-3 bg-light">
         <div class="container">
             <p class="mb-1">Made with love by Guillaume Prost</p>
             <p class="float-end mb-1 justify-content-end">
@@ -269,8 +266,9 @@
         </div>
     </footer>
 {% endblock %}
+</body>
+
 {% block javascripts %}
     {{ encore_entry_script_tags('app') }}
 {% endblock %}
-</body>
 </html>

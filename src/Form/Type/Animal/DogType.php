@@ -6,12 +6,34 @@
  * Time: 12:25
  */
 
-namespace AppBundle\Form\Type\Animal;
+namespace App\Form\Type\Animal;
 
+use App\Entity\Animal\Dog;
+use App\Utils\Animal\Dog\Size;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormBuilderInterface;
+
+/**
+ * Class DogType
+ * @package App\Form\Type\Animal
+ */
 class DogType extends AnimalType
 {
-    public function getBlockPrefix()
+    const RELATED_ENTITY = Dog::class;
+
+    /**
+     * @param FormBuilderInterface $builder
+     * @param array $options
+     */
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        return 'dog';
+        parent::buildForm($builder, $options);
+
+        $builder->add('size', ChoiceType::class, [
+            'label' => 'Couleur',
+            'required' => false,
+            'choices' => Size::$types
+        ]);
+
     }
 }
