@@ -12,12 +12,35 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Dog
- * @package AppBundle\Entity\Animal
+ * @package App\Entity\Animal
  *
- * @ORM\Entity(repositoryClass="AppBundle\Entity\Repository\Animal\DogRepository")
+ * @ORM\Entity(repositoryClass="App\Entity\Repository\Animal\DogRepository")
  */
 class Dog extends Animal
 {
     const DISCIMINATOR = 'dog';
 
+    /**
+     * @var string
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $size;
+
+    /**
+     * @return string
+     */
+    public function getSize(): string
+    {
+        return $this->size;
+    }
+
+    /**
+     * @param string $size
+     * @return Dog
+     */
+    public function setSize(string $size): self
+    {
+        $this->size = $size;
+        return $this;
+    }
 }

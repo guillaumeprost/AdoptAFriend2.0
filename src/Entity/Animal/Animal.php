@@ -8,13 +8,14 @@
 
 namespace App\Entity\Animal;
 
-use AppBundle\Entity\Offer;
+use App\Entity\Offer;
 use Doctrine\ORM\Mapping as ORM;
-use AppBundle\Entity\Traits as EntityTraits;
+use App\Trait\Entity as EntityTraits;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Animal
- * @package AppBundle\Entity\Animal
+ * @package App\Entity\Animal
  *
  * @ORM\Entity
  * @ORM\InheritanceType("SINGLE_TABLE")
@@ -26,104 +27,228 @@ abstract class Animal
     use EntityTraits\IdTrait;
     use EntityTraits\DescriptionTrait;
     use EntityTraits\StatusTrait;
+    use EntityTraits\AffinitiesTrait;
 
-    const STATUS_DISABLED = 'disabled';
-    const STATUS_ACTIVE = 'active';
+    const STATUS_UP_FOR_ADOPTION = 'up for adoption';
+    const STATUS_ADOPTED = 'adopted';
     const STATUS_DELETED = 'deleted';
 
     const DISCRIMINATORS = [
-        'Chien' => 'dog'
+        'Chien' => Dog::DISCIMINATOR
     ];
 
     /**
      * @var string
+     * @Assert\NotBlank(message="Veuillez ajouter un nom")
      * @ORM\Column(type="string", nullable=false)
      */
     private $name;
 
     /**
-     * @var string
+     * @var \DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $birthDate;
 
     /**
-     * @var string
-     * @ORM\Column(type="string", nullable=true)
+     * @var float
+     * @ORM\Column(type="decimal", nullable=true)
      */
     private $weight;
 
     /**
-     * @var Offer
-     * @ORM\ManyToOne(targetEntity="App\Entity\Offer", inversedBy="animals", cascade={"persist"})
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $offer;
+    private $fur;
 
     /**
      * @var string
      * @ORM\Column(type="string", nullable=true)
      */
+    private $color;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=true)
+     */
     private $vaccination;
 
     /**
-     * @return string
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=false)
      */
-    public function getBreed1()
-    {
-        return $this->breed1;
-    }
+    private $sterilized;
+
+    /**
+     * @var bool
+     * @ORM\Column(type="boolean", nullable=false)
+     */
+    private $dewormed;
+
+    /**
+     * @var float
+     * @ORM\Column(type="decimal", nullable=true)
+     */
+    private $price;
 
     /**
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
     /**
      * @param string $name
-     * @return $this
+     * @return Animal
      */
-    public function setName($name)
+    public function setName(string $name)
     {
         $this->name = $name;
         return $this;
     }
 
     /**
+     * @return \DateTime
+     */
+    public function getBirthDate(): \DateTime
+    {
+        return $this->birthDate;
+    }
+
+    /**
+     * @param \DateTime $birthDate
+     * @return Animal
+     */
+    public function setBirthDate(\DateTime $birthDate): Animal
+    {
+        $this->birthDate = $birthDate;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getWeight(): float
+    {
+        return $this->weight;
+    }
+
+    /**
+     * @param float $weight
+     * @return Animal
+     */
+    public function setWeight(float $weight): Animal
+    {
+        $this->weight = $weight;
+        return $this;
+    }
+    /**
      * @return string
      */
-    public function getVaccination()
+    public function getColor(): string
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param string $color
+     * @return Animal
+     */
+    public function setColor(string $color): self
+    {
+        $this->color = $color;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFur(): string
+    {
+        return $this->fur;
+    }
+
+    /**
+     * @param string $fur
+     * @return Animal
+     */
+    public function setFur(string $fur): Animal
+    {
+        $this->fur = $fur;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVaccination(): bool
     {
         return $this->vaccination;
     }
 
     /**
-     * @param string $vaccination
-     * @return $this
+     * @param bool $vaccination
      */
-    public function setVaccination($vaccination)
+    public function setVaccination(bool $vaccination): self
     {
         $this->vaccination = $vaccination;
         return $this;
     }
 
     /**
-     * @return Offer
+     * @return bool
      */
-    public function getOffer()
+    public function isSterilized(): bool
     {
-        return $this->offer;
+        return $this->sterilized;
     }
 
     /**
-     * @param Offer $offer
-     * @return $this
+     * @param bool $sterilized
+     * @return Animal
      */
-    public function setOffer($offer)
+    public function setSterilized(bool $sterilized): Animal
     {
-        $this->offer = $offer;
+        $this->sterilized = $sterilized;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDewormed(): bool
+    {
+        return $this->dewormed;
+    }
+
+    /**
+     * @param bool $dewormed
+     * @return Animal
+     */
+    public function setDewormed(bool $dewormed): Animal
+    {
+        $this->dewormed = $dewormed;
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getPrice(): float
+    {
+        return $this->price;
+    }
+
+    /**
+     * @param float $price
+     * @return Animal
+     */
+    public function setPrice(float $price): Animal
+    {
+        $this->price = $price;
         return $this;
     }
 }

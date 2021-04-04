@@ -6,14 +6,14 @@
  * Time: 19:22
  */
 
-namespace AppBundle\Entity\Traits;
+namespace App\Trait\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class EmailTrait
- * @package AppBundle\Entity\Traits
+ * @package App\Trait\Entity
  */
 trait EmailTrait
 {

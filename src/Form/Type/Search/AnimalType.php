@@ -6,8 +6,8 @@
  * Time: 11:30
  */
 
-namespace AppBundle\Form\Type\Search;
-use AppBundle\Entity\Animal\Animal;
+namespace App\Form\Type\Search;
+use App\Entity\Animal\Animal;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints\Choice;
 
 /**
  * Class AnimalType
- * @package AppBundle\Form\Type\Search
+ * @package App\Form\Type\Search
  */
 class AnimalType extends AbstractType
 {
@@ -48,7 +48,7 @@ class AnimalType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'date_class' => 'AppBundle\Entity\Animal\Animal'
+            'date_class' => 'App\Entity\Animal\Animal'
         ]);
     }
 }

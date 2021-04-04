@@ -6,14 +6,14 @@
  * Time: 10:26
  */
 
-namespace AppBundle\Entity\Traits;
+namespace App\Trait\Entity;
 
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class SlugTrait
- * @package AppBundle\Entity\Traits
+ * @package App\Trait\Entity
  */
 trait SlugTrait
 {

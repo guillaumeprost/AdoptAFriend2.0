@@ -6,7 +6,7 @@
  * Time: 12:25
  */
 
-namespace AppBundle\Form\Type\Animal;
+namespace App\Form\Type\Animal;
 
 class CatType extends AnimalType
 {
