@@ -12,6 +12,7 @@ use App\Entity\Animal\Animal;
 use App\Utils\Animal\Affinities;
 use App\Utils\Animal\Color;
 use App\Utils\Animal\Fur;
+use App\Utils\Animal\Sex;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -41,6 +42,11 @@ abstract class AnimalType extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Nom',
                 'required' => true
+            ])
+            ->add('sex', ChoiceType::class, [
+                'label' => 'Sexe',
+                'required' => false,
+                'choices' => array_flip(Sex::$types)
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',

@@ -8,16 +8,16 @@
 
 namespace App\Entity\Animal;
 
-use App\Entity\Offer;
 use Doctrine\ORM\Mapping as ORM;
 use App\Trait\Entity as EntityTraits;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Animal
  * @package App\Entity\Animal
  *
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=App\Repository\AnimalRepository::class)
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="discriminator", type="string")
  * @ORM\DiscriminatorMap({"dog" = "Dog"})
@@ -28,6 +28,7 @@ abstract class Animal
     use EntityTraits\DescriptionTrait;
     use EntityTraits\StatusTrait;
     use EntityTraits\AffinitiesTrait;
+    use TimestampableEntity;
 
     const STATUS_UP_FOR_ADOPTION = 'up for adoption';
     const STATUS_ADOPTED = 'adopted';
@@ -43,6 +44,13 @@ abstract class Animal
      * @ORM\Column(type="string", nullable=false)
      */
     private $name;
+
+    /**
+     * @var string
+     * @Assert\NotBlank(message="Veuillez ajouter un sex")
+     * @ORM\Column(type="string", nullable=false)
+     */
+    private $sex;
 
     /**
      * @var \DateTime
@@ -107,6 +115,24 @@ abstract class Animal
     public function setName(string $name)
     {
         $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSex(): string
+    {
+        return $this->sex;
+    }
+
+    /**
+     * @param string $sex
+     * @return Animal
+     */
+    public function setSex(string $sex): self
+    {
+        $this->sex = $sex;
         return $this;
     }
 

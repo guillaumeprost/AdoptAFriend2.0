@@ -24,7 +24,7 @@ trait AffinitiesTrait
     /**
      * @return string
      */
-    public function getDogsAffinities(): string
+    public function getDogsAffinities(): ?string
     {
         return $this->dogsAffinities;
     }
@@ -41,7 +41,7 @@ trait AffinitiesTrait
     /**
      * @return string
      */
-    public function getCatsAffinities(): string
+    public function getCatsAffinities(): ?string
     {
         return $this->catsAffinities;
     }
@@ -58,7 +58,7 @@ trait AffinitiesTrait
     /**
      * @return string
      */
-    public function getChildAffinities(): string
+    public function getChildAffinities(): ?string
     {
         return $this->childAffinities;
     }

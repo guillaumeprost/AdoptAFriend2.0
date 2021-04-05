@@ -30,9 +30,9 @@ class DogType extends AnimalType
         parent::buildForm($builder, $options);
 
         $builder->add('size', ChoiceType::class, [
-            'label' => 'Couleur',
+            'label' => 'Taille',
             'required' => false,
-            'choices' => Size::$types
+            'choices' => array_flip(lSize::$types)
         ]);
 
     }

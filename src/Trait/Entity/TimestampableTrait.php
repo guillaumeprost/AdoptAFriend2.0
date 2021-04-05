@@ -3,6 +3,7 @@
 namespace App\Trait\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * ThisTrait adds Timestampable fields to entity.
@@ -10,50 +11,52 @@ use Doctrine\ORM\Mapping as ORM;
 trait TimestampableTrait
 {
     /**
-     * @var \Datetime $created
+     * @var \DateTime $created
      *
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="create")
      */
     private $created;
 
     /**
-     * @var \Datetime $updated
+     * @var \DateTime $updated
      *
      * @ORM\Column(type="datetime")
+     * @Gedmo\Timestampable(on="update")
      */
     private $updated;
 
     /**
-     * @return \Datetime
+     * @return \DateTime
      */
-    public function getCreated()
+    public function getCreated(): \DateTime
     {
         return $this->created;
     }
 
     /**
-     * @param \Datetime $created
-     * @return self
+     * @param \DateTime $created
+     * @return TimestampableTrait
      */
-    public function setCreated($created)
+    public function setCreated(\DateTime $created): self
     {
         $this->created = $created;
         return $this;
     }
 
     /**
-     * @return \Datetime
+     * @return \DateTime
      */
-    public function getUpdated()
+    public function getUpdated(): \DateTime
     {
         return $this->updated;
     }
 
     /**
-     * @param \Datetime $updated
-     * @return self
+     * @param \DateTime $updated
+     * @return TimestampableTrait
      */
-    public function setUpdated($updated)
+    public function setUpdated(\DateTime $updated): self
     {
         $this->updated = $updated;
         return $this;

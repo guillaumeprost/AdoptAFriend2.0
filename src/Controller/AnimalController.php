@@ -2,10 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Animal\Animal;
 use App\Entity\Animal\Dog;
 use App\Form\Type\Animal\AnimalType;
 use App\Form\Type\Animal\DogType;
 use App\Utils\Animal\Color;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
@@ -53,6 +55,24 @@ class AnimalController extends AbstractController
 
         return $this->render('animal/create.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route("/search", name="animal_search")
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function search(Request $request) {
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        /** @var Animal[]|ArrayCollection $animals */
+        $animals = $entityManager->getRepository(Animal::class)->search($request->get('filters',[]), $request->get('sorter',[]));
+
+        return $this->render('animal/list.html.twig', [
+            'animals' => $animals,
         ]);
     }
 }
