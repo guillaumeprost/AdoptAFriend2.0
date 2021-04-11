@@ -7,10 +7,14 @@
                 {% for animal in animals %}
                     <div class="col pt-3">
                         <div class="card h-100">
-                            {# <img src="..." class="card-img-top" alt="..."> #}
+                            {% if animal.images|length > 0 %}
+                                <img src="{{ asset('/upload/animal/dog/'~ animal.images|first()) }}" class="img-fluid d-block card-img-top" alt="{{ animal.name }}">
+                            {% else %}
+                                <img src="{{ asset('/upload/animal/dog/default.jpg') }}" class="img-fluid d-block card-img-top" alt="{{ animal.name }}">
+                            {% endif %}
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col"><h5 class="card-title">{{ animal.name }} </h5></div>
+                                    <div class="col"><h5 class="card-title">{{ animal.name }}</h5></div>
                                     <div class="col text-right">
                                         {% if animal.sex == constant('App\\Utils\\Animal\\Sex::TYPE_MALE') %}
                                             <i class="fas fa-mars" data-bs-toggle="tooltip"
@@ -26,8 +30,9 @@
                                 </div>
 
                                 <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-                                <p class="card-text">
-                                    {{ animal.description|length > 50 ? animal.description|slice(0, 50) ~ '...' : animal.description }}
+                                <p class="card-text text-truncate">
+                                    {{ animal.description }}
+{#                                    {{ animal.description|length > 50 ? animal.description|slice(0, 50) ~ '...' : animal.description }}#}
                                 </p>
                                 {# <a href="#" class="btn btn-primary">Go somewhere</a> #}
                                 <div class="row">

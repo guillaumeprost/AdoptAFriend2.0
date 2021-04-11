@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Trait\Entity;
+namespace App\Traits\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;

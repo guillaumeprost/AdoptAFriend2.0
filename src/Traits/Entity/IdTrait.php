@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Trait\Entity;
+namespace App\Traits\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class IdTrait
- * @package App\Trait\Entity
+ * @package App\Traits\Entity
  */
 trait IdTrait
 {

@@ -6,14 +6,14 @@
  * Time: 11:15
  */
 
-namespace App\Trait\Entity;
+namespace App\Traits\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class DescriptionTrait
- * @package App\Trait\Entity
+ * @package App\Traits\Entity
  */
 trait DescriptionTrait
 {

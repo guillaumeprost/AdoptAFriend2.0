@@ -6,10 +6,12 @@ use App\Entity\Animal\Animal;
 use App\Entity\Animal\Dog;
 use App\Form\Type\Animal\AnimalType;
 use App\Form\Type\Animal\DogType;
+use App\Service\FileService;
 use App\Utils\Animal\Color;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,6 +28,14 @@ class AnimalController extends AbstractController
         Dog::DISCIMINATOR => DogType::class
     ];
 
+    /** @var FileService  */
+    private $fileService;
+
+    public function __construct(FileService $fileService)
+    {
+        $this->fileService = $fileService;
+    }
+
 
     /**
      * @Route("/create/{type}", name="animal_create")
@@ -35,6 +45,7 @@ class AnimalController extends AbstractController
      */
     public function create(Request $request, $type): Response
     {
+        /** @var Animal $animal */
         $animal = new($this->mapTypes[$type]::RELATED_ENTITY);
 
         $form = $this->createForm($this->mapTypes[$type], $animal);
@@ -43,19 +54,24 @@ class AnimalController extends AbstractController
             ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $animal = $form->getData();
+
+            $this->fileService->addAnimalImages($animal, $type);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($animal);
             $entityManager->flush();
 
             $this->addFlash('success', 'Votre animal à été ajouté');
-//            return $this->redirectToRoute('task_success');
+            return $this->redirectToRoute('animal_search');
         }
 
         return $this->render('animal/create.html.twig', [
             'form' => $form->createView(),
         ]);
+    }
+
+    public function manageFile($file){
+
     }
 
     /**

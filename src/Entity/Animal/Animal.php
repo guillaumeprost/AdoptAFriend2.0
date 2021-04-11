@@ -9,7 +9,7 @@
 namespace App\Entity\Animal;
 
 use Doctrine\ORM\Mapping as ORM;
-use App\Trait\Entity as EntityTraits;
+use App\Traits\Entity as EntityTraits;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -57,6 +57,12 @@ abstract class Animal
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $birthDate;
+
+    /**
+     * @var string
+     * @ORM\Column(type="array", nullable=true)
+     */
+    private $images;
 
     /**
      * @var float
@@ -151,6 +157,24 @@ abstract class Animal
     public function setBirthDate(\DateTime $birthDate): Animal
     {
         $this->birthDate = $birthDate;
+        return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function getImages(): array
+    {
+        return $this->images;
+    }
+
+    /**
+     * @param array $images
+     * @return Animal
+     */
+    public function setImages(array $images): self
+    {
+        $this->images = $images;
         return $this;
     }
 

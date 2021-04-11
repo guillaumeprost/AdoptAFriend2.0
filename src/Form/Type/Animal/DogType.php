@@ -32,7 +32,7 @@ class DogType extends AnimalType
         $builder->add('size', ChoiceType::class, [
             'label' => 'Taille',
             'required' => false,
-            'choices' => array_flip(lSize::$types)
+            'choices' => array_flip(Size::$types)
         ]);
 
     }

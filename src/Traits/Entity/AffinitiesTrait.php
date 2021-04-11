@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Trait\Entity;
+namespace App\Traits\Entity;
 
 trait AffinitiesTrait
 {

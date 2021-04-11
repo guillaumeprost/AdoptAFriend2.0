@@ -36,6 +36,12 @@ class AppFixtures extends Fixture
             Phasellus nisi erat, finibus at odio ac, euismod vehicula mi.'
             );
             $dog->setWeight(mt_rand(10, 60));
+            $images = [];
+            for ($j = 1; $j < mt_rand(1, 3); $j++) {
+                dump(str_replace('%d', mt_rand(1, 10), 'chien%d.jpg'));
+                $images[] = str_replace('%d', mt_rand(1, 10), 'chien%d.jpg');
+            }
+            $dog->setImages($images);
             $dog->setFur(array_rand(Fur::$types));
             $dog->setColor(array_rand(Color::$types));
             $dog->setBirthDate(new \DateTime());
