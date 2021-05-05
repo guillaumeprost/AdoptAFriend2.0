@@ -38,7 +38,6 @@ class AppFixtures extends Fixture
             $dog->setWeight(mt_rand(10, 60));
             $images = [];
             for ($j = 1; $j < mt_rand(1, 3); $j++) {
-                dump(str_replace('%d', mt_rand(1, 10), 'chien%d.jpg'));
                 $images[] = str_replace('%d', mt_rand(1, 10), 'chien%d.jpg');
             }
             $dog->setImages($images);
