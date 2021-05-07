@@ -1,0 +1,177 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+
+        <div id="animalCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for image in animal.images %}
+                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <img src="{{ asset('/upload/animal/dog/'~ image) }}" class="d-block w-100"
+                             alt="{{ animal.name }}">
+                    </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#animalCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#animalCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden"></span>
+            </button>
+        </div>
+
+        <h1>{{ animal.name }}</h1>
+{#        <h2>Subtitle</h2> Race#}
+        <div class="row">
+            <div class="col-2">
+                <h3>{{ animal.weight }}kg</h3>
+            </div>
+            <div class="col-10">
+                <h3>{{ date('now').diff(animal.birthDate).format('%y ans et %m mois') }}</h3>
+            </div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                <div class="row">
+                    {% if animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
+                        <div class="col-1">
+                            <i class="fas fa-baby text-success" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom" title="Bonne entente avec les enfants"></i>
+                        </div>
+                        <div class="col-11">
+                            Bonne entente avec les enfants
+                        </div>
+
+                    {% elseif animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_BAD') %}
+                        <div class="col-1">
+                            <i class="fas fa-baby text-danger" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom" title="Mauvaise entente avec les enfants"></i>
+                        </div>
+
+                        <div class="col-11">
+                            Mauvaise entente avec les enfants
+                        </div>
+                    {% else %}
+                        <div class="col-1">
+                            <i class="fas fa-baby text-secondary" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom"
+                               title="Entente avec les enfants inconnue"></i>
+                        </div>
+                        <div class="col-11">
+                            Entente avec les enfants inconnue
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    {% if animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
+                        <div class="col-1">
+                            <i class="fas fa-dog text-success" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom" title="Bonne entente avec les chiens"></i>
+                        </div>
+
+                        <div class="col-11">Bonne entente avec les chiens</div>
+                    {% elseif animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_BAD') %}
+                        <div class="col-1">
+                            <i class="fas fa-dog text-danger" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom"
+                               title="Mauvaise entente avec les chiens"></i>
+                        </div>
+                        <div class="col-11">Mauvaise entente avec les chiens</div>
+                    {% else %}
+                        <div class="col-1">
+                            <i class="fas fa-dog text-secondary" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom"
+                               title="Entente avec les chiens inconnue"></i></div>
+                        <div class="col-11">Entente avec les chiens inconnue</div>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    {% if animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
+                        <div class="col-1">
+                            <i class="fas fa-cat text-success" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom" title="Bonne entente avec les chats"></i></div>
+                        <div class="col-11">Bonne entente avec les chats</div>
+                    {% elseif animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_BAD') %}
+                        <div class="col-1">
+                            <i class="fas fa-cat text-danger" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom"
+                               title="Mauvaise entente avec les chats"></i></div>
+                        <div class="col-11">Mauvaise entente avec les chats</div>
+                    {% else %}
+                        <div class="col-1">
+                            <i class="fas fa-cat text-secondary" data-bs-toggle="tooltip"
+                               data-bs-placement="botætom"
+                               title="Entente avec les chats inconnue"></i></div>
+                        <div class="col-11">Entente avec les chats inconnue</div>
+                    {% endif %}
+                </div>
+
+                <div class="row"><br></div>
+                <div class="row">
+                {% if animal.vaccination == true %}
+                    <div class="col-1">
+                        <i class="fas fa-syringe text-success" data-bs-toggle="tooltip"
+                                          data-bs-placement="bottom" title="Vacciné"></i>
+                    </div>
+                    <div class="col-11">
+                        Vaccination faite
+                    </div>
+                {% else %}
+                    <div class="col-1">
+                    <i class="fas fa-syringe text-danger" data-bs-toggle="tooltip"
+                       data-bs-placement="bottom" title="Non vacciné"></i>
+                    </div>
+                    <div class="col-11">
+                        Vaccination à faire
+                    </div>
+                {% endif %}
+                </div>
+                <div class="row">
+                {% if animal.sterilized == true %}
+                <div class="col-1">
+                    <i class="far fa-hand-scissors text-success" data-bs-toggle="tooltip"
+                                      data-bs-placement="bottom" title="Stérilisé"></i>
+                </div>
+                <div class="col-11">
+                    Stérilisé
+                </div>
+                {% else %}
+                <div class="col-1">
+                    <i class="far fa-hand-scissors text-danger" data-bs-toggle="tooltip"
+                       data-bs-placement="bottom" title="Non stérilisé"></i>
+                </div>
+                <div class="col-11">
+                    Non stérilisé
+                </div>
+                {% endif %}
+                </div>
+                <div class="row">
+                {% if animal.dewormed == true %}
+                <div class="col-1">
+                    <i class="fas fa-capsules text-success" data-bs-toggle="tooltip"
+                       data-bs-placement="bottom" title="Vermifugé"></i>
+                </div>
+                <div class="col-11">
+                    Vermifugé
+                </div>
+                {% else %}
+                <div class="col-1">
+                    <i class="fas fa-capsules text-danger" data-bs-toggle="tooltip"
+                       data-bs-placement="bottom" title="Non vermifugé"></i>
+                </div>
+                <div class="col-11">
+                    A vermifugé
+                </div>
+                {% endif %}
+                </div>
+            </div>
+
+            <div class="col">
+                        {{ animal.description }}
+            </div>
+        </div>
+    </div>
+{% endblock %}

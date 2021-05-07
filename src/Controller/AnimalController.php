@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 /**
  * Class AnimalController
@@ -89,6 +90,19 @@ class AnimalController extends AbstractController
 
         return $this->render('animal/list.html.twig', [
             'animals' => $animals,
+        ]);
+    }
+
+    /**
+     * @Route("/afficher/{id}", name="animal_display")
+     * @ParamConverter("animal", class="App\Entity\Animal\Animal")
+     *
+     * @param Animal $animal
+     */
+    public function display(Animal $animal)
+    {
+        return $this->render('animal/display.html.twig', [
+            'animal' => $animal,
         ]);
     }
 }

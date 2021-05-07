@@ -1,0 +1,97 @@
+<div class="col pt-3 clickable animal-card" data-link = {{ path('animal_display', {'type':'dog', 'id':animal.id}) }}>
+    <div class="card h-100">
+        {% if animal.images|length > 0 %}
+            <img src="{{ asset('/upload/animal/dog/'~ animal.images|first()) }}" class="img-fluid d-block card-img-top"
+                 alt="{{ animal.name }}">
+        {% else %}
+            <img src="{{ asset('/upload/animal/dog/default.jpg') }}" class="img-fluid d-block card-img-top"
+                 alt="{{ animal.name }}">
+        {% endif %}
+        <div class="card-body">
+            <div class="row">
+                <div class="col"><h5 class="card-title">{{ animal.name }}</h5></div>
+                <div class="col text-right">
+                    {% if animal.sex == constant('App\\Utils\\Animal\\Sex::TYPE_MALE') %}
+                        <i class="fas fa-mars" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Male"></i>
+                    {% elseif animal.sex == constant('App\\Utils\\Animal\\Sex::TYPE_FEMALE') %}
+                        <i class="fas fa-venus" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Femelle"></i>
+                    {% else %}
+                        <i class="fas fa-question" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Sexe inconnu"></i>
+                    {% endif %}
+                </div>
+            </div>
+
+            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
+            <p class="card-text text-truncate">
+                {{ animal.description }}
+                {# {{ animal.description|length > 50 ? animal.description|slice(0, 50) ~ '...' : animal.description }} #}
+            </p>
+            {# <a href="#" class="btn btn-primary">Go somewhere</a> #}
+            <div class="row">
+                <div class="col">
+                    {% if animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
+                        <i class="fas fa-baby text-success" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Bonne entente avec les enfants"></i>
+                    {% elseif animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_BAD') %}
+                        <i class="fas fa-baby text-danger" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Mauvaise entente avec les enfants"></i>
+                    {% else %}
+                        <i class="fas fa-baby text-secondary" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Entente avec les enfants inconnue"></i>
+                    {% endif %}
+
+                    {% if animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
+                        <i class="fas fa-dog text-success" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Bonne entente avec les chiens"></i>
+                    {% elseif animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_BAD') %}
+                        <i class="fas fa-dog text-danger" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Mauvaise entente avec les chiens"></i>
+                    {% else %}
+                        <i class="fas fa-dog text-secondary" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Entente avec les chiens inconnue"></i>
+                    {% endif %}
+
+                    {% if animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
+                        <i class="fas fa-cat text-success" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Bonne entente avec les chats"></i>
+                    {% elseif animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_BAD') %}
+                        <i class="fas fa-cat text-danger" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Mauvaise entente avec les chats"></i>
+                    {% else %}
+                        <i class="fas fa-cat text-secondary" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Entente avec les chats inconnue"></i>
+                    {% endif %}
+                </div>
+                <div class="col text-right">
+                    {% if animal.vaccination == true %}
+                        <i class="fas fa-syringe text-success" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Vacciné"></i>
+                    {% else %}
+                        <i class="fas fa-syringe text-danger" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Non vacciné"></i>
+                    {% endif %}
+                    {% if animal.sterilized == true %}
+                        <i class="far fa-hand-scissors text-success" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Stérilisé"></i>
+                    {% else %}
+                        <i class="far fa-hand-scissors text-danger" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Non stérilisé"></i>
+                    {% endif %}
+                    {% if animal.dewormed == true %}
+                        <i class="fas fa-capsules text-success" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Vermifugé"></i>
+                    {% else %}
+                        <i class="fas fa-capsules text-danger" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Non vermifugé"></i>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Dernière modification le {{ animal.updatedAt|date('d/m/Y') }}</small>
+        </div>
+    </div>
+</div>

@@ -8,6 +8,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Animal\Animal;
 use App\Entity\Offer;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,11 +23,16 @@ class HomeController extends AbstractController
 {
     /**
      * @Route("/", name="homepage")
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
      */
     public function index(Request $request)
     {
+        $lastAnimals = $this->getDoctrine()->getRepository(Animal::class)->findLastSix();
+
         // replace this example code with whatever you need
         return $this->render('home/index.html.twig', [
+            'lastAnimals' => $lastAnimals
         ]);
     }
 }

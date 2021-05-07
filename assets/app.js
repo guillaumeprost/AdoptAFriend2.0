@@ -33,3 +33,13 @@ $(document).ready(function() {
     $('[data-toggle="popover"]').popover();
 });
 
+
+//Click animal card
+$(document).ready(function() {
+    $(".animal-card").on('click', function(event){
+        // var card = event.elem;
+        window.location.href = $(this).data('link');
+
+    });
+});
+
