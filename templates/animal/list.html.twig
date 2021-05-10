@@ -9,5 +9,26 @@
                 {% endfor %}
             </div>
         </div>
+        <div>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                        <a class="page-link" href="{{ path('animal_search', {'page': page-1})}}" tabindex="-1" aria-disabled="true">Précédents</a>
+                    </li>
+                    {% for pageNumber in 1..pageCount %}
+                        <li class="page-item {% if page == pageNumber %}active{% endif %}">
+                            <a class="page-link" href="{{ path('animal_search', {'page': pageNumber})}}">{{ pageNumber }}</a>
+                        </li>
+                    {% endfor %}
+
+                    {% dump(pageCount) %}
+                    {% dump(page) %}
+                    <li class="page-item">
+                        <a class="page-link {% if pageCount == page %}disabled{% endif %}" href="{{ path('animal_search', {'page': page+1})}}">Suivants</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
+
 {% endblock %}
