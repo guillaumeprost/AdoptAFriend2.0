@@ -9,6 +9,7 @@ use App\Form\Type\Animal\DogType;
 use App\Service\FileService;
 use App\Utils\Animal\Color;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -42,6 +43,8 @@ class AnimalController extends AbstractController
      * @Route("/create/{type}", name="animal_create")
      *
      * @param Request $request
+     * @param $type
+     * @param int $page
      * @return Response
      */
     public function create(Request $request, $type): Response
@@ -76,20 +79,32 @@ class AnimalController extends AbstractController
     }
 
     /**
-     * @Route("/search", name="animal_search")
+     * @Route("/search/{page}", name="animal_search")
      *
      * @param Request $request
      * @return Response
      */
-    public function search(Request $request) {
+    public function search(Request $request, $page = 1) {
 
         $entityManager = $this->getDoctrine()->getManager();
 
-        /** @var Animal[]|ArrayCollection $animals */
-        $animals = $entityManager->getRepository(Animal::class)->search($request->get('filters',[]), $request->get('sorter',[]));
+        $pageSize = $request->query->get('pageSize', 20);
+
+        /** @var Paginator $animalsPaginator */
+        $animalsPaginator = $entityManager
+            ->getRepository(Animal::class)
+            ->search(
+                $request->get('filters',[]),
+                $request->get('sorter',[]),
+                $page,
+                $pageSize
+            );
 
         return $this->render('animal/list.html.twig', [
-            'animals' => $animals,
+            'animals' => $animalsPaginator,
+            'totalAnimals' => count($animalsPaginator),
+            'pageCount' => intval(ceil(count($animalsPaginator) / $pageSize)),
+            'page' => $page
         ]);
     }
 
