@@ -10,39 +10,21 @@
         <!-- Renders a link tag (if your module requires any CSS)
              <link rel="stylesheet" href="/build/app.css"> -->
     {% endblock %}
-{#    <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/>#}
+    {# <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/> #}
 </head>
 
 <body class="d-flex flex-column h-100">
-{% block header %}
-    <header>
-        <div class="navbar navbar-dark bg-dark shadow-sm">
-            <div class="container">
-                <a href="#" class="navbar-brand d-flex align-items-center">
-                    <strong>Adopt A Friend</strong>
-                </a>
-                <nav class="navbar navbar-expand-lg navbar bg">
-                    <div class="container-fluid">
-                            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{ url('animal_search', {'type':'dog'}) }}">Chercher un chien</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{ url('animal_create', {'type':'dog'}) }}">Ajouter un chien</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link active" aria-current="page" href="{{ url('app_register') }}">S'inscrire</a>
-                                </li>
-                            </ul>
-                    </div>
-                </nav>
-            </div>
-        </div>
-    </header>
-{% endblock %}
-{% block content %}
 
-{% endblock %}
+<header>
+    {% block header %}
+        {% include('includes/menu.html.twig') %}
+    {% endblock %}
+</header>
+<main>
+    {% block content %}
+
+    {% endblock %}
+</main>
 {% block footer %}
     <footer class="footer mt-5 py-3 bg-light">
         <div class="container">
