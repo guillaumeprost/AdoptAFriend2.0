@@ -1,12 +1,7 @@
 <?php
 
-
 namespace App\Utils\Animal;
 
-/**
- * Class Affinities
- * @package App\Utils\Animal
- */
 class Affinities
 {
     const TYPE_GOOD = 'good';

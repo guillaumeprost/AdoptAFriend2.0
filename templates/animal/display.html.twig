@@ -2,7 +2,6 @@
 
 {% block content %}
     <div class="container">
-
         <div id="animalCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
                 {% for image in animal.images %}
@@ -23,7 +22,7 @@
         </div>
 
         <h1>{{ animal.name }}</h1>
-{#        <h2>Subtitle</h2> Race#}
+        {#        <h2>Subtitle</h2> Race #}
         <div class="row">
             <div class="col-2">
                 <h3>{{ animal.weight }}kg</h3>
@@ -111,66 +110,66 @@
 
                 <div class="row"><br></div>
                 <div class="row">
-                {% if animal.vaccination == true %}
-                    <div class="col-1">
-                        <i class="fas fa-syringe text-success" data-bs-toggle="tooltip"
-                                          data-bs-placement="bottom" title="Vacciné"></i>
-                    </div>
-                    <div class="col-11">
-                        Vaccination faite
-                    </div>
-                {% else %}
-                    <div class="col-1">
-                    <i class="fas fa-syringe text-danger" data-bs-toggle="tooltip"
-                       data-bs-placement="bottom" title="Non vacciné"></i>
-                    </div>
-                    <div class="col-11">
-                        Vaccination à faire
-                    </div>
-                {% endif %}
+                    {% if animal.vaccination == true %}
+                        <div class="col-1">
+                            <i class="fas fa-syringe text-success" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom" title="Vacciné"></i>
+                        </div>
+                        <div class="col-11">
+                            Vaccination faite
+                        </div>
+                    {% else %}
+                        <div class="col-1">
+                            <i class="fas fa-syringe text-danger" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom" title="Non vacciné"></i>
+                        </div>
+                        <div class="col-11">
+                            Vaccination à faire
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="row">
-                {% if animal.sterilized == true %}
-                <div class="col-1">
-                    <i class="far fa-hand-scissors text-success" data-bs-toggle="tooltip"
-                                      data-bs-placement="bottom" title="Stérilisé"></i>
-                </div>
-                <div class="col-11">
-                    Stérilisé
-                </div>
-                {% else %}
-                <div class="col-1">
-                    <i class="far fa-hand-scissors text-danger" data-bs-toggle="tooltip"
-                       data-bs-placement="bottom" title="Non stérilisé"></i>
-                </div>
-                <div class="col-11">
-                    Non stérilisé
-                </div>
-                {% endif %}
+                    {% if animal.sterilized == true %}
+                        <div class="col-1">
+                            <i class="far fa-hand-scissors text-success" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom" title="Stérilisé"></i>
+                        </div>
+                        <div class="col-11">
+                            Stérilisé
+                        </div>
+                    {% else %}
+                        <div class="col-1">
+                            <i class="far fa-hand-scissors text-danger" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom" title="Non stérilisé"></i>
+                        </div>
+                        <div class="col-11">
+                            Non stérilisé
+                        </div>
+                    {% endif %}
                 </div>
                 <div class="row">
-                {% if animal.dewormed == true %}
-                <div class="col-1">
-                    <i class="fas fa-capsules text-success" data-bs-toggle="tooltip"
-                       data-bs-placement="bottom" title="Vermifugé"></i>
-                </div>
-                <div class="col-11">
-                    Vermifugé
-                </div>
-                {% else %}
-                <div class="col-1">
-                    <i class="fas fa-capsules text-danger" data-bs-toggle="tooltip"
-                       data-bs-placement="bottom" title="Non vermifugé"></i>
-                </div>
-                <div class="col-11">
-                    A vermifugé
-                </div>
-                {% endif %}
+                    {% if animal.dewormed == true %}
+                        <div class="col-1">
+                            <i class="fas fa-capsules text-success" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom" title="Vermifugé"></i>
+                        </div>
+                        <div class="col-11">
+                            Vermifugé
+                        </div>
+                    {% else %}
+                        <div class="col-1">
+                            <i class="fas fa-capsules text-danger" data-bs-toggle="tooltip"
+                               data-bs-placement="bottom" title="Non vermifugé"></i>
+                        </div>
+                        <div class="col-11">
+                            A vermifugé
+                        </div>
+                    {% endif %}
                 </div>
             </div>
 
             <div class="col">
-                        {{ animal.description }}
+                {{ animal.description }}
             </div>
         </div>
     </div>

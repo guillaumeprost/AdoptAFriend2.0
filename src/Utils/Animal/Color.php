@@ -1,24 +1,12 @@
 <?php
 
-
 namespace App\Utils\Animal;
 
-
+/**
+ *  POC
+ */
 class Color
 {
-    /**
-     * Only to get a list of colors
-     */
-    static function convert()
-    {
-        $data = file_get_contents('data_color.html', true);
-        $result = [];
-        $list = explode('</option>', $data);
-        foreach ($list as $v)
-            $result[trim(strip_tags($v))] = trim(strip_tags($v));
-
-        dump($result);exit;
-    }
 
     static $types = [
         "Abricot" => "Abricot",
@@ -70,4 +58,16 @@ class Color
         "Tigré roux" => "Tigré roux",
         "Tricolore" => "Tricolore",
     ];
+
+    static function convert(): array
+    {
+        $data = file_get_contents('data_color.html', true);
+        $result = [];
+        $list = explode('</option>', $data);
+        foreach ($list as $color) {
+            $result[trim(strip_tags($color))] = trim(strip_tags($color));
+        }
+
+        return $result;
+    }
 }

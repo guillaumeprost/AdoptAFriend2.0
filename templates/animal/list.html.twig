@@ -9,12 +9,12 @@
                 </div>
                 <div class="p-2 bd-highlight"></div>
                 <div class="p-2 bd-highlight">
-{#                    <select class="form-select" aria-label="Default select example">#}
-{#                        <option selected>Trier par</option>#}
-{#                        <option value="name">Nom</option>#}
-{#                        <option value="createdAt">Création</option>#}
-{#                        <option value="updatedAt">Mis à jour</option>#}
-{#                    </select>#}
+                    {#                    <select class="form-select" aria-label="Default select example"> #}
+                    {#                        <option selected>Trier par</option> #}
+                    {#                        <option value="name">Nom</option> #}
+                    {#                        <option value="createdAt">Création</option> #}
+                    {#                        <option value="updatedAt">Mis à jour</option> #}
+                    {#                    </select> #}
                 </div>
             </div>
             <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
@@ -29,22 +29,24 @@
                 <ul class="pagination justify-content-center">
                     {% if page > 1 %}
                         <li class="page-item">
-                            <a class="page-link" href="{{ path('animal_search', {'page': page-1})}}" tabindex="-1" aria-disabled="true">Précédents</a>
+                            <a class="page-link" href="{{ path('animal_search', {'page': page-1}) }}" tabindex="-1"
+                               aria-disabled="true">Précédents</a>
                         </li>
                     {% endif %}
                     {% for pageNumber in 1..pageCount %}
                         <li class="page-item {% if page == pageNumber %}active{% endif %}">
-                            <a class="page-link" href="{{ path('animal_search', {'page': pageNumber})}}">{{ pageNumber }}</a>
+                            <a class="page-link"
+                               href="{{ path('animal_search', {'page': pageNumber}) }}">{{ pageNumber }}</a>
                         </li>
                     {% endfor %}
                     {% if page < pageCount %}
-                    <li class="page-item">
-                        <a class="page-link {% if (pageCount) == (page) %}disabled{% endif %}" href="{{ path('animal_search', {'page': page+1})}}">Suivants</a>
-                    </li>
+                        <li class="page-item">
+                            <a class="page-link {% if (pageCount) == (page) %}disabled{% endif %}"
+                               href="{{ path('animal_search', {'page': page+1}) }}">Suivants</a>
+                        </li>
                     {% endif %}
                 </ul>
             </nav>
         </div>
     </div>
-
 {% endblock %}

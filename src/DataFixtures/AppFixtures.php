@@ -11,22 +11,14 @@ use App\Utils\Animal\Sex;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-/**
- * Class AppFixtures
- * @package App\DataFixtures
- */
 class AppFixtures extends Fixture
 {
-    /**
-     * @param ObjectManager $manager
-     * @throws \Exception
-     */
     public function load(ObjectManager $manager)
     {
         for ($i = 1; $i < 50; $i++) {
             $dog = new Dog();
             $dog->setName('Chien '.$i);
-            $dog->setSex(array_rand(Sex::$types));
+            $dog->setSex(array_rand(Sex::$choices));
             $dog->setDescription(
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
             Suspendisse sed tristique justo. Morbi luctus, eros a fringilla fringilla, leo ligula dignissim arcu, at congue ipsum arcu ac ante. 

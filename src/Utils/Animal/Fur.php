@@ -1,12 +1,7 @@
 <?php
 
-
 namespace App\Utils\Animal;
 
-/**
- * Class Fur
- * @package App\Utils\Animal
- */
 class Fur
 {
     const TYPE_SHORT = 'short';
@@ -20,5 +15,4 @@ class Fur
         self::TYPE_MEDIUM => 'Mi-longs',
         self::TYPE_LONG => 'Longs'
     ];
-
 }

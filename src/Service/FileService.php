@@ -18,15 +18,10 @@ class FileService
         $this->slugger = $slugger;
     }
 
-    /**
-     * @param $file
-     * @param string $directory
-     * @return mixed
-     */
-    public function addNewFile($file, $directory = ''): string
+    public function addNewFile(UploadedFile $file,string $directory = ''): string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-        // this is needed to safely include the file name as part of the URL
+
         $safeFilename = $this->slugger->slug($originalFilename);
         $newFilename  = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
 
@@ -35,18 +30,13 @@ class FileService
             $newFilename
         );
 
-        // updates the 'brochureFilename' property to store the PDF file name
-        // instead of its contents
         return $newFilename;
     }
 
-    /**
-     * @param Animal $animal
-     * @param $type
-     */
-    public function addAnimalImages(Animal $animal, $type)
+    public function addAnimalImages(Animal $animal,string $type)
     {
         $images = [];
+
         /** @var UploadedFile $image */
         foreach ($animal->getImages() as $image) {
             $newPath = $this->addNewFile($image, 'animal/'.$type);
