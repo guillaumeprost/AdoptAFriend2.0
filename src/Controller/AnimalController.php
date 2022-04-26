@@ -6,6 +6,7 @@ use App\Entity\Animal\Animal;
 use App\Entity\Animal\Dog;
 use App\Service\AnimalService;
 use App\Service\FileService;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -18,6 +19,14 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class AnimalController extends AbstractController
 {
+    const DEFAULT_ITEM_NUMBER = 20;
+
+    private EntityManagerInterface $entityManager;
+
+    public function __construct(EntityManagerInterface $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
 
     /**
      * @Route(
@@ -28,22 +37,27 @@ class AnimalController extends AbstractController
      *      }
      *     )
      */
-    public function create(Request $request, string $type, AnimalService $animalService): Response
+    public function create(
+        Request       $request,
+        string        $type,
+        AnimalService $animalService,
+        FileService   $fileService
+    ): Response
     {
         $animal = $animalService->getNewRelatedEntity($type);
 
         $form = $this->createForm($animalService->mapTypes[$type], $animal);
         $form->add('save', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
-            ]);
+            'attr' => ['class' => 'btn btn-primary'],
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->get(FileService::class)->addAnimalImages($animal, $type);
+            $fileService->addAnimalImages($animal, $type);
 
-            $this->getDoctrine()->getManager()->persist($animal);
-            $this->getDoctrine()->getManager()->flush();
+            $this->entityManager->persist($animal);
+            $this->entityManager->flush();
 
             $this->addFlash('success', 'Votre animal à été ajouté');
             return $this->redirectToRoute('animal_search');
@@ -54,23 +68,18 @@ class AnimalController extends AbstractController
         ]);
     }
 
-    public function manageFile($file){
-        //TODO
-    }
-
     /**
      * @Route("/search/{page}", name="animal_search")
      */
     public function search(Request $request, $page = 1): Response
     {
-        $pageSize = $request->query->get('pageSize', 20);
+        $pageSize = $request->get('pageSize', self::DEFAULT_ITEM_NUMBER);
 
-        /** @var Paginator $animalsPaginator */
-        $animalsPaginator = $this->getDoctrine()->getManager()
+        $animalsPaginator = $this->entityManager
             ->getRepository(Animal::class)
             ->search(
-                $request->get('filters',[]),
-                $request->get('sorter',[]),
+                $request->get('filters', []),
+                $request->get('sorter', []),
                 $page,
                 $pageSize
             );

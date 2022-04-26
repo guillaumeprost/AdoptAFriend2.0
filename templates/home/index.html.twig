@@ -14,12 +14,32 @@
                 </div>
             </div>
         </section>
+        <div class="py-2 bg-light text-center">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                {# TODO #}
+                <button type="button" class="btn btn-primary active">Tous</button>
+                <button type="button" class="btn btn-secondary">Chien</button>
+                <button type="button" class="btn btn-secondary">Chat</button>
+            </div>
+        </div>
 
         <div class="album py-5 bg-light">
-            <div class="container">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+            <div class="container-fluid">
+                <h2> Derniers animaux à l'adoption</h2>
+                <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4">
                     {% for animal in lastAnimals %}
-                        {% include '/animal/include/card.html.twig' %}
+                        {% include '/animal/include/_card.html.twig' %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="album py-5 bg-light">
+            <div class="container-fluid">
+                <h2> Plus vieux animaux à l'adoption</h2>
+                <div class="row row-cols-1 row-cols-md-3 row-cols-lg-5 g-4">
+                    {% for animal in oldestAnimals %}
+                        {% include '/animal/include/_card.html.twig' %}
                     {% endfor %}
                 </div>
             </div>

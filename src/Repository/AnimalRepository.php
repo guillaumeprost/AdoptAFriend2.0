@@ -23,12 +23,23 @@ class AnimalRepository extends EntityRepository
         return new Paginator($query);
     }
 
-    public function findLastSix(): array
+    public function findLasts(int $pageSize = 5): array
     {
-        $queryBuilder = $this->createQueryBuilder('animal');
-        $queryBuilder->addOrderBy('animal.createdAt', 'ASC');
-        $queryBuilder->setMaxResults(6);
+        return $this
+            ->createQueryBuilder('animal')
+            ->addOrderBy('animal.createdAt', 'ASC')
+            ->setMaxResults($pageSize)
+            ->getQuery()
+            ->getResult();
+    }
 
-        return $queryBuilder->getQuery()->getResult();
+    public function findOldest(int $pageSize = 5): array
+    {
+        return $this
+            ->createQueryBuilder('animal')
+            ->addOrderBy('animal.birthDate', 'DESC')
+            ->setMaxResults($pageSize)
+            ->getQuery()
+            ->getResult();
     }
 }

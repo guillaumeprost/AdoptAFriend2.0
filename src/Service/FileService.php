@@ -10,38 +10,39 @@ class FileService
 {
     const BASE_DIR = 'upload/';
 
-    /** @var SluggerInterface  */
-    private $slugger;
+    private SluggerInterface $slugger;
 
     public function __construct(SluggerInterface $slugger)
     {
         $this->slugger = $slugger;
     }
 
-    public function addNewFile(UploadedFile $file,string $directory = ''): string
+    public function addNewFile(UploadedFile $file, string $directory = ''): string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
         $safeFilename = $this->slugger->slug($originalFilename);
-        $newFilename  = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+        $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
 
         $file->move(
-            self::BASE_DIR.$directory,
+            self::BASE_DIR . $directory,
             $newFilename
         );
 
         return $newFilename;
     }
 
-    public function addAnimalImages(Animal $animal,string $type)
+    public function addAnimalImages(Animal $animal, string $type): Animal
     {
         $images = [];
 
         /** @var UploadedFile $image */
         foreach ($animal->getImages() as $image) {
-            $newPath = $this->addNewFile($image, 'animal/'.$type);
+            $newPath = $this->addNewFile($image, 'animal/' . $type);
             $images[] = $newPath;
         }
         $animal->setImages($images);
+
+        return $animal;
     }
 }

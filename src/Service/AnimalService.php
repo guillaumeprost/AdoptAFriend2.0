@@ -8,7 +8,7 @@ use App\Form\Type\Animal\DogType;
 
 class AnimalService
 {
-    public $mapTypes = [
+    public array $mapTypes = [
         Dog::DISCRIMINATOR => DogType::class
     ];
 

@@ -7,8 +7,7 @@ namespace App\Utils\Animal;
  */
 class Color
 {
-
-    static $types = [
+    static array $types = [
         "Abricot" => "Abricot",
         "Albinos" => "Albinos",
         "Alezan" => "Alezan",

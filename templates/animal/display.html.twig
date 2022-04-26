@@ -4,12 +4,17 @@
     <div class="container">
         <div id="animalCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                {% for image in animal.images %}
-                    <div class="carousel-item {% if loop.first %}active{% endif %}">
-                        <img src="{{ asset('/upload/animal/dog/'~ image) }}" class="d-block w-100"
-                             alt="{{ animal.name }}">
-                    </div>
-                {% endfor %}
+                {% if animal.images|length > 0 %}
+                    {% for image in animal.images %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                            <img src="{{ asset('/upload/animal/dog/'~ image) }}" class="d-block w-100"
+                                 alt="{{ animal.name }}">
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <img src="{{ asset('/upload/animal/dog/default.jpg') }}" class="d-block w-100"
+                         alt="{{ animal.name }}">
+                {% endif %}
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#animalCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>

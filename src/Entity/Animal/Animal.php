@@ -30,72 +30,61 @@ abstract class Animal
     ];
 
     /**
-     * @var string
      * @Assert\NotBlank(message="Veuillez ajouter un nom")
      * @ORM\Column(type="string", nullable=false)
      */
-    private $name;
+    private string $name;
 
     /**
-     * @var string
      * @Assert\NotBlank(message="Veuillez ajouter un sex")
      * @ORM\Column(type="string", nullable=false)
      */
-    private $sex;
+    private string $sex;
 
     /**
-     * @var \DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $birthDate;
+    private ?\DateTime $birthDate;
 
     /**
-     * @var array
      * @ORM\Column(type="array", nullable=true)
      */
-    private $images;
+    private ?array $images;
 
     /**
-     * @var float
      * @ORM\Column(type="decimal", nullable=true)
      */
-    private $weight;
+    private ?float $weight;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $fur;
+    private ?string $fur;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $color;
+    private ?String $color;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $vaccination;
+    private ?bool $vaccination;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private $sterilized;
+    private ?bool $sterilized;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private $dewormed;
+    private ?bool $dewormed;
 
     /**
-     * @var float
      * @ORM\Column(type="decimal", nullable=true)
      */
-    private $price;
+    private ?float $price;
 
     public function getName(): string
     {
