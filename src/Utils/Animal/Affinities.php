@@ -12,5 +12,5 @@ class Affinities
         self::TYPE_BAD => 'Mauvaise',
         self::TYPE_GOOD => 'Bonne',
         self::TYPE_UNKNOWN => 'Inconnue',
-     ];
+    ];
 }

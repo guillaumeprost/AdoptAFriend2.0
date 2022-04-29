@@ -1,5 +1,5 @@
 <div class="col pt-3 animal-card">
-    <div class="card h-100 clickable" data-link = {{ path('animal_display', {'type':'dog', 'id':animal.id}) }}>
+    <div class="card h-100 clickable" data-link= {{ path('animal_display', {'type':'dog', 'id':animal.id}) }}>
         {% if animal.images|length > 0 %}
             <img src="{{ asset('/upload/animal/dog/'~ animal.images|first()) }}" class="img-fluid d-block card-img-top"
                  alt="{{ animal.name }}">

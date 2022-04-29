@@ -10,14 +10,14 @@ class AnimalRepository extends EntityRepository
     public function search(
         array $filers = [],
         array $sorters = [],
-        int $page = 1,
-        int $pageSize = 20
+        int   $page = 1,
+        int   $pageSize = 20
     ): Paginator
     {
         $queryBuilder = $this->createQueryBuilder('animal');
         $query = $queryBuilder->getQuery();
         $query
-            ->setFirstResult($pageSize * ($page-1))
+            ->setFirstResult($pageSize * ($page - 1))
             ->setMaxResults($pageSize);
 
         return new Paginator($query);

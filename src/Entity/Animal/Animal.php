@@ -64,7 +64,7 @@ abstract class Animal
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private ?String $color;
+    private ?string $color;
 
     /**
      * @ORM\Column(type="boolean", nullable=true)
@@ -101,18 +101,18 @@ abstract class Animal
     {
         return $this->sex;
     }
-    
+
     public function setSex(string $sex): self
     {
         $this->sex = $sex;
         return $this;
     }
-    
+
     public function getBirthDate(): \DateTime
     {
         return $this->birthDate;
     }
-    
+
     public function setBirthDate(\DateTime $birthDate): self
     {
         $this->birthDate = $birthDate;
@@ -140,7 +140,7 @@ abstract class Animal
         $this->weight = $weight;
         return $this;
     }
-    
+
     public function getColor(): string
     {
         return $this->color;
