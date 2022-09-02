@@ -12,23 +12,16 @@ class Dog extends Animal
     const DISCRIMINATOR = 'dog';
 
     /**
-     * @ORM\Column(type="string", nullable=false)
+     * @ORM\Column(type="string", nullable=true)
      */
-    private $size;
+    private ?string $size;
 
-    /**
-     * @return string
-     */
-    public function getSize(): string
+    public function getSize(): ?string
     {
         return $this->size;
     }
 
-    /**
-     * @param string $size
-     * @return Dog
-     */
-    public function setSize(string $size): self
+    public function setSize(?string $size): self
     {
         $this->size = $size;
         return $this;
