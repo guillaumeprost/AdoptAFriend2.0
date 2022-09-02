@@ -3,7 +3,10 @@
 {% block content %}
 
     <div class="container">
-        <h1 class="mt-5">Bienvenue {% user.firstName %} {% user.name %}</h1>
+        <h1 class="mt-5">Modifier {{ user.firstName }} {{ user.name }}</h1>
+
+
+        {{ form(userForm) }}
     </div>
 
 {% endblock %}
