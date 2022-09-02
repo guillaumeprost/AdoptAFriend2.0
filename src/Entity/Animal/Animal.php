@@ -8,7 +8,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\AnimalRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Animal\AnimalRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
  * @ORM\DiscriminatorColumn(name="species", type="string")
  * @ORM\DiscriminatorMap({Dog::DISCRIMINATOR = "Dog"})

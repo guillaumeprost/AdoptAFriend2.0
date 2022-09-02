@@ -5,14 +5,13 @@ namespace App\Entity\Animal;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Entity\Repository\Animal\DogRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\Animal\DogRepository")
  */
 class Dog extends Animal
 {
     const DISCRIMINATOR = 'dog';
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=false)
      */
     private $size;
