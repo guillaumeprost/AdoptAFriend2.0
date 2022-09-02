@@ -26,28 +26,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
  */
 class AnimalController extends AbstractController
 {
-    public $mapTypes = [
+    public array $mapTypes = [
         Dog::DISCIMINATOR => DogType::class
     ];
 
     /** @var FileService  */
-    private $fileService;
+    private FileService $fileService;
 
     public function __construct(FileService $fileService)
     {
         $this->fileService = $fileService;
     }
 
-
-    /**
-     * @Route("/create/{type}", name="animal_create")
-     *
-     * @param Request $request
-     * @param $type
-     * @param int $page
-     * @return Response
-     */
-    public function create(Request $request, $type): Response
+    #[Route('/create/{type}', name: 'animal_create')]
+    public function create(Request $request,string $type): Response
     {
         /** @var Animal $animal */
         $animal = new($this->mapTypes[$type]::RELATED_ENTITY);
@@ -78,13 +70,9 @@ class AnimalController extends AbstractController
 
     }
 
-    /**
-     * @Route("/search/{page}", name="animal_search")
-     *
-     * @param Request $request
-     * @return Response
-     */
-    public function search(Request $request, $page = 1) {
+    #[Route('/search/{page}', name: 'animal_search')]
+    public function search(Request $request, $page = 1): Response
+    {
 
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -108,13 +96,9 @@ class AnimalController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/afficher/{id}", name="animal_display")
-     * @ParamConverter("animal", class="App\Entity\Animal\Animal")
-     *
-     * @param Animal $animal
-     */
-    public function display(Animal $animal)
+
+    #[Route('/afficher/{id}', name: 'animal_display')]
+    public function display(Animal $animal): Response
     {
         return $this->render('animal/display.html.twig', [
             'animal' => $animal,

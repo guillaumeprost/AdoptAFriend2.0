@@ -9,10 +9,9 @@
 namespace App\Controller;
 
 use App\Entity\Animal\Animal;
-use App\Entity\Offer;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -21,12 +20,8 @@ use Symfony\Component\HttpFoundation\Request;
  */
 class HomeController extends AbstractController
 {
-    /**
-     * @Route("/", name="homepage")
-     * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function index(Request $request)
+    #[Route('/', name: 'homepage')]
+    public function index(Request $request): Response
     {
         $lastAnimals = $this->getDoctrine()->getRepository(Animal::class)->findLastSix();
 
