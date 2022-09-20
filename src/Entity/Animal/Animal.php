@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: guillaumeprost
- * Date: 06/05/2016
- * Time: 11:06
- */
 
 namespace App\Entity\Animal;
 
@@ -14,13 +8,10 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class Animal
- * @package App\Entity\Animal
- *
- * @ORM\Entity(repositoryClass=App\Repository\AnimalRepository::class)
+ * @ORM\Entity(repositoryClass="App\Repository\Animal\AnimalRepository")
  * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="discriminator", type="string")
- * @ORM\DiscriminatorMap({"dog" = "Dog"})
+ * @ORM\DiscriminatorColumn(name="species", type="string")
+ * @ORM\DiscriminatorMap({Dog::DISCRIMINATOR = "Dog"})
  */
 abstract class Animal
 {
@@ -35,268 +26,182 @@ abstract class Animal
     const STATUS_DELETED = 'deleted';
 
     const DISCRIMINATORS = [
-        'Chien' => Dog::DISCIMINATOR
+        'Chien' => Dog::DISCRIMINATOR
     ];
 
     /**
-     * @var string
      * @Assert\NotBlank(message="Veuillez ajouter un nom")
      * @ORM\Column(type="string", nullable=false)
      */
-    private $name;
+    private string $name;
 
     /**
-     * @var string
      * @Assert\NotBlank(message="Veuillez ajouter un sex")
      * @ORM\Column(type="string", nullable=false)
      */
-    private $sex;
+    private string $sex;
 
     /**
-     * @var \DateTime
      * @ORM\Column(type="datetime", nullable=true)
      */
-    private $birthDate;
+    private ?\DateTime $birthDate;
 
     /**
-     * @var string
      * @ORM\Column(type="array", nullable=true)
      */
-    private $images;
+    private ?array $images;
 
     /**
-     * @var float
      * @ORM\Column(type="decimal", nullable=true)
      */
-    private $weight;
+    private ?float $weight;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $fur;
+    private ?string $fur;
 
     /**
-     * @var string
      * @ORM\Column(type="string", nullable=true)
      */
-    private $color;
+    private ?string $color;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private $vaccination;
+    private ?bool $vaccination;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private $sterilized;
+    private ?bool $sterilized;
 
     /**
-     * @var bool
      * @ORM\Column(type="boolean", nullable=false)
      */
-    private $dewormed;
+    private ?bool $dewormed;
 
     /**
-     * @var float
      * @ORM\Column(type="decimal", nullable=true)
      */
-    private $price;
+    private ?float $price;
 
-    /**
-     * @return string
-     */
     public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     * @return Animal
-     */
-    public function setName(string $name)
+    public function setName(string $name): Animal
     {
         $this->name = $name;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getSex(): string
     {
         return $this->sex;
     }
 
-    /**
-     * @param string $sex
-     * @return Animal
-     */
     public function setSex(string $sex): self
     {
         $this->sex = $sex;
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
     public function getBirthDate(): \DateTime
     {
         return $this->birthDate;
     }
 
-    /**
-     * @param \DateTime $birthDate
-     * @return Animal
-     */
-    public function setBirthDate(\DateTime $birthDate): Animal
+    public function setBirthDate(\DateTime $birthDate): self
     {
         $this->birthDate = $birthDate;
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getImages(): array
     {
         return $this->images;
     }
 
-    /**
-     * @param array $images
-     * @return Animal
-     */
     public function setImages(array $images): self
     {
         $this->images = $images;
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getWeight(): float
     {
         return $this->weight;
     }
 
-    /**
-     * @param float $weight
-     * @return Animal
-     */
-    public function setWeight(float $weight): Animal
+    public function setWeight(float $weight): self
     {
         $this->weight = $weight;
         return $this;
     }
-    /**
-     * @return string
-     */
+
     public function getColor(): string
     {
         return $this->color;
     }
 
-    /**
-     * @param string $color
-     * @return Animal
-     */
     public function setColor(string $color): self
     {
         $this->color = $color;
         return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getFur(): string
     {
         return $this->fur;
     }
 
-    /**
-     * @param string $fur
-     * @return Animal
-     */
-    public function setFur(string $fur): Animal
+    public function setFur(string $fur): self
     {
         $this->fur = $fur;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isVaccination(): bool
     {
         return $this->vaccination;
     }
 
-    /**
-     * @param bool $vaccination
-     */
     public function setVaccination(bool $vaccination): self
     {
         $this->vaccination = $vaccination;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isSterilized(): bool
     {
         return $this->sterilized;
     }
 
-    /**
-     * @param bool $sterilized
-     * @return Animal
-     */
-    public function setSterilized(bool $sterilized): Animal
+    public function setSterilized(bool $sterilized): self
     {
         $this->sterilized = $sterilized;
         return $this;
     }
 
-    /**
-     * @return bool
-     */
     public function isDewormed(): bool
     {
         return $this->dewormed;
     }
 
-    /**
-     * @param bool $dewormed
-     * @return Animal
-     */
-    public function setDewormed(bool $dewormed): Animal
+    public function setDewormed(bool $dewormed): self
     {
         $this->dewormed = $dewormed;
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getPrice(): float
     {
         return $this->price;
     }
 
-    /**
-     * @param float $price
-     * @return Animal
-     */
-    public function setPrice(float $price): Animal
+    public function setPrice(float $price): self
     {
         $this->price = $price;
         return $this;

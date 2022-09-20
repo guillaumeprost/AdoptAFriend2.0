@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: guillaumeprost
- * Date: 06/05/2016
- * Time: 12:07
- */
 
 namespace App\Form\Type\Animal;
 
@@ -25,16 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-/**
- * Class AnimalType
- * @package App\Form\Type\Animal
- */
 abstract class AnimalType extends AbstractType
 {
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
@@ -47,7 +33,7 @@ abstract class AnimalType extends AbstractType
             ->add('sex', ChoiceType::class, [
                 'label' => 'Sexe',
                 'required' => false,
-                'choices' => array_flip(Sex::$types)
+                'choices' => array_flip(Sex::$choices)
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
@@ -118,13 +104,9 @@ abstract class AnimalType extends AbstractType
                 'required' => false,
                 'choices' => array_flip(Affinities::$types)
             ])
-
-            ;
+        ;
     }
 
-    /**
-     * @param OptionsResolver $resolver
-     */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([

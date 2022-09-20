@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: guillaumeprost
- * Date: 06/05/2016
- * Time: 12:25
- */
 
 namespace App\Form\Type\Animal;
 
@@ -21,10 +15,6 @@ class DogType extends AnimalType
 {
     const RELATED_ENTITY = Dog::class;
 
-    /**
-     * @param FormBuilderInterface $builder
-     * @param array $options
-     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
@@ -34,6 +24,5 @@ class DogType extends AnimalType
             'required' => false,
             'choices' => array_flip(Size::$types)
         ]);
-
     }
 }

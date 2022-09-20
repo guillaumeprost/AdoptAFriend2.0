@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Utils\Animal\Dog;
-
 
 class Size
 {
@@ -11,7 +9,7 @@ class Size
     const TYPE_BIG = 'big';
     const TYPE_VERY_BIG = 'very big';
 
-    static $types = [
+    static array $types = [
         self::TYPE_SMALL => 'Petit',
         self::TYPE_MEDIUM => 'Moyen',
         self::TYPE_BIG => 'Grand',
