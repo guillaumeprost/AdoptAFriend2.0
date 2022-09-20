@@ -8,7 +8,7 @@
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/app.css';
 import './styles/global.scss';
-
+import 'bootstrap';
 // start the Stimulus application
 import './bootstrap';
 
@@ -38,8 +38,7 @@ $(document).ready(function() {
 $(document).ready(function() {
     $(".animal-card").on('click', function(event){
         // var card = event.elem;
-        window.location.href = $(this).data('link');
-
+        window.location.href = $(this).children('.card').data('link');
     });
 });
 
