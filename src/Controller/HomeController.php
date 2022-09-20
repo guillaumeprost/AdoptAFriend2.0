@@ -12,7 +12,7 @@ class HomeController extends AbstractController
     #[Route('/', name: 'homepage')]
     public function index(): Response
     {
-        $lastAnimals = $this->getDoctrine()->getRepository(Animal::class)->findLastSix();
+        $lastAnimals = $this->getDoctrine()->getRepository(Animal::class)->findLasts();
 
         // replace this example code with whatever you need
         return $this->render('home/index.html.twig', [

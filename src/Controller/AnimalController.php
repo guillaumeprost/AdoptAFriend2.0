@@ -27,7 +27,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 class AnimalController extends AbstractController
 {
     public array $mapTypes = [
-        Dog::DISCIMINATOR => DogType::class
+        Dog::DISCRIMINATOR => DogType::class
     ];
 
     /** @var FileService  */
