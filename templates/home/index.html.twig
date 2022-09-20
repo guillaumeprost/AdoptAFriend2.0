@@ -1,14 +1,48 @@
 {% extends 'base.html.twig' %}
 
 {% block header %}
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-5-strong bg">
+        <!-- Container wrapper -->
+        <div class="container-fluid">
+            <!-- Collapsible wrapper -->
+            <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+                <!-- Left links -->
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    {% if app.user %}
+                        <li class="nav-item dropdown dropleft">
+                            <a class="nav-link dropdown-toggle text-primary " href="#" id="navbarScrollingDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                {{ app.user.firstName }}
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <a class="dropdown-item" href="{{ path('user_update') }}">Mon compte</a>
+                                <a class="dropdown-item" href="#">Mes animaux</a>
+                                <a class="dropdown-item" href="#">Interêts</a>
+                                <a class="dropdown-item" href="{{ path('logout') }}">Se deconnecter</a>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <div class="btn-group">
+                                <a href="{{ path('login') }}" class="btn btn-light" aria-current="page">S'identifier</a>
+                                <a href="{{ path('register') }}" class="btn btn-primary">S'inscrire</a>
+                            </div>
+                        </li>
+                    {% endif %}
+                </ul>
+                <!-- Left links -->
+            </div>
+            <!-- Collapsible wrapper -->
+        </div>
+        <!-- Container wrapper -->
+    </nav>
+    <!-- Navbar -->
     <main class="flex-shrink-0">
         <section class="py-5 text-center container">
             <div class="row py-lg-5">
                 <div class="col-lg-6 col-md-8 mx-auto">
-                    <h1 class="fw-light">Album example</h1>
-                    <p class="lead text-muted">Something short and leading about the collection below—its contents, the
-                        creator, etc. Make it short and sweet, but not too short so folks don’t simply skip over it
-                        entirely.</p>
+                    <h1 class="fw-light">Adopt A Friend</h1>
+                    <p class="lead text-muted">Hello, we have a lot of friend who are looking to you, take a look </p>
                     <p>
                         <a href="{{ path('animal_create', {'type': 'dog'}) }}" class="btn btn-primary my-2">Ajouter un chien à adopter</a>
                         <a href="{{ path('animal_search') }}" class="btn btn-secondary my-2">Trouver un chien à adopter</a>
@@ -16,15 +50,17 @@
                 </div>
             </div>
         </section>
-
-        <div class="album py-5 bg-light">
-            <div class="container">
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                    {% for animal in lastAnimals %}
-                        {% include '/animal/include/card.html.twig' %}
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
     </main>
 {% endblock %}
+
+{% block content %}
+    <div class="album py-5 bg-light">
+        <div class="container">
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {% for animal in lastAnimals %}
+                    {% include '/animal/include/card.html.twig' %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}
