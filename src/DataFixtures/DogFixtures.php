@@ -24,7 +24,7 @@ class DogFixtures extends Fixture
         for ($i = 1; $i < 50; $i++) {
             $dog = new Dog();
             $dog->setName('Chien '.$i);
-            $dog->setSex(array_rand(Sex::$types));
+            $dog->setSex(array_rand(Sex::$choices));
             $dog->setDescription(
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
             Suspendisse sed tristique justo. Morbi luctus, eros a fringilla fringilla, leo ligula dignissim arcu, at congue ipsum arcu ac ante. 

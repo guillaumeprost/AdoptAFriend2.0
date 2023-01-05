@@ -10,6 +10,7 @@ use App\Service\FileService;
 use App\Utils\Animal\Color;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -18,27 +19,24 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
-/**
- * Class AnimalController
- * @package App\Controller
- *
- * @Route("/animal")
- */
+#[Route('/animal', name: 'animal_')]
 class AnimalController extends AbstractController
 {
     public array $mapTypes = [
         Dog::DISCRIMINATOR => DogType::class
     ];
 
-    /** @var FileService  */
     private FileService $fileService;
 
-    public function __construct(FileService $fileService)
+    private ManagerRegistry $doctrine;
+
+    public function __construct(FileService $fileService, ManagerRegistry $doctrine)
     {
         $this->fileService = $fileService;
+        $this->doctrine = $doctrine;
     }
 
-    #[Route('/create/{type}', name: 'animal_create')]
+    #[Route('/create/{type}', name: 'create')]
     public function create(Request $request,string $type): Response
     {
         /** @var Animal $animal */
@@ -53,7 +51,7 @@ class AnimalController extends AbstractController
 
             $this->fileService->addAnimalImages($animal, $type);
 
-            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager = $this->doctrine->getManager();
             $entityManager->persist($animal);
             $entityManager->flush();
 
@@ -70,11 +68,10 @@ class AnimalController extends AbstractController
 
     }
 
-    #[Route('/search/{page}', name: 'animal_search')]
+    #[Route('/search/{page}', name: 'search')]
     public function search(Request $request, $page = 1): Response
     {
-
-        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager = $this->doctrine->getManager();
 
         $pageSize = $request->query->get('pageSize', 20);
 
@@ -97,7 +94,7 @@ class AnimalController extends AbstractController
     }
 
 
-    #[Route('/afficher/{id}', name: 'animal_display')]
+    #[Route('/afficher/{id}', name: 'display')]
     public function display(Animal $animal): Response
     {
         return $this->render('animal/display.html.twig', [
