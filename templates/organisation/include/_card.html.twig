@@ -1,0 +1,28 @@
+<div class="col pt-2 animal-card">
+    <div class="card h-100 clickable"  data-link= {{ path('organisation_display', {'id':organisation.id}) }}>
+        {% if organisation.images|length > 0 %}
+            <img src="{{ asset('/upload/organisation/images/'~ organisation.images|first()) }}" class="img-fluid d-block card-img-top"
+                 alt="{{ organisation.name }}">
+        {% else %}
+            <img src="{{ asset('/upload/organisation/default.jpg') }}" class="img-fluid d-block card-img-top"
+                 alt="{{ organisation.name }}">
+        {% endif %}
+        <div class="card-body">
+            <div class="row">
+                <div class="col">
+                    <img src="{{ asset('/upload/organisation/logo/'~ organisation.logo) }}" class="img-thumbnail"
+                         alt="{{ organisation.name }}">
+                </div>
+                <div class="col">
+                    <h1>{{ organisation.name }}</h1>
+                    <br>
+                    {{ organisation.description }}
+                </div>
+            </div>
+{#            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>#}
+        </div>
+        <div class="card-footer">
+            <small class="text-muted">Crée le {{ organisation.createdAt|date('d/m/Y') }}</small>
+        </div>
+    </div>
+</div>

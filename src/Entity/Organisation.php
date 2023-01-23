@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 use App\Entity\Animal\Animal;
+use App\Repository\OrganisationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
@@ -9,34 +10,34 @@ use Doctrine\ORM\Mapping\GeneratedValue;
 use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
-#[ORM\Entity()]
+use App\Traits\Entity as EntityTraits;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+#[ORM\Entity(repositoryClass: OrganisationRepository::class)]
 class Organisation
 {
-    #[Id]
-    #[GeneratedValue]
-    #[Column]
-    private int $id;
+    use EntityTraits\IdTrait;
+    use EntityTraits\DescriptionTrait;
+    use TimestampableEntity;
 
     #[Column(nullable:false)]
     private string $name;
 
-    #[Column]
+    #[Column(nullable:true)]
     private string $logo;
 
-    #[Column]
+    #[Column(nullable:true)]
     private string $color;
 
-    #[Column]
+    #[Column(nullable:true)]
     private ?array $images;
 
-    #[Column]
+    #[Column(nullable:true)]
     private string $address;
 
-    #[Column(type:'text')]
-    private string $description;
-
-    #[Column(type:'text')]
+    #[Column(type:'text', nullable:true)]
     private string $signature;
 
     #[OneToMany(mappedBy: 'organisation', targetEntity: Animal::class)]
@@ -66,7 +67,7 @@ class Organisation
         return $this->logo;
     }
 
-    public function setLogo(string $logo): self
+    public function setLogo(string|UploadedFile $logo): self
     {
         $this->logo = $logo;
         return $this;

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\DataFixtures;
-
 
 use App\Entity\Animal\Dog;
 use App\Utils\Animal\Affinities;
@@ -15,10 +13,6 @@ use Doctrine\Persistence\ObjectManager;
 
 class DogFixtures extends Fixture
 {
-    /**
-     * @param ObjectManager $manager
-     * @throws \Exception
-     */
     public function load(ObjectManager $manager)
     {
         for ($i = 1; $i < 50; $i++) {

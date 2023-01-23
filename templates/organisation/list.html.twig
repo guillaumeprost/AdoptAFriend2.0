@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="album py-5 bg-light">
+        <div class="container-fluid">
+            <div class="row p-3 d-flex justify-content-between bd-highlight mb-3">
+                <div class="p-2 bd-highlight">
+                    <h3>{{ organisations|length }} associations trouvées !</h3>
+                </div>
+                <div class="p-2 bd-highlight"></div>
+                <div class="p-2 bd-highlight">
+                    {#                    <select class="form-select" aria-label="Default select example"> #}
+                    {#                        <option selected>Trier par</option> #}
+                    {#                        <option value="name">Nom</option> #}
+                    {#                        <option value="createdAt">Création</option> #}
+                    {#                        <option value="updatedAt">Mis à jour</option> #}
+                    {#                    </select> #}
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-2 g-2">
+                {% for organisation in organisations %}
+                    {% include '/organisation/include/_card.html.twig' %}
+                {% endfor %}
+            </div>
+        </div>
+        {% if pageCount > 1 %}
+        <br><br>
+        <div>
+            <nav>
+                <ul class="pagination justify-content-center">
+                    {% if page > 1 %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ path('organisation_search', {'page': page-1}) }}" tabindex="-1"
+                               aria-disabled="true">Précédents</a>
+                        </li>
+                    {% endif %}
+                    {% for pageNumber in 1..pageCount %}
+                        <li class="page-item {% if page == pageNumber %}active{% endif %}">
+                            <a class="page-link"
+                               href="{{ path('organisation_search', {'page': pageNumber}) }}">{{ pageNumber }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if page < pageCount%}
+                        <li class="page-item">
+                            <a class="page-link {% if (pageCount) == (page) %}disabled{% endif %}"
+                               href="{{ path('organisation_search', {'page': page+1}) }}">Suivants</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+        {% endif %}
+    </div>
+{% endblock %}

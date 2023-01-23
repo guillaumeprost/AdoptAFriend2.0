@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Animal\Animal;
+use App\Entity\Organisation;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
@@ -44,5 +45,18 @@ class FileService
         $animal->setImages($images);
 
         return $animal;
+    }
+
+    public function addOrganisationImages(Organisation $organisation): Organisation
+    {
+        $images = [];
+        /** @var UploadedFile $image */
+        foreach ($organisation->getImages() as $image) {
+            $newPath = $this->addNewFile($image, 'organisation/images');
+            $images[] = $newPath;
+        }
+        $organisation->setImages($images);
+
+        return $organisation;
     }
 }
