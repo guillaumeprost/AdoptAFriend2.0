@@ -2,18 +2,15 @@
 
 namespace App\Entity\Animal;
 
+use App\Repository\Animal\DogRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\Animal\DogRepository")
- */
+#[ORM\Entity(repositoryClass: DogRepository::class)]
 class Dog extends Animal
 {
     const DISCRIMINATOR = 'dog';
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(nullable:true)]
     private ?string $size;
 
     public function getSize(): ?string

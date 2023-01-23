@@ -4,23 +4,13 @@ namespace App\Traits\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Class IdTrait
- * @package App\Traits\Entity
- */
 trait IdTrait
 {
-    /**
-     * @var integer
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue()
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    protected int $id;
 
-    /**
-     * @return int
-     */
     public function getId(): int
     {
         return $this->id;

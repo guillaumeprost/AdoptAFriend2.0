@@ -2,17 +2,17 @@
 
 namespace App\Entity\Animal;
 
+use App\Entity\Organisation;
+use App\Repository\Animal\AnimalRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\Entity as EntityTraits;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * @ORM\Entity(repositoryClass="App\Repository\Animal\AnimalRepository")
- * @ORM\InheritanceType("SINGLE_TABLE")
- * @ORM\DiscriminatorColumn(name="species", type="string")
- * @ORM\DiscriminatorMap({Dog::DISCRIMINATOR = "Dog"})
- */
+#[ORM\Entity(repositoryClass: AnimalRepository::class)]
+#[ORM\InheritanceType('SINGLE_TABLE')]
+#[ORM\DiscriminatorColumn(name: 'species', type: 'string')]
+#[ORM\DiscriminatorMap([Dog::DISCRIMINATOR => Dog::class])]
 abstract class Animal
 {
     use EntityTraits\IdTrait;
@@ -29,62 +29,46 @@ abstract class Animal
         'Chien' => Dog::DISCRIMINATOR
     ];
 
-    /**
-     * @Assert\NotBlank(message="Veuillez ajouter un nom")
-     * @ORM\Column(type="string", nullable=false)
-     */
+
+    #[ORM\Column(nullable:false)]
+    #[Assert\NotBlank(message:'Veuillez ajouter un nom')]
     private string $name;
 
-    /**
-     * @Assert\NotBlank(message="Veuillez ajouter un sex")
-     * @ORM\Column(type="string", nullable=false)
-     */
+    #[ORM\Column(nullable:false)]
+    #[Assert\NotBlank(message:'Veuillez ajouter un sex')]
     private string $sex;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
+    #[ORM\Column(type: 'datetime', nullable:true)]
     private ?\DateTime $birthDate;
 
-    /**
-     * @ORM\Column(type="array", nullable=true)
-     */
+    #[ORM\Column(nullable:true)]
     private ?array $images;
 
-    /**
-     * @ORM\Column(type="decimal", nullable=true)
-     */
+    #[ORM\Column(nullable:true)]
     private ?float $weight;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+    #[ORM\Column(nullable:true)]
     private ?string $fur;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
+
+    #[ORM\Column(nullable:true)]
     private ?string $color;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=true)
-     */
+    #[ORM\Column(nullable:true)]
     private ?bool $vaccination;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
+    #[ORM\Column(nullable:false)]
     private ?bool $sterilized;
 
-    /**
-     * @ORM\Column(type="boolean", nullable=false)
-     */
+    #[ORM\Column(nullable:false)]
     private ?bool $dewormed;
 
-    /**
-     * @ORM\Column(type="decimal", nullable=true)
-     */
+    #[ORM\Column(nullable:true)]
     private ?float $price;
+
+    #[ORM\ManyToOne(targetEntity: Organisation::class, inversedBy: 'animals')]
+    #[ORM\JoinColumn(name: 'organisation_id', referencedColumnName: 'id')]
+    private Organisation $organisation;
 
     public function getName(): string
     {
