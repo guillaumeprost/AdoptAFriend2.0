@@ -13,7 +13,7 @@
     {# <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/> #}
 </head>
 
-<body class="d-flex flex-column h-100">
+<body class="d-flex flex-column min-vh-100">
 
 <header>
     {% block header %}
@@ -40,7 +40,7 @@
     {% endblock %}
 </main>
 {% block footer %}
-    <footer class="footer mt-5 py-3 bg-light">
+    <footer class="footer mt-5 py-3 bg-light mt-auto">
         <div class="container">
             <p class="mb-1">Made with love by Guillaume Prost</p>
             <p class="float-end mb-1 justify-content-end">

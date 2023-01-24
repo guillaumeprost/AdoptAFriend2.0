@@ -23,7 +23,7 @@ class AnimalRepository extends EntityRepository
         return new Paginator($query);
     }
 
-    public function findLasts(int $pageSize = 5): array
+    public function findLasts(int $pageSize = 6): array
     {
         return $this
             ->createQueryBuilder('animal')

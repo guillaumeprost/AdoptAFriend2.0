@@ -23,7 +23,7 @@ class OrganisationRepository extends EntityRepository
         return new Paginator($query);
     }
 
-    public function findLasts(int $pageSize = 5): array
+    public function findLasts(int $pageSize = 4): array
     {
         return $this
             ->createQueryBuilder('organisation')

@@ -26,7 +26,7 @@ class OrganisationFixtures extends Fixture
                 $images[] = str_replace('%d', mt_rand(1, 10), 'organisation%d.jpg');
             }
             $organisation->setImages($images);
-            $organisation->setLogo('logo'.mt_rand(1, 3).'.jpg');
+            $organisation->setLogo('logo'.mt_rand(1, 9).'.jpg');
 
             $manager->persist($organisation);
         }
