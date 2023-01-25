@@ -2,6 +2,7 @@
 namespace App\Controller;
 
 use App\Entity\Animal\Animal;
+use App\Entity\Organisation;
 use App\Entity\User;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,10 +18,11 @@ class HomeController extends AbstractController
     public function index(): Response
     {
         $lastAnimals = $this->doctrine->getRepository(Animal::class)->findLasts();
+        $lastOrganisations = $this->doctrine->getRepository(Organisation::class)->findLasts();
 
-        // replace this example code with whatever you need
         return $this->render('home/index.html.twig', [
-            'lastAnimals' => $lastAnimals
+            'lastAnimals' => $lastAnimals,
+            'lastOrganisations' => $lastOrganisations
         ]);
     }
 }

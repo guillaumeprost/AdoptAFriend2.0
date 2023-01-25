@@ -4,20 +4,15 @@ namespace App\Controller;
 
 use App\Entity\Animal\Animal;
 use App\Entity\Animal\Dog;
-use App\Form\Type\Animal\AnimalType;
 use App\Form\Type\Animal\DogType;
 use App\Service\FileService;
-use App\Utils\Animal\Color;
-use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 
 #[Route('/animal', name: 'animal_')]
 class AnimalController extends AbstractController
@@ -26,15 +21,7 @@ class AnimalController extends AbstractController
         Dog::DISCRIMINATOR => DogType::class
     ];
 
-    private FileService $fileService;
-
-    private ManagerRegistry $doctrine;
-
-    public function __construct(FileService $fileService, ManagerRegistry $doctrine)
-    {
-        $this->fileService = $fileService;
-        $this->doctrine = $doctrine;
-    }
+    public function __construct(private FileService $fileService,private  ManagerRegistry $doctrine){}
 
     #[Route('/create/{type}', name: 'create')]
     public function create(Request $request,string $type): Response
@@ -64,10 +51,6 @@ class AnimalController extends AbstractController
         ]);
     }
 
-    public function manageFile($file){
-
-    }
-
     #[Route('/search/{page}', name: 'search')]
     public function search(Request $request, $page = 1): Response
     {
@@ -94,7 +77,7 @@ class AnimalController extends AbstractController
     }
 
 
-    #[Route('/afficher/{id}', name: 'display')]
+    #[Route('/display/{id}', name: 'display')]
     public function display(Animal $animal): Response
     {
         return $this->render('animal/display.html.twig', [

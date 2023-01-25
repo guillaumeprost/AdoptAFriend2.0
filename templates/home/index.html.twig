@@ -3,11 +3,8 @@
 {% block header %}
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark shadow-5-strong bg">
-        <!-- Container wrapper -->
         <div class="container-fluid">
-            <!-- Collapsible wrapper -->
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
-                <!-- Left links -->
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     {% if app.user %}
                         <li class="nav-item dropdown dropleft">
@@ -30,11 +27,8 @@
                         </li>
                     {% endif %}
                 </ul>
-                <!-- Left links -->
             </div>
-            <!-- Collapsible wrapper -->
         </div>
-        <!-- Container wrapper -->
     </nav>
     <!-- Navbar -->
     <main class="flex-shrink-0">
@@ -44,8 +38,8 @@
                     <h1 class="fw-light">Adopt A Friend</h1>
                     <p class="lead text-muted">Hello, we have a lot of friend who are looking to you, take a look </p>
                     <p>
-                        <a href="{{ path('animal_create', {'type': 'dog'}) }}" class="btn btn-primary my-2">Ajouter un chien à adopter</a>
                         <a href="{{ path('animal_search') }}" class="btn btn-secondary my-2">Trouver un chien à adopter</a>
+                        <a href="{{ path('organisation_search') }}" class="btn btn-primary my-2">Trouver une association </a>
                     </p>
                 </div>
             </div>
@@ -55,10 +49,21 @@
 
 {% block content %}
     <div class="album py-5 bg-light">
-        <div class="container">
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        <div class="container-fluid">
+            <h2>Derniers animaux ajoutés</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
                 {% for animal in lastAnimals %}
                     {% include '/animal/include/_card.html.twig' %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="album py-5 bg-light">
+        <div class="container-fluid">
+            <h2>Nouvelles associations</h2>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4">
+                {% for organisation in lastOrganisations %}
+                    {% include '/organisation/include/_card.html.twig' %}
                 {% endfor %}
             </div>
         </div>

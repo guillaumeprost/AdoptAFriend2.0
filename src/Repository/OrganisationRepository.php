@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Repository\Animal;
+namespace App\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
-class AnimalRepository extends EntityRepository
+class OrganisationRepository extends EntityRepository
 {
     public function search(
         array $filers = [],
@@ -14,7 +14,7 @@ class AnimalRepository extends EntityRepository
         int   $pageSize = 20
     ): Paginator
     {
-        $queryBuilder = $this->createQueryBuilder('animal');
+        $queryBuilder = $this->createQueryBuilder('organisation');
         $query = $queryBuilder->getQuery();
         $query
             ->setFirstResult($pageSize * ($page - 1))
@@ -23,21 +23,11 @@ class AnimalRepository extends EntityRepository
         return new Paginator($query);
     }
 
-    public function findLasts(int $pageSize = 6): array
+    public function findLasts(int $pageSize = 4): array
     {
         return $this
-            ->createQueryBuilder('animal')
-            ->addOrderBy('animal.createdAt', 'ASC')
-            ->setMaxResults($pageSize)
-            ->getQuery()
-            ->getResult();
-    }
-
-    public function findOldest(int $pageSize = 5): array
-    {
-        return $this
-            ->createQueryBuilder('animal')
-            ->addOrderBy('animal.birthDate', 'DESC')
+            ->createQueryBuilder('organisation')
+            ->addOrderBy('organisation.createdAt', 'ASC')
             ->setMaxResults($pageSize)
             ->getQuery()
             ->getResult();

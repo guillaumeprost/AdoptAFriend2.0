@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div id="animalCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% if organisation.images|length > 0 %}
+                    {% for image in organisation.images %}
+                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                            <img src="{{ asset('/upload/organisation/images/'~ image) }}" class="d-block w-100"
+                                 alt="{{ organisation.name }}">
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <img src="{{ asset('/upload/organisation/default.jpg') }}" class="d-block w-100"
+                         alt="{{ organisation.name }}">
+                {% endif %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#animalCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#animalCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden"></span>
+            </button>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <img src="{{ asset('/upload/organisation/logo/'~ organisation.logo) }}" class="img-thumbnail"
+                     alt="{{ organisation.name }}">
+            </div>
+            <div class="col">
+                <h1>{{ organisation.name }}</h1>
+                <br>
+                {{ organisation.description }}
+            </div>
+        </div>
+        <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+            {% for animal in organisation.animals %}
+                {% include '/animal/include/_card.html.twig' %}
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
