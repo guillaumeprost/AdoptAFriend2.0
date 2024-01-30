@@ -88,9 +88,20 @@
                     {% endif %}
                 </div>
             </div>
+            {% if manage|default(false) == true %}
+            <br>
+            <div class="row">
+                <div class="col">
+                    <a type="button" class="btn btn-primary" href="{{ path('animal_update', {id: animal.id}) }}">Modifier</a>
+                </div>
+                <div class="col">
+                    <button type="button" class="btn btn-danger">Supprimer</button>
+                </div>
+            </div>
+            {% endif %}
         </div>
         <div class="card-footer">
-            <small class="text-muted">Dernière modification le {{ animal.updatedAt|date('d/m/Y') }}</small>
+                <small class="text-muted">Dernière modification le {{ animal.updatedAt|date('d/m/Y') }}</small>
         </div>
     </div>
 </div>

@@ -13,6 +13,11 @@ class Dog extends Animal
     #[ORM\Column(nullable:true)]
     private ?string $size;
 
+    public function getType(): string
+    {
+        return self::DISCRIMINATOR;
+    }
+
     public function getSize(): ?string
     {
         return $this->size;

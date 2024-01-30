@@ -1,10 +1,14 @@
-version: '3'
+version: '3.8'
 
 services:
+  ###> doctrine/doctrine-bundle ###
   database:
-    image: postgres:13-alpine
+    container_name: db
+    image: bitnami/postgresql:16.1.0
+    ports:
+      - "5432:5432"
     environment:
-      POSTGRES_USER: main
-      POSTGRES_PASSWORD: main
-      POSTGRES_DB: main
-    ports: [5432]
+      POSTGRESQL_DATABASE: adopt
+      POSTGRESQL_PASSWORD: pass
+      POSTGRESQL_USER: user
+  ###< doctrine/doctrine-bundle ###

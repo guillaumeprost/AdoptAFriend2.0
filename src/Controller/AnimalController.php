@@ -26,8 +26,9 @@ class AnimalController extends AbstractController
     #[Route('/create/{type}', name: 'create')]
     public function create(Request $request,string $type): Response
     {
-        /** @var Animal $animal */
+
         $animal = new($this->mapTypes[$type]::RELATED_ENTITY);
+        assert($animal instanceof Animal);
 
         $form = $this->createForm($this->mapTypes[$type], $animal);
         $form->add('save', SubmitType::class, [
@@ -50,9 +51,32 @@ class AnimalController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    #[Route('/update/{id}', name: 'update')]
+    public function update(Request $request,Animal $animal): Response
+    {
+        $form = $this->createForm($this->mapTypes[$animal->getType()], $animal);
+        $form->add('update', SubmitType::class, [
+                'attr' => ['class' => 'btn btn-primary'],
+            ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->fileService->addAnimalImages($animal, $animal->getType());
+
+            $entityManager = $this->doctrine->getManager();
+            $entityManager->flush($animal);
+
+            $this->addFlash('success', 'Votre animal à été modifié');
+            return $this->redirectToRoute('user_animals');
+        }
+
+        return $this->render('animal/update.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
 
     #[Route('/search/{page}', name: 'search')]
-    public function search(Request $request, $page = 1): Response
+    public function search(Request $request,int $page = 1): Response
     {
         $entityManager = $this->doctrine->getManager();
 

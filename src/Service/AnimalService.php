@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Entity\Animal\Animal;
 use App\Entity\Animal\Dog;
+use App\Entity\User;
 use App\Form\Type\Animal\DogType;
 
 class AnimalService

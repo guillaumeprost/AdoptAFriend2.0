@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\RegistrationFormType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -54,4 +55,16 @@ class UserController extends AbstractController
             'userForm' => $form->createView()
         ]);
     }
+
+    #[Route('/animals', name: 'animals')]
+    public function displayAnimals(Request $request): Response
+    {
+        $user = $this->getUser();
+        assert($user instanceof User);
+
+        return $this->render('user/animals.html.twig', [
+            'animals' => $user->getAnimals()
+        ]);
+    }
+
 }

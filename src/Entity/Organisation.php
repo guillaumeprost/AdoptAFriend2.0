@@ -15,6 +15,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use App\Traits\Entity as EntityTraits;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+
 #[ORM\Entity(repositoryClass: OrganisationRepository::class)]
 class Organisation
 {

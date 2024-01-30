@@ -2,8 +2,11 @@
 
 namespace App\Entity;
 
+use App\Entity\Animal\Animal;
 use App\Repository\UserRepository;
 use App\Traits\Entity\IdTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -11,7 +14,7 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name:'`User`')]
+#[ORM\Table(name:'`user`')]
 #[UniqueEntity(fields: ['email'], message: "There is already an account with this email")]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
@@ -37,8 +40,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private bool $isVerified = false;
 
     #[ORM\ManyToOne(targetEntity: Organisation::class, inversedBy: 'users')]
-    #[ORM\JoinColumn(name: 'organisation_id', referencedColumnName: 'id')]
-    private Organisation $organisation;
+    #[ORM\JoinColumn(name: 'organisation_id', referencedColumnName: 'id', nullable: true)]
+    private ?Organisation $organisation;
+
+    #[ORM\OneToMany(mappedBy: 'manager', targetEntity: Animal::class)]
+    private Collection $animals;
+
+    public function __construct()
+    {
+        $this->animals = new ArrayCollection();
+    }
 
     public function getUserIdentifier(): string
     {
@@ -128,7 +139,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return null;
     }
 
-    public function eraseCredentials()
+    public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here
 //        $this->password = null;
@@ -143,6 +154,28 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->isVerified = $isVerified;
 
+        return $this;
+    }
+
+    public function getOrganisation(): ?Organisation
+    {
+        return $this->organisation;
+    }
+
+    public function setOrganisation(?Organisation $organisation): self
+    {
+        $this->organisation = $organisation;
+        return $this;
+    }
+
+    public function getAnimals(): Collection
+    {
+        return $this->animals;
+    }
+
+    public function setAnimals(Collection $animals): self
+    {
+        $this->animals = $animals;
         return $this;
     }
 }

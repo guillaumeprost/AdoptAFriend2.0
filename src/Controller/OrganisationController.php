@@ -19,7 +19,7 @@ class OrganisationController extends AbstractController
     public function __construct(private ManagerRegistry $doctrine, private FileService $fileService){}
 
     #[Route('/search/{page}', name: 'search')]
-    public function search(Request $request, $page = 1): Response
+    public function search(Request $request,int $page = 1): Response
     {
         $entityManager = $this->doctrine->getManager();
 
@@ -57,10 +57,12 @@ class OrganisationController extends AbstractController
 
             $organisation = $form->getData();
 
-            $organisation->setLogo(
-                $this->fileService->addNewFile($form->get('logo')->getData(),
-                    'organisation/logo')
-            );
+            if ($form->get('logo')->getData()){
+                $organisation->setLogo(
+                    $this->fileService->addNewFile($form->get('logo')->getData(),
+                        'organisation/logo')
+                );
+            }
             $this->fileService->addOrganisationImages($organisation);
 
             $this->doctrine->getManager()->persist($organisation);

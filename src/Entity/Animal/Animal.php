@@ -3,6 +3,7 @@
 namespace App\Entity\Animal;
 
 use App\Entity\Organisation;
+use App\Entity\User;
 use App\Repository\Animal\AnimalRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\Entity as EntityTraits;
@@ -69,6 +70,12 @@ abstract class Animal
     #[ORM\ManyToOne(targetEntity: Organisation::class, inversedBy: 'animals')]
     #[ORM\JoinColumn(name: 'organisation_id', referencedColumnName: 'id')]
     private Organisation $organisation;
+
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'animals')]
+    #[ORM\JoinColumn(name: 'manager_id', referencedColumnName: 'id')]
+    private User $manager;
+
+    abstract public function getType(): string;
 
     public function getName(): string
     {
@@ -188,6 +195,28 @@ abstract class Animal
     public function setPrice(float $price): self
     {
         $this->price = $price;
+        return $this;
+    }
+
+    public function getOrganisation(): Organisation
+    {
+        return $this->organisation;
+    }
+
+    public function setOrganisation(Organisation $organisation): self
+    {
+        $this->organisation = $organisation;
+        return $this;
+    }
+
+    public function getManager(): User
+    {
+        return $this->manager;
+    }
+
+    public function setManager(User $manager): self
+    {
+        $this->manager = $manager;
         return $this;
     }
 }

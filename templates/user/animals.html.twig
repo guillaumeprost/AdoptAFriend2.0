@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="album py-5 bg-light">
+        <div class="container-fluid">
+            <div class="row p-3 d-flex justify-content-between bd-highlight mb-3">
+                <div class="p-2 bd-highlight">
+                    <h3>Vos animaux</h3>
+                </div>
+            </div>
+            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+                {% for animal in animals %}
+                    {% include '/animal/include/_card.html.twig' with {'manage': true} %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
