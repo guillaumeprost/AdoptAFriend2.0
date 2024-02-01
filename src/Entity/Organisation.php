@@ -27,7 +27,7 @@ class Organisation
     private string $name;
 
     #[Column(nullable:true)]
-    private string $logo;
+    private ?string $logo;
 
     #[Column(nullable:true)]
     private string $color;
@@ -63,7 +63,7 @@ class Organisation
         return $this;
     }
 
-    public function getLogo(): string
+    public function getLogo(): ?string
     {
         return $this->logo;
     }

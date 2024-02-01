@@ -1,9 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <div class="container">
-        <div id="animalCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="container mb-5">
+        <div id="organisationCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
+                {% dump (organisation.images) %}
                 {% if organisation.images|length > 0 %}
                     {% for image in organisation.images %}
                         <div class="carousel-item {% if loop.first %}active{% endif %}">
@@ -12,7 +13,7 @@
                         </div>
                     {% endfor %}
                 {% else %}
-                    <img src="{{ asset('/upload/organisation/default.jpg') }}" class="d-block w-100"
+                    <img src="{{ asset('/upload/organisation/default-banner.jpg') }}" class="d-block w-100"
                          alt="{{ organisation.name }}">
                 {% endif %}
             </div>
@@ -26,9 +27,9 @@
             </button>
         </div>
 
-        <div class="row">
+        <div class="row pt-3 pb-3">
             <div class="col">
-                <img src="{{ asset('/upload/organisation/logo/'~ organisation.logo) }}" class="img-thumbnail"
+                <img src="{{ asset('/upload/organisation/logo/'~ organisation.logo|default('logo1.jpg')) }}" class="img-thumbnail"
                      alt="{{ organisation.name }}">
             </div>
             <div class="col">
@@ -37,6 +38,8 @@
                 {{ organisation.description }}
             </div>
         </div>
+
+        <h2> Animaux à l'adoption </h2>
         <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
             {% for animal in organisation.animals %}
                 {% include '/animal/include/_card.html.twig' %}
