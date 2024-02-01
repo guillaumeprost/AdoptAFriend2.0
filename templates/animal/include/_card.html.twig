@@ -88,6 +88,12 @@
                     {% endif %}
                 </div>
             </div>
+            <br>
+            <div class="row">
+                <div class="col">
+                    <a type="button" class="btn btn-primary" href="{{ path('animal_display', {id: animal.id}) }}">Voir</a>
+                </div>
+            </div>
             {% if manage|default(false) == true %}
             <br>
             <div class="row">
