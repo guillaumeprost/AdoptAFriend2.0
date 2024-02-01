@@ -3,18 +3,22 @@
 namespace App\DataFixtures;
 
 use App\Entity\Animal\Dog;
+use App\Entity\Organisation;
 use App\Utils\Animal\Affinities;
 use App\Utils\Animal\Color;
 use App\Utils\Animal\Dog\Size;
 use App\Utils\Animal\Fur;
 use App\Utils\Animal\Sex;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class DogFixtures extends Fixture
+class DogFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
+        $organisations = $manager->getRepository(Organisation::class)->findAll();
+
         for ($i = 1; $i < 50; $i++) {
             $dog = new Dog();
             $dog->setName('Chien '.$i);
@@ -47,9 +51,16 @@ class DogFixtures extends Fixture
 
             $dog->setPrice(mt_rand(100, 500));
 
+            $dog->setOrganisation($organisations[array_rand($organisations)]);
+
             $dog->setSize(array_rand(Size::$types));
             $manager->persist($dog);
         }
         $manager->flush();
+    }
+
+    public function getOrder(): int
+    {
+        return 2;
     }
 }
