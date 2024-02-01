@@ -67,4 +67,21 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/organisation', name: 'organisation')]
+    public function displayOrganisation(Request $request): Response
+    {
+        $user = $this->getUser();
+        assert($user instanceof User);
+
+        return $this->redirectToRoute('organisation_display', ['id'=> $user->getOrganisation()->getId()]);
+    }
+    #[Route('/list', name: 'list')]
+    public function list(){
+        $users = $this->doctrine->getRepository(User::class)->findAll();
+
+        return $this->render('user/list.html.twig', [
+            'users' => $users
+        ]);
+    }
+
 }
