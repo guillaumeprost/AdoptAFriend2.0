@@ -44,7 +44,7 @@ class Organisation
     #[OneToMany(mappedBy: 'organisation', targetEntity: Animal::class)]
     private Collection $animals;
 
-    #[OneToMany(mappedBy: 'organisation', targetEntity: User::class)]
+    #[OneToMany(mappedBy: 'organisation', targetEntity: User::class, cascade: ['persist', 'remove'])]
     private Collection $users;
 
     public function __construct() {

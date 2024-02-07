@@ -2,47 +2,48 @@
 
 namespace App\Traits\Entity;
 
-use Doctrine\ORM\Mapping\Column;
+use App\Utils\Animal\Affinities;
+use Doctrine\ORM\Mapping as ORM;
 
 trait AffinitiesTrait
 {
-    #[Column(nullable:true)]
-    private string $dogsAffinities;
+    #[ORM\Column(nullable:true)]
+    private Affinities $dogsAffinities;
 
-    #[Column(nullable:true)]
-    private string $catsAffinities;
+    #[ORM\Column(nullable:true)]
+    private Affinities $catsAffinities;
 
-    #[Column(nullable:true)]
-    private string $childAffinities;
+    #[ORM\Column(nullable:true)]
+    private Affinities $childAffinities;
 
-    public function getDogsAffinities(): ?string
+    public function getDogsAffinities(): ?Affinities
     {
         return $this->dogsAffinities;
     }
 
-    public function setDogsAffinities(string $dogsAffinities): self
+    public function setDogsAffinities(Affinities $dogsAffinities): self
     {
         $this->dogsAffinities = $dogsAffinities;
         return $this;
     }
 
-    public function getCatsAffinities(): ?string
+    public function getCatsAffinities(): ?Affinities
     {
         return $this->catsAffinities;
     }
 
-    public function setCatsAffinities(string $catsAffinities): self
+    public function setCatsAffinities(Affinities $catsAffinities): self
     {
         $this->catsAffinities = $catsAffinities;
         return $this;
     }
 
-    public function getChildAffinities(): ?string
+    public function getChildAffinities(): ?Affinities
     {
         return $this->childAffinities;
     }
 
-    public function setChildAffinities(string $childAffinities): self
+    public function setChildAffinities(Affinities $childAffinities): self
     {
         $this->childAffinities = $childAffinities;
         return $this;

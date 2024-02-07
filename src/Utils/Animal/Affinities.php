@@ -2,15 +2,9 @@
 
 namespace App\Utils\Animal;
 
-class Affinities
+enum Affinities: string
 {
-    const TYPE_GOOD = 'good';
-    const TYPE_BAD = 'bad';
-    const TYPE_UNKNOWN = 'unknown';
-
-    static array $types = [
-        self::TYPE_BAD => 'Mauvaise',
-        self::TYPE_GOOD => 'Bonne',
-        self::TYPE_UNKNOWN => 'Inconnue',
-    ];
+    case TYPE_GOOD = 'good';
+    case TYPE_BAD = 'bad';
+    case TYPE_UNKNOWN = 'unknown';
 }

@@ -7,6 +7,7 @@ namespace App\Utils\Animal;
  */
 class Color
 {
+    //TODO Change to Enum
     static array $types = [
         "Abricot" => "Abricot",
         "Albinos" => "Albinos",

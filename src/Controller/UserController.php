@@ -75,7 +75,7 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('organisation_display', ['id'=> $user->getOrganisation()->getId()]);
     }
-    #[Route('/list', name: 'list')]
+    #[Route('/list', name: 'organisation')]
     public function list(){
         $users = $this->doctrine->getRepository(User::class)->findAll();
 

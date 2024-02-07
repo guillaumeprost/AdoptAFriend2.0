@@ -3,7 +3,9 @@
 namespace App\DataFixtures;
 
 use App\Entity\Organisation;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
@@ -29,6 +31,8 @@ class OrganisationFixtures extends Fixture  implements OrderedFixtureInterface
             $organisation->setImages($images);
             $organisation->setLogo('logo'.mt_rand(1, 9).'.jpg');
 
+            $organisation->setUsers(new ArrayCollection($manager->getRepository(User::class)->findAll()));
+
             $manager->persist($organisation);
         }
         $manager->flush();
@@ -36,6 +40,6 @@ class OrganisationFixtures extends Fixture  implements OrderedFixtureInterface
 
     public function getOrder(): int
     {
-        return 1;
+        return 2;
     }
 }
