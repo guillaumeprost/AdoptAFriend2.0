@@ -6,8 +6,6 @@ use App\Repository\OrganisationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping\Column;
-use Doctrine\ORM\Mapping\GeneratedValue;
-use Doctrine\ORM\Mapping\Id;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -148,6 +146,20 @@ class Organisation
     public function setUsers(Collection $users): self
     {
         $this->users = $users;
+        return $this;
+    }
+
+    public function addUser(User $user): self
+    {
+        $this->users->add($user);
+        $user->setOrganisation($this);
+        return $this;
+    }
+
+    public function removeUser(User $user): self
+    {
+        $this->users->removeElement($user);
+        $user->setOrganisation(null);
         return $this;
     }
 }

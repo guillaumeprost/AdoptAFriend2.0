@@ -3,7 +3,38 @@
 {% block content %}
 
     <div class="container">
-        <h1 class="mt-5">Bienvenue {% user.firstName %} {% user.name %}</h1>
+        <h1 class="mt-5">Bienvenue {{ app.user.firstName }} {{ app.user.name }}</h1>
+        <br>
+        <div class="row">
+            <div class="col">
+                <a type="button" class="btn btn-primary" href="{{ url('animal_create', {'type':'dog'}) }}">Ajouter un
+                    animal à adopter</a>
+            </div>
+            {% if not app.user.organisation %}
+                <div class="col">
+                    <button type="button" class="btn btn-primary" href="{{ url('organisation_create') }}">Créer une
+                        association
+                    </button>
+                </div>
+            {% endif %}
+        </div>
+        <br>
+        <div class="row">
+            <div class="col">
+                {% if app.user.animals|length > 0 %}
+                    <h3> Vos animaux </h3>
+                    {% for animal in app.user.animals %}
+                        {% include '/animal/include/_card.html.twig' with {'manage': true} %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+            <div class="col">
+                {% if app.user.organisation %}
+                    <h3> Votre association </h3>
+                    {% include '/organisation/include/_card.html.twig' with {'organisation': app.user.organisation, 'manage': true} %}
+                {% endif %}
+            </div>
+        </div>
     </div>
 
-{% endblock %}
+{% endblock content %}

@@ -92,17 +92,17 @@ abstract class AnimalType extends AbstractType
             ->add('childAffinities', ChoiceType::class, [
                 'label' => 'Affinité avec les enfants',
                 'required' => false,
-                'choices' => array_flip(Affinities::cases())
+                'choices' => Affinities::cases()
             ])
             ->add('catsAffinities', ChoiceType::class, [
                 'label' => 'Affinité avec les chats',
                 'required' => false,
-                'choices' => array_flip(Affinities::cases())
+                'choices' => Affinities::cases()
             ])
             ->add('dogsAffinities', ChoiceType::class, [
                 'label' => 'Affinité avec les chiens',
                 'required' => false,
-                'choices' => array_flip(Affinities::cases())
+                'choices' => Affinities::cases()
             ])
         ;
     }

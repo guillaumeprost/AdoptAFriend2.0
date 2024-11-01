@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Animal\Animal;
 use App\Entity\Animal\Dog;
+use App\Entity\Organisation;
 use App\Form\Type\Animal\DogType;
 use App\Service\FileService;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -38,6 +39,11 @@ class AnimalController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $this->fileService->addAnimalImages($animal, $type);
+            $animal->setManager($this->getUser());
+
+            if ($this->getUser()->getOrganisation() instanceof Organisation) {
+                $animal->setOrganisation($this->getUser()->getOrganisation());
+            }
 
             $entityManager = $this->doctrine->getManager();
             $entityManager->persist($animal);

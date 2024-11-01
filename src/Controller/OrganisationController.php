@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Organisation;
+use App\Entity\User;
 use App\Form\Type\OrganisationType;
 use App\Service\FileService;
 use Doctrine\ORM\Tools\Pagination\Paginator;
@@ -16,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/organisation', name: 'organisation_')]
 class OrganisationController extends AbstractController
 {
-    public function __construct(private ManagerRegistry $doctrine, private FileService $fileService){}
+    public function __construct(private readonly ManagerRegistry $doctrine, private readonly FileService $fileService){}
 
     #[Route('/search/{page}', name: 'search')]
     public function search(Request $request,int $page = 1): Response
@@ -44,8 +45,15 @@ class OrganisationController extends AbstractController
     }
 
     #[Route('/create', name: 'create')]
-    public function index(Request $request): Response
+    public function create(Request $request): Response
     {
+        $user = $this->getUser();
+        assert($user instanceof User);
+
+        if ($user->getOrganisation() instanceof Organisation) {
+            throw new \Exception('You already have an organisation');
+        }
+
         $form = $this->createForm(OrganisationType::class, new Organisation());
 
         $form->add('save', SubmitType::class, [
@@ -65,14 +73,57 @@ class OrganisationController extends AbstractController
             }
             $this->fileService->addOrganisationImages($organisation);
 
+            $organisation->addUser($user);
+
             $this->doctrine->getManager()->persist($organisation);
             $this->doctrine->getManager()->flush($organisation);
 
             $this->addFlash('success', 'Votre Association à été crée, elle vous a été attribuée');
-            return $this->redirectToRoute('organisation_create');
+            return $this->redirectToRoute('organisation_display', ['id' => $organisation->getId()]);
         }
 
         return $this->render('organisation/create.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+
+    #[Route('/update/{id}', name: 'update')]
+    public function update(Request $request, Organisation $organisation): Response
+    {
+        $user = $this->getUser();
+        assert($user instanceof User);
+
+        if (! $organisation->getUsers()->contains($user)) {
+            throw new \Exception('current user is not part of the organisation');
+        }
+
+        $form = $this->createForm(OrganisationType::class, $organisation);
+
+        $form->add('save', SubmitType::class, [
+            'attr' => ['class' => 'btn btn-primary'],
+        ]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $organisation = $form->getData();
+
+            if ($form->get('logo')->getData()){
+                $organisation->setLogo(
+                    $this->fileService->addNewFile($form->get('logo')->getData(),
+                        'organisation/logo')
+                );
+            }
+            $this->fileService->addOrganisationImages($organisation);
+
+            $this->doctrine->getManager()->flush($organisation);
+
+            $this->addFlash('success', 'Votre Association à été modifiée');
+            return $this->redirectToRoute('organisation_update', ['id' => $organisation->getId()]);
+        }
+
+        return $this->render('organisation/update.html.twig', [
             'form' => $form->createView(),
         ]);
     }

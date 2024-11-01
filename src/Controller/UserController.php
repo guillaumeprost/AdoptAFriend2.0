@@ -2,13 +2,16 @@
 
 namespace App\Controller;
 
+use App\Entity\Organisation;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
+use App\Utils\Animal\Affinities;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/user', name: 'user_')]
@@ -73,9 +76,13 @@ class UserController extends AbstractController
         $user = $this->getUser();
         assert($user instanceof User);
 
+        if (! $user->getOrganisation() instanceof Organisation) {
+            throw new NotFoundHttpException('The actual user have no organisation');
+        }
+
         return $this->redirectToRoute('organisation_display', ['id'=> $user->getOrganisation()->getId()]);
     }
-    #[Route('/list', name: 'organisation')]
+    #[Route('/list', name: 'organisations')]
     public function list(){
         $users = $this->doctrine->getRepository(User::class)->findAll();
 

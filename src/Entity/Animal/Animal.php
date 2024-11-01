@@ -8,6 +8,7 @@ use App\Repository\Animal\AnimalRepository;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\Entity as EntityTraits;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
@@ -73,7 +74,7 @@ abstract class Animal
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'animals')]
     #[ORM\JoinColumn(name: 'manager_id', referencedColumnName: 'id')]
-    private User $manager;
+    private UserInterface $manager;
 
     abstract public function getType(): string;
 
@@ -209,12 +210,12 @@ abstract class Animal
         return $this;
     }
 
-    public function getManager(): User
+    public function getManager(): UserInterface
     {
         return $this->manager;
     }
 
-    public function setManager(User $manager): self
+    public function setManager(UserInterface $manager): self
     {
         $this->manager = $manager;
         return $this;

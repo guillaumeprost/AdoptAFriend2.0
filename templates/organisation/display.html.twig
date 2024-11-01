@@ -4,7 +4,6 @@
     <div class="container mb-5">
         <div id="organisationCarousel" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner">
-                {% dump (organisation.images) %}
                 {% if organisation.images|length > 0 %}
                     {% for image in organisation.images %}
                         <div class="carousel-item {% if loop.first %}active{% endif %}">
@@ -29,16 +28,23 @@
 
         <div class="row pt-3 pb-3">
             <div class="col">
-                <img src="{{ asset('/upload/organisation/logo/'~ organisation.logo|default('logo1.jpg')) }}" class="img-thumbnail"
+                <img src="{{ asset('/upload/organisation/logo/'~ organisation.logo|default('logo1.jpg')) }}"
+                     class="img-thumbnail"
                      alt="{{ organisation.name }}">
             </div>
-            <div class="col">
+            <div class="col-8">
                 <h1>{{ organisation.name }}</h1>
 
-
-            <small class="text-muted">Crée le {{ organisation.createdAt|date('d/m/Y') }}</small>
+                <small class="text-muted">Crée le {{ organisation.createdAt|date('d/m/Y') }}</small>
                 <br>
                 {{ organisation.description }}
+
+                {% if organisation.users.contains(app.user) %}
+                    <br>
+                    <br>
+                    <a type="button" class="btn btn-primary"
+                       href="{{ path('organisation_update', {id: organisation.id}) }}">Modifier</a>
+                {% endif %}
             </div>
         </div>
         <br>

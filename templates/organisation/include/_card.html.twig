@@ -1,4 +1,4 @@
-<div class="col pt-2 organisation-card pb-3">
+<div class="col pt-3 organisation-card pb-3">
     <div class="card h-100 clickable"  data-link= {{ path('organisation_display', {'id':organisation.id}) }}>
         {% if organisation.images|length > 0 %}
             <img src="{{ asset('/upload/organisation/images/'~ organisation.images|first()) }}" class="img-fluid d-block card-img-top"
@@ -24,7 +24,18 @@
                     {{ organisation.description }}
                 </div>
             </div>
-{#            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>#}
+
+            {% if manage|default(false) == true %}
+                <br>
+                <div class="row">
+                    <div class="col">
+                        <a type="button" class="btn btn-primary fa-pull-right" href="{{ path('organisation_update', {id: organisation.id}) }}">Modifier</a>
+                    </div>
+                    <div class="col">
+                        <button type="button" class="btn btn-danger">Supprimer</button>
+                    </div>
+                </div>
+            {% endif %}
             
         </div>
 

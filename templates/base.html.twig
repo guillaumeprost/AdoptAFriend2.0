@@ -2,13 +2,13 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8"/>
-    <title>{% block title %}Adopt a Friend{% endblock %}</title>
+    <title>{% block title %}Adopt a Friend{% endblock title %}</title>
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
 
         <!-- Renders a link tag (if your module requires any CSS)
              <link rel="stylesheet" href="/build/app.css"> -->
-    {% endblock %}
+    {% endblock stylesheets %}
     {# <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/> #}
 </head>
 
@@ -17,7 +17,7 @@
 <header>
     {% block header %}
         {% include('includes/menu.html.twig') %}
-    {% endblock %}
+    {% endblock header %}
 </header>
 <main>
     {% block flash %}
@@ -36,7 +36,7 @@
 
     {% block content %}
 
-    {% endblock %}
+    {% endblock content %}
 </main>
 {% block footer %}
     <footer class="footer mt-5 py-3 bg-light mt-auto">
@@ -47,7 +47,7 @@
             </p>
         </div>
     </footer>
-{% endblock %}
+{% endblock footer %}
 </body>
 
 {% block javascripts %}
