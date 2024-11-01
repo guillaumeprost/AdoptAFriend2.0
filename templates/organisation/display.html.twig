@@ -34,11 +34,14 @@
             </div>
             <div class="col">
                 <h1>{{ organisation.name }}</h1>
+
+
+            <small class="text-muted">Crée le {{ organisation.createdAt|date('d/m/Y') }}</small>
                 <br>
                 {{ organisation.description }}
             </div>
         </div>
-
+        <br>
         <h2> Animaux à l'adoption </h2>
         <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
             {% for animal in organisation.animals %}

@@ -36,7 +36,8 @@
                 <h3>{{ date('now').diff(animal.birthDate).format('%y ans et %m mois') }}</h3>
             </div>
         </div>
-        <br>
+        <small class="text-muted">Dernière modification le {{ animal.updatedAt|date('d/m/Y') }}</small>
+        <br><br>
         <div class="row mb-5">
             <div class="col">
                 <div class="row">

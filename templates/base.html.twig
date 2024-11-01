@@ -4,7 +4,6 @@
     <meta charset="UTF-8"/>
     <title>{% block title %}Adopt a Friend{% endblock %}</title>
     {% block stylesheets %}
-        {# 'app' must match the first argument to addEntry() in webpack.config.js #}
         {{ encore_entry_link_tags('app') }}
 
         <!-- Renders a link tag (if your module requires any CSS)
@@ -24,7 +23,7 @@
     {% block flash %}
         {% for label, messages in app.flashes %}
             {% for message in messages %}
-                <div class="alert alert-{{ label }} alert-dismissible fade show"  role="alert">
+                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
                     {{ message }}
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>

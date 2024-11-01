@@ -23,12 +23,6 @@
                     {% endif %}
                 </div>
             </div>
-
-            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>
-            <p class="card-text text-truncate">
-                {{ animal.description }}
-                {# {{ animal.description|length > 50 ? animal.description|slice(0, 50) ~ '...' : animal.description }} #}
-            </p>
             <div class="row">
                 <div class="col">
                     {% if animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
@@ -88,12 +82,12 @@
                     {% endif %}
                 </div>
             </div>
+        
+            <p class="card-text text-truncate">
+                {{ animal.description }}
+                {# {{ animal.description|length > 50 ? animal.description|slice(0, 50) ~ '...' : animal.description }} #}
+            </p>
             <br>
-            <div class="row">
-                <div class="col">
-                    <a type="button" class="btn btn-primary" href="{{ path('animal_display', {id: animal.id}) }}">Voir</a>
-                </div>
-            </div>
             {% if manage|default(false) == true %}
             <br>
             <div class="row">
@@ -107,7 +101,9 @@
             {% endif %}
         </div>
         <div class="card-footer">
-                <small class="text-muted">Dernière modification le {{ animal.updatedAt|date('d/m/Y') }}</small>
+            <div class="row justify-content-md-end">
+                    <a type="button" class="btn btn-primary" href="{{ path('animal_display', {id: animal.id}) }}">Voir</a>
+            </div>
         </div>
     </div>
 </div>

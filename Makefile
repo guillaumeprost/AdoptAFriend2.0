@@ -1,8 +1,8 @@
 
 
 start: ## Run the project
-	symfony serve -d
 	docker-compose up -d
+	symfony serve -d
 
 stop: ## Stop the project
 	symfony server:stop

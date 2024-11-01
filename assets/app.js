@@ -1,3 +1,4 @@
+import './bootstrap.js';
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -5,40 +6,50 @@
  * (and its CSS file) in your base layout (base.html.twig).
  */
 
-// any CSS you import will output into a single css file (app.css in this case)
-import './styles/app.css';
-import './styles/global.scss';
+import './styles/app.scss';
 import 'bootstrap';
-// start the Stimulus application
+
+import bsCustomFileInput from 'bs-custom-file-input';
+
 import './bootstrap';
 
+bsCustomFileInput.init();
 
 
 const $ = require('jquery');
-// this "modifies" the jquery module: adding behavior to it
-// the bootstrap module doesn't export/return anything
+global.$ = global.jQuery = $;
+
 require('bootstrap');
 require('@fortawesome/fontawesome-free/css/all.min.css');
 require('@fortawesome/fontawesome-free/js/all.js');
 
 // or you can include specific pieces
-// require('bootstrap/js/dist/tooltip');
-// require('bootstrap/js/dist/popover');
+ require('bootstrap/js/dist/tooltip');
+ require('bootstrap/js/dist/popover');
+
+console.log('app.js loaded');
 
 $(document).ready(function() {
-    console.log('app.js loaded')
+
     var bootstrap_enabled = (typeof $().modal == 'function');
 
-    console.log(bootstrap_enabled);
     $('[data-toggle="popover"]').popover();
 });
 
 
 //Click animal card
-$(document).ready(function() {
+/*$(document).ready(function() {
     $(".animal-card").on('click', function(event){
         // var card = event.elem;
         window.location.href = $(this).children('.card').data('link');
     });
 });
 
+//Click organisation card
+$(document).ready(function() {
+    $(".organisation-card").on('click', function(event){
+        // var card = event.elem;
+        window.location.href = $(this).children('.card').data('link');
+    });
+});
+*/

@@ -25,14 +25,14 @@
                 </div>
             </div>
 {#            <h6 class="card-subtitle mb-2 text-muted">Card subtitle</h6>#}
-            <div class="row justify-content-md-end">
-                <a type="button" class="btn btn-primary" href="{{ path('organisation_display', {id: organisation.id}) }}">Voir</a>
-            </div>
+            
         </div>
 
 
         <div class="card-footer">
-            <small class="text-muted">Crée le {{ organisation.createdAt|date('d/m/Y') }}</small>
+            <div class="row justify-content-md-end">
+                <a type="button" class="btn btn-primary" href="{{ path('organisation_display', {id: organisation.id}) }}">Voir</a>
+            </div>
         </div>
     </div>
 </div>
