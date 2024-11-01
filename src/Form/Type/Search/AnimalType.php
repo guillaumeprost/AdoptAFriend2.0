@@ -31,7 +31,7 @@ class AnimalType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'date_class' => 'App\Entity\Animal\Animal'
+            'data_class' => 'App\Entity\Animal\Animal'
         ]);
     }
 }

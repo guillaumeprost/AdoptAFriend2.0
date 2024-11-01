@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="pt-3 pb-3">
+            <h1> Demande d'adoption {{ adoptionRequest.id }}</h1>
+            <div class="row">
+                <div class="col col-md-4">
+                    {% include '/animal/include/_card.html.twig' with {'animal': adoptionRequest.animal} %}
+                </div>
+                <div class="col col-md-8">
+                    <div class="row"><h2>{{ adoptionRequest.name }}</h2></div>
+
+                    <div class="row">
+                        <div class="col"><h3>{{ adoptionRequest.email }} </h3></div>
+                        <div class="col"><h3>{{ adoptionRequest.phone }} </h3></div>
+                    </div>
+                    <div class="row"><h3> {{ adoptionRequest.description }} </h3></div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

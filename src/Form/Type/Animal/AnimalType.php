@@ -110,7 +110,7 @@ abstract class AnimalType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'date_class' => Animal::class
+            'data_class' => Animal::class
         ]);
     }
 }
