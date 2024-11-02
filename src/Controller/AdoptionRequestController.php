@@ -4,8 +4,8 @@ namespace App\Controller;
 
 use App\Entity\AdoptionRequest;
 use App\Entity\Animal\Animal;
-use App\Form\Type\AdoptionRequestType;
-use App\Service\FileService;
+use App\Form\Type\AdoptionRequest\AdoptionRequestDemandType;
+use App\Form\Type\AdoptionRequest\AdoptionRequestUpdateType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -25,9 +25,10 @@ class AdoptionRequestController  extends AbstractController
         assert($animal instanceof Animal);
 
         $adoptionRequest = new AdoptionRequest();
-        $form = $this->createForm(AdoptionRequestType::class, $adoptionRequest);
+        $form = $this->createForm(AdoptionRequestDemandType::class, $adoptionRequest);
 
         $form->add('save', SubmitType::class, [
+            'label' => 'Envoyer votre demande',
             'attr' => ['class' => 'btn btn-primary'],
         ]);
         $form->handleRequest($request);
@@ -55,8 +56,24 @@ class AdoptionRequestController  extends AbstractController
         return $this->render('adoption-request/list.html.twig', ['adoptionRequests' => $adoptionRequests]);
     }
     #[Route('/{id}', name: 'display')]
-    public function display(AdoptionRequest $adoptionRequest): Response
+    public function display(AdoptionRequest $adoptionRequest, Request $request): Response
     {
-        return $this->render('adoption-request/display.html.twig', ['adoptionRequest' => $adoptionRequest]);
+        $form = $this->createForm(AdoptionRequestUpdateType::class, $adoptionRequest);
+
+        $form->add('save', SubmitType::class, [
+            'label' => 'Mettre à jour',
+            'attr' => ['class' => 'btn btn-primary'],
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->doctrine->getManager()->flush($adoptionRequest);
+
+            $this->addFlash('success', 'La demande à été mise à jour');
+            return $this->redirectToRoute('adoption-request_display', ['id' => $adoptionRequest->getId()]);
+        }
+        return $this->render('adoption-request/display.html.twig', [
+            'adoptionRequest' => $adoptionRequest,
+            'form' => $form->createView()
+        ]);
     }
 }

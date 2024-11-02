@@ -3,19 +3,34 @@
 {% block content %}
     <div class="container">
         <div class="pt-3 pb-3">
-            <h1> Demande d'adoption {{ adoptionRequest.id }}</h1>
+            <div class="row">
+                <div class="col">
+                    <h1> Demande d'adoption #{{ adoptionRequest.id }}</h1>
+                </div>
+                <div class="col">
+                    <a type="button" href="{{ path('adoption-request_list') }}" class="btn btn-light fa-pull-right"> Retour aux demandes </a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col col-md-4">
                     {% include '/animal/include/_card.html.twig' with {'animal': adoptionRequest.animal} %}
                 </div>
                 <div class="col col-md-8">
-                    <div class="row"><h2>{{ adoptionRequest.name }}</h2></div>
-
-                    <div class="row">
-                        <div class="col"><h3>{{ adoptionRequest.email }} </h3></div>
-                        <div class="col"><h3>{{ adoptionRequest.phone }} </h3></div>
+                    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+                        <div class="container-fluid py-5">
+                            <h2 class="display-5 fw-bold">{{ adoptionRequest.name }}</h2>
+                            <p class="col-md-8 fs-4">Demande envoyée
+                                le {{ adoptionRequest.createdAt|date('d/m/Y h:i') }}</p>
+                            <i class="fas fa-at" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                               title="email"></i> {{ adoptionRequest.email }} <br>
+                            <i class="fas fa-phone"></i> {{ adoptionRequest.phone }} <br>
+                            <br>
+                            <p class="col-md-8 fs-4">{{ adoptionRequest.description }}</p>
+                        </div>
                     </div>
-                    <div class="row"><h3> {{ adoptionRequest.description }} </h3></div>
+                    <div class="p-5 mb-4 bg-body-tertiary rounded-3">
+                        {{ form(form) }}
+                    </div>
                 </div>
             </div>
         </div>
