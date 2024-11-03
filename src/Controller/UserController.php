@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\AdoptionRequest;
 use App\Entity\Organisation;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
@@ -27,7 +28,9 @@ class UserController extends AbstractController
     #[Route('/dashboard', name: 'dashboard')]
     public function dashboard(Request $request): Response
     {
-        return $this->render('user/dashboard.html.twig');
+        $adoptionRequests = $this->doctrine->getRepository(AdoptionRequest::class)->findByUser($this->getUser());
+
+        return $this->render('user/dashboard.html.twig', ['adoptionRequests' => $adoptionRequests]);
     }
 
     #[Route('/update', name: 'update')]
@@ -83,7 +86,8 @@ class UserController extends AbstractController
         return $this->redirectToRoute('organisation_display', ['id'=> $user->getOrganisation()->getId()]);
     }
     #[Route('/list', name: 'organisations')]
-    public function list(){
+    public function list(): Response
+    {
         $users = $this->doctrine->getRepository(User::class)->findAll();
 
         return $this->render('user/list.html.twig', [

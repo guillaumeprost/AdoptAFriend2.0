@@ -41,6 +41,16 @@
         <div class="row mb-5">
             <div class="col">
                 <div class="row">
+                    <div class="col-1">
+                        <i class="fas fa-house " data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="association"></i>
+                    </div>
+                    <div class="col-11">
+                        <a href="{{ path('organisation_display', {id: animal.organisation.id}) }}">{{ animal.organisation.name }}</a>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
                     {% if animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
                         <div class="col-1">
                             <i class="fas fa-baby text-success" data-bs-toggle="tooltip"
@@ -174,16 +184,6 @@
                 </div>
 
                 <div class="row"><br></div>
-
-                <div class="row">
-                    <div class="col-1">
-                        <i class="fas fa-house " data-bs-toggle="tooltip"
-                           data-bs-placement="bottom" title="association"></i>
-                    </div>
-                    <div class="col-11">
-                        <a href="{{ path('organisation_display', {id: animal.organisation.id}) }}">{{ animal.organisation.name }}</a>
-                    </div>
-                </div>
             </div>
             <div class="col">
                 {{ animal.description }}

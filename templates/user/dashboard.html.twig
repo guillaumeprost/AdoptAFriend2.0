@@ -1,17 +1,22 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-
     <div class="container">
         <h1 class="mt-5">Bienvenue {{ app.user.firstName }} {{ app.user.name }}</h1>
         <br>
+        {% if adoptionRequests|length > 0 %}
+            <div class="row">
+                <h3> Vos dernières demandes d'adoptions </h3>
+                {% include 'adoption-request/include/_list.html.twig' %}
+            </div>
+        {% endif %}
         <div class="row">
-            <div class="col">
+            <div class="col col-md-6">
                 <a type="button" class="btn btn-primary" href="{{ url('animal_create', {'type':'dog'}) }}">Ajouter un
                     animal à adopter</a>
             </div>
             {% if not app.user.organisation %}
-                <div class="col">
+                <div class="col col-md-6">
                     <button type="button" class="btn btn-primary" href="{{ url('organisation_create') }}">Créer une
                         association
                     </button>
@@ -20,7 +25,7 @@
         </div>
         <br>
         <div class="row">
-            <div class="col">
+            <div class="col col-md-6">
                 {% if app.user.animals|length > 0 %}
                     <h3> Vos animaux </h3>
                     {% for animal in app.user.animals %}
@@ -28,7 +33,7 @@
                     {% endfor %}
                 {% endif %}
             </div>
-            <div class="col">
+            <div class="col col-md-6">
                 {% if app.user.organisation %}
                     <h3> Votre association </h3>
                     {% include '/organisation/include/_card.html.twig' with {'organisation': app.user.organisation, 'manage': true} %}

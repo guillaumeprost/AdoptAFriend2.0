@@ -54,7 +54,7 @@ class OrganisationType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'date_class' => Organisation::class
+            'data_class' => Organisation::class
         ]);
     }
 }

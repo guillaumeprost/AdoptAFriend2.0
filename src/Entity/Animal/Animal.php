@@ -2,9 +2,12 @@
 
 namespace App\Entity\Animal;
 
+use App\Entity\AdoptionRequest;
 use App\Entity\Organisation;
 use App\Entity\User;
 use App\Repository\Animal\AnimalRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Traits\Entity as EntityTraits;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
@@ -32,40 +35,39 @@ abstract class Animal
     ];
 
 
-    #[ORM\Column(nullable:false)]
-    #[Assert\NotBlank(message:'Veuillez ajouter un nom')]
+    #[ORM\Column(nullable: false)]
+    #[Assert\NotBlank(message: 'Veuillez ajouter un nom')]
     private string $name;
 
-    #[ORM\Column(nullable:false)]
-    #[Assert\NotBlank(message:'Veuillez ajouter un sex')]
+    #[ORM\Column(nullable: false)]
+    #[Assert\NotBlank(message: 'Veuillez ajouter un sex')]
     private string $sex;
 
-    #[ORM\Column(type: 'datetime', nullable:true)]
+    #[ORM\Column(type: 'datetime', nullable: true)]
     private ?\DateTime $birthDate;
 
-    #[ORM\Column(nullable:true)]
+    #[ORM\Column(nullable: true)]
     private ?array $images;
 
-    #[ORM\Column(nullable:true)]
+    #[ORM\Column(nullable: true)]
     private ?float $weight;
 
-    #[ORM\Column(nullable:true)]
+    #[ORM\Column(nullable: true)]
     private ?string $fur;
 
-
-    #[ORM\Column(nullable:true)]
+    #[ORM\Column(nullable: true)]
     private ?string $color;
 
-    #[ORM\Column(nullable:true)]
+    #[ORM\Column(nullable: true)]
     private ?bool $vaccination;
 
-    #[ORM\Column(nullable:false)]
+    #[ORM\Column(nullable: false)]
     private ?bool $sterilized;
 
-    #[ORM\Column(nullable:false)]
+    #[ORM\Column(nullable: false)]
     private ?bool $dewormed;
 
-    #[ORM\Column(nullable:true)]
+    #[ORM\Column(nullable: true)]
     private ?float $price;
 
     #[ORM\ManyToOne(targetEntity: Organisation::class, inversedBy: 'animals')]
@@ -75,6 +77,14 @@ abstract class Animal
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'animals')]
     #[ORM\JoinColumn(name: 'manager_id', referencedColumnName: 'id')]
     private UserInterface $manager;
+
+    #[ORM\OneToMany(mappedBy: 'animal', targetEntity: AdoptionRequest::class)]
+    private Collection $adoptionRequests;
+
+    public function __construct()
+    {
+        $this->adoptionRequests = new ArrayCollection();
+    }
 
     abstract public function getType(): string;
 
@@ -218,6 +228,13 @@ abstract class Animal
     public function setManager(UserInterface $manager): self
     {
         $this->manager = $manager;
+        return $this;
+    }
+
+    public function addAdoptionRequest(AdoptionRequest $adoptionRequest): self
+    {
+        $this->adoptionRequests->add($adoptionRequest);
+        $adoptionRequest->setAnimal($this);
         return $this;
     }
 }

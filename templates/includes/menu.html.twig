@@ -19,12 +19,13 @@
                            href="{{ url('organisation_search') }}">Associations</a>
                     </li>
                     {% if app.user %}
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown-center">
                         <a class="nav-link dropdown-toggle text-bg-primary" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             {{ app.user.firstName }}
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ path('user_dashboard') }}">Tableau de bord</a></li>
+                            <li><a class="dropdown-item" href="{{ path('adoption-request_list') }}">Mes demandes d'adoption</a></li>
                             <li><a class="dropdown-item" href="{{ path('user_animals') }}">Mes animaux</a></li>
                             <li><a class="dropdown-item" href="{{ path('user_organisation') }}">Mon association</a></li>
                             <li><hr class="dropdown-divider"></li>
