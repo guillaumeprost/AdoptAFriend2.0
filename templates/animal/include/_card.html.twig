@@ -25,10 +25,10 @@
             </div>
             <div class="row">
                 <div class="col">
-                    {% if animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
+                    {% if animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
                         <i class="fas fa-baby text-success" data-bs-toggle="tooltip"
                            data-bs-placement="bottom" title="Bonne entente avec les enfants"></i>
-                    {% elseif animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_BAD') %}
+                    {% elseif animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
                         <i class="fas fa-baby text-danger" data-bs-toggle="tooltip"
                            data-bs-placement="bottom" title="Mauvaise entente avec les enfants"></i>
                     {% else %}
@@ -36,10 +36,10 @@
                            data-bs-placement="bottom" title="Entente avec les enfants inconnue"></i>
                     {% endif %}
 
-                    {% if animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
+                    {% if animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
                         <i class="fas fa-dog text-success" data-bs-toggle="tooltip"
                            data-bs-placement="bottom" title="Bonne entente avec les chiens"></i>
-                    {% elseif animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_BAD') %}
+                    {% elseif animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
                         <i class="fas fa-dog text-danger" data-bs-toggle="tooltip"
                            data-bs-placement="bottom" title="Mauvaise entente avec les chiens"></i>
                     {% else %}
@@ -47,10 +47,10 @@
                            data-bs-placement="bottom" title="Entente avec les chiens inconnue"></i>
                     {% endif %}
 
-                    {% if animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
+                    {% if animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
                         <i class="fas fa-cat text-success" data-bs-toggle="tooltip"
                            data-bs-placement="bottom" title="Bonne entente avec les chats"></i>
-                    {% elseif animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_BAD') %}
+                    {% elseif animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
                         <i class="fas fa-cat text-danger" data-bs-toggle="tooltip"
                            data-bs-placement="bottom" title="Mauvaise entente avec les chats"></i>
                     {% else %}

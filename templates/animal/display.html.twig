@@ -51,7 +51,7 @@
                 </div>
                 <br>
                 <div class="row">
-                    {% if animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
+                    {% if animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
                         <div class="col-1">
                             <i class="fas fa-baby text-success" data-bs-toggle="tooltip"
                                data-bs-placement="bottom" title="Bonne entente avec les enfants"></i>
@@ -60,7 +60,7 @@
                             Bonne entente avec les enfants
                         </div>
 
-                    {% elseif animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_BAD') %}
+                    {% elseif animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
                         <div class="col-1">
                             <i class="fas fa-baby text-danger" data-bs-toggle="tooltip"
                                data-bs-placement="bottom" title="Mauvaise entente avec les enfants"></i>
@@ -81,14 +81,14 @@
                     {% endif %}
                 </div>
                 <div class="row">
-                    {% if animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
+                    {% if animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
                         <div class="col-1">
                             <i class="fas fa-dog text-success" data-bs-toggle="tooltip"
                                data-bs-placement="bottom" title="Bonne entente avec les chiens"></i>
                         </div>
 
                         <div class="col-11">Bonne entente avec les chiens</div>
-                    {% elseif animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_BAD') %}
+                    {% elseif animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
                         <div class="col-1">
                             <i class="fas fa-dog text-danger" data-bs-toggle="tooltip"
                                data-bs-placement="bottom"
@@ -104,12 +104,12 @@
                     {% endif %}
                 </div>
                 <div class="row">
-                    {% if animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_GOOD') %}
+                    {% if animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
                         <div class="col-1">
                             <i class="fas fa-cat text-success" data-bs-toggle="tooltip"
                                data-bs-placement="bottom" title="Bonne entente avec les chats"></i></div>
                         <div class="col-11">Bonne entente avec les chats</div>
-                    {% elseif animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::TYPE_BAD') %}
+                    {% elseif animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
                         <div class="col-1">
                             <i class="fas fa-cat text-danger" data-bs-toggle="tooltip"
                                data-bs-placement="bottom"

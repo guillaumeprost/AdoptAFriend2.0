@@ -6,7 +6,10 @@ use App\Entity\Animal\Animal;
 use App\Entity\Animal\Dog;
 use App\Entity\Organisation;
 use App\Form\Type\Animal\DogType;
+use App\Form\Type\Search\AnimalType;
+use App\Model\SearchAnimal;
 use App\Service\FileService;
+use App\Utils\Animal\Affinities;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -85,20 +88,45 @@ class AnimalController extends AbstractController
     public function search(Request $request,int $page = 1): Response
     {
         $entityManager = $this->doctrine->getManager();
-
+        $searchAnimal = new SearchAnimal();
         $pageSize = $request->query->get('pageSize', 20);
+
+        $form = $this->createForm(AnimalType::class, $searchAnimal);
+        $form->add('search', SubmitType::class, [
+            'attr' => ['class' => 'btn btn-primary'],
+            'label' => 'Rechercher'
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Paginator $animalsPaginator */
+            $animalsPaginator = $entityManager
+                ->getRepository(Animal::class)
+                ->findBySearch(
+                    $searchAnimal,
+                    $page,
+                    $pageSize
+                );
+
+
+            return $this->render('animal/list.html.twig', [
+                'form' => $form->createView(),
+                'animals' => $animalsPaginator,
+                'totalAnimals' => count($animalsPaginator),
+                'pageCount' => intval(ceil(count($animalsPaginator) / $pageSize)),
+                'page' => $page
+            ]);
+        }
 
         /** @var Paginator $animalsPaginator */
         $animalsPaginator = $entityManager
             ->getRepository(Animal::class)
             ->search(
-                $request->get('filters',[]),
-                $request->get('sorter',[]),
                 $page,
                 $pageSize
             );
 
         return $this->render('animal/list.html.twig', [
+            'form' => $form->createView(),
             'animals' => $animalsPaginator,
             'totalAnimals' => count($animalsPaginator),
             'pageCount' => intval(ceil(count($animalsPaginator) / $pageSize)),

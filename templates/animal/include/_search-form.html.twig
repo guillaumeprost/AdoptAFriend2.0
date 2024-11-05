@@ -1,0 +1,43 @@
+
+{{ form_start(form) }}
+<div class="row">
+    <div class="col">
+        {{ form_row(form.name) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.sex) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.vaccination) }}
+        {{ form_row(form.sterilized) }}
+        {{ form_row(form.dewormed) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        {{ form_row(form.fur) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.color) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        {{ form_row(form.dogsAffinities) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.catsAffinities) }}
+    </div>
+    <div class="col">
+        {{ form_row(form.childAffinities) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col">
+        {{ form_row(form.search) }}
+    </div>
+</div>
+{{ form_end(form) }}
