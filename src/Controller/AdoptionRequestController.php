@@ -45,6 +45,7 @@ class AdoptionRequestController  extends AbstractController
         }
 
         return $this->render('adoption-request/create.html.twig', [
+            'animal' => $animal,
             'form' => $form->createView(),
         ]);
     }

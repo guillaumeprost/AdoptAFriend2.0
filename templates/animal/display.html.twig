@@ -32,8 +32,11 @@
             <div class="col-2">
                 <h3>{{ animal.weight }}kg</h3>
             </div>
-            <div class="col-10">
+            <div class="col-7">
                 <h3>{{ date('now').diff(animal.birthDate).format('%y ans et %m mois') }}</h3>
+            </div>
+            <div class="col-3">
+                <a type="button" href="{{ path('adoption-request_create', {'id': animal.id}) }}" class="btn btn-primary">Envoyer une demande d'adoption</a>
             </div>
         </div>
         <small class="text-muted">Dernière modification le {{ animal.updatedAt|date('d/m/Y') }}</small>

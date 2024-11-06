@@ -1,4 +1,4 @@
-<div class="col pt-3 organisation-card pb-3">
+<div class="col pt-3 organisation-card pb-3 p-3">
     <div class="card h-100 clickable"  data-link= {{ path('organisation_display', {'id':organisation.id}) }}>
         {% if organisation.images|length > 0 %}
             <img src="{{ asset('/upload/organisation/images/'~ organisation.images|first()) }}" class="img-fluid d-block card-img-top"

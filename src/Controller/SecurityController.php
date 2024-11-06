@@ -18,7 +18,7 @@ class SecurityController extends AbstractController
                  'success',
                  sprintf('Welcome Back %s %s ', $this->getUser()->getName(), $this->getUser()->getLastName())
              );
-             return $this->redirectToRoute('homepage');
+             return $this->redirectToRoute('user_dashboard');
          }
 
         // get the login error if there is one

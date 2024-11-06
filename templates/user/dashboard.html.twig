@@ -7,22 +7,22 @@
 
         <div class="row">
             <div class="col col-md-6">
+
+                {% if app.user.organisation %}
                 <h3> Votre association </h3>
                 {% include '/organisation/include/_card.html.twig' with {'organisation': app.user.organisation, 'manage': true} %}
+                {% else %}
+                    <div class="col col-md-6">
+                        <button type="button" class="btn btn-primary" href="{{ url('organisation_create') }}">Créer une
+                            association
+                        </button>
+                    </div>
+                {% endif %}
             </div>
             <div class="col col-md-6">
                 <h3> Vos dernières demandes d'adoptions </h3>
                 {% include 'adoption-request/include/_list.html.twig' %}
             </div>
-        </div>
-        <div class="row">
-            {% if not app.user.organisation %}
-                <div class="col col-md-6">
-                    <button type="button" class="btn btn-primary" href="{{ url('organisation_create') }}">Créer une
-                        association
-                    </button>
-                </div>
-            {% endif %}
         </div>
         <br>
         <div class="row">
