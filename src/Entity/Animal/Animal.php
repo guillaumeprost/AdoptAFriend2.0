@@ -17,7 +17,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'species', type: 'string')]
-#[ORM\DiscriminatorMap([Dog::DISCRIMINATOR => Dog::class])]
+#[ORM\DiscriminatorMap([Dog::DISCRIMINATOR => Dog::class, Cat::DISCRIMINATOR => Cat::class])]
 abstract class Animal
 {
     use EntityTraits\IdTrait;
@@ -31,7 +31,8 @@ abstract class Animal
     const STATUS_DELETED = 'deleted';
 
     const DISCRIMINATORS = [
-        'Chien' => Dog::DISCRIMINATOR
+        'Chien' => Dog::DISCRIMINATOR,
+        'Chat' => Cat::DISCRIMINATOR
     ];
 
 
@@ -72,7 +73,7 @@ abstract class Animal
 
     #[ORM\ManyToOne(targetEntity: Organisation::class, inversedBy: 'animals')]
     #[ORM\JoinColumn(name: 'organisation_id', referencedColumnName: 'id')]
-    private Organisation $organisation;
+    private ?Organisation $organisation = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'animals')]
     #[ORM\JoinColumn(name: 'manager_id', referencedColumnName: 'id')]
@@ -209,12 +210,12 @@ abstract class Animal
         return $this;
     }
 
-    public function getOrganisation(): Organisation
+    public function getOrganisation(): ?Organisation
     {
         return $this->organisation;
     }
 
-    public function setOrganisation(Organisation $organisation): self
+    public function setOrganisation(?Organisation $organisation): self
     {
         $this->organisation = $organisation;
         return $this;

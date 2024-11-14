@@ -1,10 +1,10 @@
 <div class="col pt-3 animal-card">
-    <div class="card h-100 clickable" data-link= {{ path('animal_display', {'type':'dog', 'id':animal.id}) }}>
+    <div class="card h-100 clickable" data-link= {{ path('animal_display', {'type':constant('DISCRIMINATOR', animal), 'id':animal.id}) }}>
         {% if animal.images|length > 0 %}
-            <img src="{{ asset('/upload/animal/dog/'~ animal.images|first()) }}" class="img-fluid d-block card-img-top"
+            <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/'~ animal.images|first()) }}" class="img-fluid d-block card-img-top"
                  alt="{{ animal.name }}">
         {% else %}
-            <img src="{{ asset('/upload/animal/dog/default.jpg') }}" class="img-fluid d-block card-img-top"
+            <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/default.jpg') }}" class="img-fluid d-block card-img-top"
                  alt="{{ animal.name }}">
         {% endif %}
         <div class="card-body">

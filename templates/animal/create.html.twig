@@ -3,10 +3,29 @@
 {% block content %}
 
     <div class="container py-5">
-        <h1 class="mt-5">Ajouter un Chien</h1>
-        <p class="lead">Ajouter un chien à adopter</p>
+        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+            {% for type, data in forms %}
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link {% if loop.first %}active{% endif %}" id="{{ type }}-tab"
+                            data-bs-toggle="tab" data-bs-target="#{{ type }}-tab-pane" type="button" role="tab"
+                            aria-controls="{{ type }}-tab-pane" aria-selected="true">
+                        {{ data.label }}</button>
+                </li>
+            {% endfor %}
+        </ul>
 
-        {{ form(form) }}
+        <div class="tab-content" id="myTabContent">
+            {% for type, data in forms %}
+                <div class="tab-pane fade show {% if loop.first %}active{% endif %}" id="{{ type }}-tab-pane"
+                     role="tabpanel" aria-labelledby="{{ type }}-tab" tabindex="0">
+
+                    <h1 class="mt-5">Ajouter un {{ data.label }}</h1>
+                    <p class="lead">Ajouter un {{ data.label }} à adopter</p>
+
+                    {{ form(data.form) }}
+                </div>
+            {% endfor %}
+        </div>
     </div>
 
 {% endblock %}

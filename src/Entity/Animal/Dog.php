@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Dog extends Animal
 {
     const DISCRIMINATOR = 'dog';
+    const LABEL = 'Chien';
 
     #[ORM\Column(nullable:true)]
     private ?string $size;

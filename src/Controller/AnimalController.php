@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Animal\Animal;
 use App\Entity\Animal\Dog;
+use App\Entity\Animal\Cat;
 use App\Entity\Organisation;
+use App\Form\Type\Animal\CatType;
 use App\Form\Type\Animal\DogType;
 use App\Form\Type\Search\AnimalType;
 use App\Model\SearchAnimal;
 use App\Service\FileService;
-use App\Utils\Animal\Affinities;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,7 +23,8 @@ use Symfony\Component\Routing\Annotation\Route;
 class AnimalController extends AbstractController
 {
     public array $mapTypes = [
-        Dog::DISCRIMINATOR => DogType::class
+        Dog::DISCRIMINATOR => DogType::class,
+        Cat::DISCRIMINATOR => CatType::class
     ];
 
     public function __construct(private FileService $fileService,private  ManagerRegistry $doctrine){}
@@ -30,34 +32,45 @@ class AnimalController extends AbstractController
     #[Route('/create/{type}', name: 'create')]
     public function create(Request $request,string $type): Response
     {
+        $forms = [];
 
-        $animal = new($this->mapTypes[$type]::RELATED_ENTITY);
-        assert($animal instanceof Animal);
+        foreach ($this->mapTypes as $type => $typeClass){
+            $class = $this->mapTypes[$type]::RELATED_ENTITY;
 
-        $form = $this->createForm($this->mapTypes[$type], $animal);
-        $form->add('save', SubmitType::class, [
+            $animal = new($class);
+            assert($animal instanceof Animal);
+
+            $form = $this->createForm($this->mapTypes[$type], $animal);
+            $form->add('save', SubmitType::class, [
+                'label' => 'Ajouter à l\'adoption ',
                 'attr' => ['class' => 'btn btn-primary'],
             ]);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
+            $form->handleRequest($request);
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->fileService->addAnimalImages($animal, $type);
-            $animal->setManager($this->getUser());
+                $this->fileService->addAnimalImages($animal, $type);
+                $animal->setManager($this->getUser());
 
-            if ($this->getUser()->getOrganisation() instanceof Organisation) {
-                $animal->setOrganisation($this->getUser()->getOrganisation());
+                if ($this->getUser()->getOrganisation() instanceof Organisation) {
+                    $animal->setOrganisation($this->getUser()->getOrganisation());
+                }
+
+                $entityManager = $this->doctrine->getManager();
+                $entityManager->persist($animal);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Votre animal à été ajouté');
+                return $this->redirectToRoute('animal_search');
             }
 
-            $entityManager = $this->doctrine->getManager();
-            $entityManager->persist($animal);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Votre animal à été ajouté');
-            return $this->redirectToRoute('animal_search');
+            $forms[$type] = [
+                'label' => $class::LABEL,
+                'form' => $form->createView()
+            ];
         }
 
         return $this->render('animal/create.html.twig', [
-            'form' => $form->createView(),
+            'forms' => $forms,
         ]);
     }
     #[Route('/update/{id}', name: 'update')]

@@ -15,7 +15,7 @@ class DogType extends AnimalType
 {
     const RELATED_ENTITY = Dog::class;
 
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         parent::buildForm($builder, $options);
 
