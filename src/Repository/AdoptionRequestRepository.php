@@ -2,13 +2,15 @@
 
 namespace App\Repository;
 
-use App\Entity\User;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class AdoptionRequestRepository extends EntityRepository
 {
-    public function findByUser(UserInterface $user, $limit = false): array
+    public function findByUser(UserInterface $user,?int $limit = null): array
     {
         $queryBuilder = $this->createQueryBuilder('adoption_request');
 
@@ -17,10 +19,10 @@ class AdoptionRequestRepository extends EntityRepository
 
         $queryBuilder->setParameter('user', $user);
 
-        if ($limit !== false) {
+        if ($limit !== null) {
             $queryBuilder->setMaxResults($limit);
         }
-        $queryBuilder->orderBy('adoption_request.createdAt', 'DESC');
+        $queryBuilder->orderBy('adoption_request.createdAt', Order::Descending);
 
         return $queryBuilder->getQuery()->getResult();
     }

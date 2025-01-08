@@ -16,13 +16,14 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/adoption-request', name: 'adoption-request_')]
 class AdoptionRequestController  extends AbstractController
 {
-
     public function __construct(private readonly ManagerRegistry $doctrine){}
 
     #[Route('/create/{id}', name: 'create')]
     public function create(Request $request,Animal $animal): Response
     {
-        assert($animal instanceof Animal);
+        if (!$animal instanceof Animal) {
+            throw $this->createNotFoundException('Animal provided does not exist');
+        }
 
         $adoptionRequest = new AdoptionRequest();
         $form = $this->createForm(AdoptionRequestDemandType::class, $adoptionRequest);

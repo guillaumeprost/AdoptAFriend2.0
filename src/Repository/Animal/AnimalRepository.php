@@ -3,6 +3,7 @@
 namespace App\Repository\Animal;
 
 use App\Model\SearchAnimal;
+use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 
@@ -84,7 +85,7 @@ class AnimalRepository extends EntityRepository
     {
         return $this
             ->createQueryBuilder('animal')
-            ->addOrderBy('animal.birthDate', 'DESC')
+            ->addOrderBy('animal.birthDate', Order::Descending)
             ->setMaxResults($pageSize)
             ->getQuery()
             ->getResult();

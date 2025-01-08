@@ -25,9 +25,18 @@ class UserController extends AbstractController
         $this->doctrine = $doctrine;
     }
 
-    #[Route('/dashboard', name: 'dashboard')]
-    public function dashboard(Request $request): Response
+    public function checkUserLogin()
     {
+        if (!$this->getUser()) {
+            throw $this->createAccessDeniedException('You need to login first.');
+        }
+    }
+
+    #[Route('/dashboard', name: 'dashboard')]
+    public function dashboard(): Response
+    {
+        $this->checkUserLogin();
+
         $adoptionRequests = $this->doctrine->getRepository(AdoptionRequest::class)->findByUser($this->getUser());
 
         return $this->render('user/dashboard.html.twig', ['adoptionRequests' => $adoptionRequests]);
@@ -36,6 +45,8 @@ class UserController extends AbstractController
     #[Route('/update', name: 'update')]
     public function update (Request $request): Response
     {
+        $this->checkUserLogin();
+
         $user = $this->getUser();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->add('update', SubmitType::class, [
@@ -63,10 +74,10 @@ class UserController extends AbstractController
     }
 
     #[Route('/animals', name: 'animals')]
-    public function displayAnimals(Request $request): Response
+    public function displayAnimals(): Response
     {
+        $this->checkUserLogin();
         $user = $this->getUser();
-        assert($user instanceof User);
 
         return $this->render('user/animals.html.twig', [
             'animals' => $user->getAnimals()
@@ -74,10 +85,10 @@ class UserController extends AbstractController
     }
 
     #[Route('/organisation', name: 'organisation')]
-    public function displayOrganisation(Request $request): Response
+    public function displayOrganisation(): Response
     {
+        $this->checkUserLogin();
         $user = $this->getUser();
-        assert($user instanceof User);
 
         if (! $user->getOrganisation() instanceof Organisation) {
             throw new NotFoundHttpException('The actual user have no organisation');
@@ -94,5 +105,4 @@ class UserController extends AbstractController
             'users' => $users
         ]);
     }
-
 }
