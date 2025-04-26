@@ -28,5 +28,4 @@ class AdoptionRequestExtension extends AbstractExtension
                 break;
         }
     }
-
 }

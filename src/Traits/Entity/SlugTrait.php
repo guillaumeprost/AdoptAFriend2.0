@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Created by PhpStorm.
  * User: guillaumeprost
@@ -26,18 +27,18 @@ trait SlugTrait
       /**
        * @return string
        */
-      public function getSlug()
-      {
-            return $this->slug;
-      }
+    public function getSlug()
+    {
+          return $this->slug;
+    }
 
       /**
        * @param string $slug
        * @return $this
        */
-      public function setSlug($slug)
-      {
-            $this->slug = (new Slugify())->slugify($slug);
-            return $this;
-      }
+    public function setSlug($slug)
+    {
+          $this->slug = (new Slugify())->slugify($slug);
+          return $this;
+    }
 }

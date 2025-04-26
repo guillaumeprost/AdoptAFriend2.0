@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-
 use App\Entity\Animal\Animal;
 use App\Repository\AdoptionRequestRepository;
 use Gedmo\Timestampable\Traits\TimestampableEntity;

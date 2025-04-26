@@ -18,7 +18,7 @@ class AdoptionRequestDemandType extends AbstractType
 
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom',
+                'label' => 'Votre nom',
                 'required' => true
             ])
             ->add('email', EmailType::class, [
@@ -34,7 +34,6 @@ class AdoptionRequestDemandType extends AbstractType
                 'required' => false
             ])
             ;
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void

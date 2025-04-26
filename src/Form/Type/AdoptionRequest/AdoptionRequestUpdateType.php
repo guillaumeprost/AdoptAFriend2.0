@@ -34,7 +34,6 @@ class AdoptionRequestUpdateType extends AbstractType
                 'attr' => ['rows' => 5]
             ])
             ;
-
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -1,5 +1,8 @@
 version: '3.8'
 
+networks:
+  app_network:
+
 services:
   ###> doctrine/doctrine-bundle ###
   database:
@@ -11,4 +14,13 @@ services:
       POSTGRESQL_DATABASE: adopt
       POSTGRESQL_PASSWORD: pass
       POSTGRESQL_USER: user
+      POSTGRESQL_POSTGRES_PASSWORD: postpass
+    networks:
+      - app_network
+
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
   ###< doctrine/doctrine-bundle ###

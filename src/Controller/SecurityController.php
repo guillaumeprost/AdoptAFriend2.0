@@ -13,13 +13,13 @@ class SecurityController extends AbstractController
     #[Route('/login', name: 'login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
-         if ($this->getUser() instanceof User) {
-             $this->addFlash(
-                 'success',
-                 sprintf('Welcome Back %s %s ', $this->getUser()->getName(), $this->getUser()->getLastName())
-             );
-             return $this->redirectToRoute('user_dashboard');
-         }
+        if ($this->getUser() instanceof User) {
+            $this->addFlash(
+                'success',
+                sprintf('Welcome Back %s %s ', $this->getUser()->getName(), $this->getUser()->getLastName())
+            );
+            return $this->redirectToRoute('user_dashboard');
+        }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();

@@ -43,7 +43,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/update', name: 'update')]
-    public function update (Request $request): Response
+    public function update(Request $request): Response
     {
         $this->checkUserLogin();
 
@@ -59,7 +59,6 @@ class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->doctrine->getManager()->flush($user);
 
             $this->addFlash('success', 'Votre compte à bien été modifié');
@@ -91,10 +90,10 @@ class UserController extends AbstractController
         $user = $this->getUser();
 
         if (! $user->getOrganisation() instanceof Organisation) {
-            throw new NotFoundHttpException('The actual user have no organisation');
+            return $this->redirectToRoute('organisation_create');
         }
 
-        return $this->redirectToRoute('organisation_display', ['id'=> $user->getOrganisation()->getId()]);
+        return $this->redirectToRoute('organisation_display', ['id' => $user->getOrganisation()->getId()]);
     }
     #[Route('/list', name: 'organisations')]
     public function list(): Response

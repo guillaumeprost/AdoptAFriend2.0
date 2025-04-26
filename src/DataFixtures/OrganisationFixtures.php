@@ -9,7 +9,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class OrganisationFixtures extends Fixture  implements OrderedFixtureInterface
+class OrganisationFixtures extends Fixture implements OrderedFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
@@ -29,7 +29,7 @@ class OrganisationFixtures extends Fixture  implements OrderedFixtureInterface
                 $images[] = str_replace('%d', mt_rand(1, 10), 'organisation%d.jpg');
             }
             $organisation->setImages($images);
-            $organisation->setLogo('logo'.mt_rand(1, 9).'.jpg');
+            $organisation->setLogo('logo' . mt_rand(1, 9) . '.jpg');
 
             $organisation->setUsers(new ArrayCollection($manager->getRepository(User::class)->findAll()));
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Controller;
 
 use App\Entity\Animal\Animal;
@@ -10,7 +11,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class HomeController extends AbstractController
 {
-    public function __construct(private ManagerRegistry $doctrine){}
+    public function __construct(private ManagerRegistry $doctrine)
+    {
+    }
 
     #[Route('/', name: 'homepage')]
     public function index(): Response

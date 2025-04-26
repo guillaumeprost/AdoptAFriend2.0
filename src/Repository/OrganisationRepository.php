@@ -10,10 +10,9 @@ class OrganisationRepository extends EntityRepository
     public function search(
         array $filers = [],
         array $sorters = [],
-        int   $page = 1,
-        int   $pageSize = 20
-    ): Paginator
-    {
+        int $page = 1,
+        int $pageSize = 20
+    ): Paginator {
         $queryBuilder = $this->createQueryBuilder('organisation');
         $query = $queryBuilder->getQuery();
         $query

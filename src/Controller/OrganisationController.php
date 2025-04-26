@@ -17,10 +17,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/organisation', name: 'organisation_')]
 class OrganisationController extends AbstractController
 {
-    public function __construct(private readonly ManagerRegistry $doctrine, private readonly FileService $fileService){}
+    public function __construct(private readonly ManagerRegistry $doctrine, private readonly FileService $fileService)
+    {
+    }
 
     #[Route('/search/{page}', name: 'search')]
-    public function search(Request $request,int $page = 1): Response
+    public function search(Request $request, int $page = 1): Response
     {
         $entityManager = $this->doctrine->getManager();
 
@@ -30,8 +32,8 @@ class OrganisationController extends AbstractController
         $organisationPaginator = $entityManager
             ->getRepository(Organisation::class)
             ->search(
-                $request->get('filters',[]),
-                $request->get('sorter',[]),
+                $request->get('filters', []),
+                $request->get('sorter', []),
                 $page,
                 $pageSize
             );
@@ -54,7 +56,8 @@ class OrganisationController extends AbstractController
             throw new \Exception('You already have an organisation');
         }
 
-        $form = $this->createForm(OrganisationType::class, new Organisation());
+        $organisation = new Organisation();
+        $form = $this->createForm(OrganisationType::class, $organisation);
 
         $form->add('save', SubmitType::class, [
             'attr' => ['class' => 'btn btn-primary'],
@@ -62,18 +65,21 @@ class OrganisationController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $organisation = $form->getData();
 
-            if ($form->get('logo')->getData()){
+            if ($form->get('logo')->getData()) {
                 $organisation->setLogo(
-                    $this->fileService->addNewFile($form->get('logo')->getData(),
-                        'organisation/logo')
+                    $this->fileService->addNewFile(
+                        $form->get('logo')->getData(),
+                        'organisation/logo'
+                    )
                 );
             }
             $this->fileService->addOrganisationImages($organisation);
 
             $organisation->addUser($user);
+            $user->setOrganisation($organisation);
+
 
             $this->doctrine->getManager()->persist($organisation);
             $this->doctrine->getManager()->flush($organisation);
@@ -106,13 +112,14 @@ class OrganisationController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $organisation = $form->getData();
 
-            if ($form->get('logo')->getData()){
+            if ($form->get('logo')->getData()) {
                 $organisation->setLogo(
-                    $this->fileService->addNewFile($form->get('logo')->getData(),
-                        'organisation/logo')
+                    $this->fileService->addNewFile(
+                        $form->get('logo')->getData(),
+                        'organisation/logo'
+                    )
                 );
             }
             $this->fileService->addOrganisationImages($organisation);

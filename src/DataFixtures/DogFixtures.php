@@ -22,7 +22,7 @@ class DogFixtures extends Fixture implements OrderedFixtureInterface
 
         for ($i = 1; $i < 50; $i++) {
             $dog = new Dog();
-            $dog->setName('Chien '.$i);
+            $dog->setName('Chien ' . $i);
             $dog->setSex(array_rand(Sex::$choices));
             $dog->setDescription(
                 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
@@ -40,11 +40,11 @@ class DogFixtures extends Fixture implements OrderedFixtureInterface
             $dog->setImages($images);
             $dog->setFur(array_rand(Fur::$types));
             $dog->setColor(array_rand(Color::$types));
-            $dog->setBirthDate((new \DateTime())->modify('-'.random_int(1, 70).' months'));
+            $dog->setBirthDate((new \DateTime())->modify('-' . random_int(1, 70) . ' months'));
 
-            $dog->setVaccination( (bool)random_int(0, 1));
-            $dog->setSterilized( (bool)random_int(0, 1));
-            $dog->setDewormed( (bool)random_int(0, 1));
+            $dog->setVaccination((bool)random_int(0, 1));
+            $dog->setSterilized((bool)random_int(0, 1));
+            $dog->setDewormed((bool)random_int(0, 1));
 
             $dog->setChildAffinities(Affinities::cases()[array_rand(Affinities::cases())]);
             $dog->setDogsAffinities(Affinities::cases()[array_rand(Affinities::cases())]);

@@ -14,12 +14,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/adoption-request', name: 'adoption-request_')]
-class AdoptionRequestController  extends AbstractController
+class AdoptionRequestController extends AbstractController
 {
-    public function __construct(private readonly ManagerRegistry $doctrine){}
+    public function __construct(private readonly ManagerRegistry $doctrine)
+    {
+    }
 
     #[Route('/create/{id}', name: 'create')]
-    public function create(Request $request,Animal $animal): Response
+    public function create(Request $request, Animal $animal): Response
     {
         if (!$animal instanceof Animal) {
             throw $this->createNotFoundException('Animal provided does not exist');
@@ -34,7 +36,6 @@ class AdoptionRequestController  extends AbstractController
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $animal->addAdoptionRequest($adoptionRequest);
 
             $entityManager = $this->doctrine->getManager();

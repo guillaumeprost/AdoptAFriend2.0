@@ -27,14 +27,16 @@ class AnimalController extends AbstractController
         Cat::DISCRIMINATOR => CatType::class
     ];
 
-    public function __construct(private FileService $fileService,private  ManagerRegistry $doctrine){}
+    public function __construct(private FileService $fileService, private ManagerRegistry $doctrine)
+    {
+    }
 
     #[Route('/create/{type}', name: 'create')]
-    public function create(Request $request,string $type): Response
+    public function create(Request $request, string $type): Response
     {
         $forms = [];
 
-        foreach ($this->mapTypes as $type => $typeClass){
+        foreach ($this->mapTypes as $type => $typeClass) {
             $class = $this->mapTypes[$type]::RELATED_ENTITY;
 
             $animal = new($class);
@@ -47,7 +49,6 @@ class AnimalController extends AbstractController
             ]);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-
                 $this->fileService->addAnimalImages($animal, $type);
                 $animal->setManager($this->getUser());
 
@@ -74,7 +75,7 @@ class AnimalController extends AbstractController
         ]);
     }
     #[Route('/update/{id}', name: 'update')]
-    public function update(Request $request,Animal $animal): Response
+    public function update(Request $request, Animal $animal): Response
     {
         $form = $this->createForm($this->mapTypes[$animal->getType()], $animal);
         $form->add('update', SubmitType::class, [
@@ -82,7 +83,6 @@ class AnimalController extends AbstractController
             ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-
             $this->fileService->addAnimalImages($animal, $animal->getType());
 
             $entityManager = $this->doctrine->getManager();
@@ -98,7 +98,7 @@ class AnimalController extends AbstractController
     }
 
     #[Route('/search/{page}', name: 'search')]
-    public function search(Request $request,int $page = 1): Response
+    public function search(Request $request, int $page = 1): Response
     {
         $entityManager = $this->doctrine->getManager();
         $searchAnimal = new SearchAnimal();

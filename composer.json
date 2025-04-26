@@ -50,6 +50,9 @@
     },
     "require-dev": {
         "doctrine/doctrine-fixtures-bundle": "^3.4",
+        "phpstan/phpstan": "^2.1",
+        "phpunit/phpunit": "^11",
+        "squizlabs/php_codesniffer": "^3.11",
         "symfony/browser-kit": "^7.1",
         "symfony/css-selector": "^7.1",
         "symfony/debug-bundle": "^7.1",
@@ -57,7 +60,8 @@
         "symfony/phpunit-bridge": "^7.1",
         "symfony/stopwatch": "^7.1",
         "symfony/var-dumper": "^7.1",
-        "symfony/web-profiler-bundle": "^7.1"
+        "symfony/web-profiler-bundle": "^7.1",
+        "vimeo/psalm": "^6.0@dev"
     },
     "config": {
         "optimize-autoloader": true,

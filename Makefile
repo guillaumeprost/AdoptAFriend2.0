@@ -16,3 +16,17 @@ database-reset:
 	symfony console doctrine:database:create
 	symfony console doctrine:migrations:migrate
 	symfony console doctrine:fixtures:load
+
+test:
+	 ./vendor/bin/phpunit tests
+
+
+phpcs:
+	vendor/bin/phpcs --standard=PSR12 src/
+	vendor/bin/phpcbf --standard=PSR12 src/
+
+phpstan:
+	vendor/bin/phpstan analyse
+
+psalm:
+	vendor/bin/psalm

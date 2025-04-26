@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Entity;
+
 use App\Entity\Animal\Animal;
 use App\Repository\OrganisationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -9,10 +10,8 @@ use Doctrine\ORM\Mapping\Column;
 use Doctrine\ORM\Mapping\OneToMany;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
-
 use App\Traits\Entity as EntityTraits;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-
 
 #[ORM\Entity(repositoryClass: OrganisationRepository::class)]
 class Organisation
@@ -45,7 +44,8 @@ class Organisation
     #[OneToMany(mappedBy: 'organisation', targetEntity: User::class, cascade: ['persist', 'remove'])]
     private Collection $users;
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->animals = new ArrayCollection();
         $this->users = new ArrayCollection();
     }
