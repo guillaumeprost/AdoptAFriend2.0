@@ -52,6 +52,7 @@ class DogFixtures extends Fixture implements OrderedFixtureInterface
 
             $dog->setPrice(mt_rand(100, 500));
 
+            $dog->setManager($this->getReference(UserFixtures::USER_REFERENCE . random_int(1, 3)));
 
             $dog->setOrganisation($organisations[array_rand($organisations)]);
 

@@ -11,6 +11,8 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserFixtures extends Fixture implements OrderedFixtureInterface
 {
+    public const USER_REFERENCE = 'user';
+
     public function __construct(private UserPasswordHasherInterface $passwordHasher)
     {
     }
@@ -18,6 +20,7 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
     #[NoReturn]
     public function load(ObjectManager $manager)
     {
+
         //User Batman
         $user1 = new User();
         $user1
@@ -31,6 +34,8 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
                 )
             )
         ;
+
+        $this->addReference(self::USER_REFERENCE .'1', $user1);
 
         try {
             $manager->persist($user1);
@@ -51,6 +56,26 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
                     'testtest'
                 )
             );
+        $this->addReference(self::USER_REFERENCE .'2', $user1);
+
+        $manager->persist($user2);
+        $manager->flush();
+
+
+        //User Test
+        $user2 = new User();
+        $user2
+            ->setEmail('guillaume.prost0@gmail.com')
+            ->setName('Guillaume')
+            ->setFirstName('Prost')
+            ->setPassword(
+                $this->passwordHasher->hashPassword(
+                    $user2,
+                    'adoptme'
+                )
+            );
+
+        $this->addReference(self::USER_REFERENCE .'3', $user1);
 
         $manager->persist($user2);
         $manager->flush();
