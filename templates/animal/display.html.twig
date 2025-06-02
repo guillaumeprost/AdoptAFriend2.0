@@ -9,12 +9,14 @@
                         {% if animal.images|length > 0 %}
                             {% for image in animal.images %}
                                 <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                    <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/'~ image) }}" class="d-block w-100"
+                                    <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/'~ image) }}"
+                                         class="d-block w-100"
                                          alt="{{ animal.name }}">
                                 </div>
                             {% endfor %}
                         {% else %}
-                            <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/default.jpg') }}" class="d-block w-100"
+                            <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/default.jpg') }}"
+                                 class="d-block w-100"
                                  alt="{{ animal.name }}">
                         {% endif %}
                     </div>
@@ -32,17 +34,18 @@
 
                 <div class=" mt-3">
                     <div class="mt-3 d-flex gap-2">
-                    {% if animal.manager == app.user or animal.organisation == app.user.organisation %}
-                        <a href="{{ path('animal_update', {'id': animal.id}) }}" class="btn btn-outline-primary">
-                            Modifier {{animal.name}}
-                        </a>
-                        <a href="{{ path('adoption-request_list', {'id': animal.id}) }}" class="btn btn-outline-secondary">
-                            Liste des demandes d'adoption
-                        </a>
-                    {% else %}
-                        <a type="button" href="{{ path('adoption-request_create', {'id': animal.id}) }}"
-                           class="btn btn-primary btn-lg btn-block">Envoyer une demande d'adoption</a>
-                    {% endif %}
+                        {% if app.user and (animal.manager == app.user or animal.organisation == app.user.organisation) %}
+                            <a href="{{ path('animal_update', {'id': animal.id}) }}" class="btn btn-outline-primary">
+                                Modifier {{ animal.name }}
+                            </a>
+                            <a href="{{ path('adoption-request_list', {'id': animal.id}) }}"
+                               class="btn btn-outline-secondary">
+                                Liste des demandes d'adoption
+                            </a>
+                        {% else %}
+                            <a type="button" href="{{ path('adoption-request_create', {'id': animal.id}) }}"
+                               class="btn btn-primary btn-lg btn-block">Envoyer une demande d'adoption</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -74,7 +77,7 @@
                                         <a href="{{ path('organisation_display', {id: animal.organisation.id}) }}">{{ animal.organisation.name }}</a>
                                     </div>
                                 </div>
-                            <br>
+                                <br>
                             {% endif %}
                             <div class="row">
                                 {% if animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
