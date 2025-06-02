@@ -26,7 +26,6 @@ class AdoptionRequestUpdateType extends AbstractType
                     'Adopté'   => AdoptionRequest::STATUS_ADOPTED
                 ]
             ])
-            ->add('newComments', CommentType::class)
             ;
     }
 

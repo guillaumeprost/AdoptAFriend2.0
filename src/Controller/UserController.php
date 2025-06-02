@@ -16,14 +16,12 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/user', name: 'user_')]
 class UserController extends AbstractController
 {
-    private ManagerRegistry $doctrine;
 
-    public function __construct(ManagerRegistry $doctrine)
+    public function __construct(private ManagerRegistry $doctrine)
     {
-        $this->doctrine = $doctrine;
     }
 
-    public function checkUserLogin()
+    public function checkUserLogin(): void
     {
         if (!$this->getUser()) {
             throw $this->createAccessDeniedException('You need to login first.');

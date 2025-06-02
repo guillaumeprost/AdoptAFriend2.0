@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\AdoptionRequest\AdoptionRequest;
+use App\Entity\AdoptionRequest\Comment;
 use App\Entity\Animal\Animal;
 use App\Form\Type\AdoptionRequest\AdoptionRequestDemandType;
 use App\Form\Type\AdoptionRequest\AdoptionRequestUpdateType;
+use App\Form\Type\AdoptionRequest\CommentType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -38,11 +40,8 @@ class AdoptionRequestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $animal->addAdoptionRequest($adoptionRequest);
 
-            dd($form->getData());
-
-            $entityManager = $this->doctrine->getManager();
-            $entityManager->persist($adoptionRequest);
-            $entityManager->flush();
+            $this->doctrine->getManager()->persist($adoptionRequest);
+            $this->doctrine->getManager()->flush();
 
             $this->addFlash('success', 'Votre demande d\'adoption à été transmise');
             return $this->redirectToRoute('animal_display', ['id' => $animal->getId()]);
@@ -64,11 +63,18 @@ class AdoptionRequestController extends AbstractController
     public function display(AdoptionRequest $adoptionRequest, Request $request): Response
     {
         $form = $this->createForm(AdoptionRequestUpdateType::class, $adoptionRequest);
-
         $form->add('save', SubmitType::class, [
             'label' => 'Mettre à jour',
             'attr' => ['class' => 'btn btn-primary'],
         ]);
+
+        $comment = new Comment();
+        $commentForm = $this->createForm(CommentType::class, $comment);
+        $commentForm->add('add', SubmitType::class, [
+            'label' => 'Ajouter',
+            'attr' => ['class' => 'btn btn-primary'],
+        ]);
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->doctrine->getManager()->flush($adoptionRequest);
@@ -76,9 +82,24 @@ class AdoptionRequestController extends AbstractController
             $this->addFlash('success', 'La demande à été mise à jour');
             return $this->redirectToRoute('adoption-request_display', ['id' => $adoptionRequest->getId()]);
         }
+
+        $commentForm->handleRequest($request);
+        if ($commentForm->isSubmitted() && $commentForm->isValid()) {
+            $comment->setAuthor($this->getUser()); // facultatif, mais conseillé
+            $comment->setAdoptionRequest($adoptionRequest); // obligatoire
+
+            $this->doctrine->getManager()->persist($comment); // manquant ici
+            $this->doctrine->getManager()->flush();
+
+            $this->addFlash('success', 'Le commentaire a été ajouté');
+            return $this->redirectToRoute('adoption-request_display', ['id' => $adoptionRequest->getId()]);
+        }
+
+
         return $this->render('adoption-request/display.html.twig', [
             'adoptionRequest' => $adoptionRequest,
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'commentForm' => $commentForm->createView(),
         ]);
     }
 }

@@ -18,6 +18,7 @@ class AdoptionRequest
     const STATUS_ADOPTED = 'adopted';
 
     use EntityTraits\IdTrait;
+    use EntityTraits\DescriptionTrait;
     use TimestampableEntity;
 
     #[ORM\Column(nullable: false)]

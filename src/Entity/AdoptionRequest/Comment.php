@@ -12,8 +12,10 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 class Comment
 {
     use EntityTraits\IdTrait;
-    use EntityTraits\DescriptionTrait;
     use TimestampableEntity;
+
+    #[ORM\Column(type: 'text')]
+    private string $content;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
@@ -49,4 +51,13 @@ class Comment
         return $this;
     }
 
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function setContent(string $content): void
+    {
+        $this->content = $content;
+    }
 }

@@ -5,8 +5,10 @@ namespace App\Form\Type\AdoptionRequest;
 use App\Entity\AdoptionRequest\Comment;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -30,8 +32,9 @@ class AdoptionRequestDemandType extends AbstractType
                 'label' => 'Numéro de téléphone',
                 'required' => true
             ])
-            ->add('comments', CommentType::class, [
-                'label' => false,
+            ->add('description', TextareaType::class, [
+                'label' => 'Développer votre demande',
+                'required' => true
             ])
             ;
     }

@@ -21,11 +21,11 @@
                 <a href="{{ path('animal_display', {'id': adoptionRequest.animal.id}) }}">{{ adoptionRequest.animal.name }}</a>
             </td>
             <td>
-                {% if adoptionRequest.status == constant('App\\Entity\\AdoptionRequest::STATUS_NEW') %}
+                {% if adoptionRequest.status == constant('App\\Entity\\AdoptionRequest\\AdoptionRequest::STATUS_NEW') %}
                     <span class="badge text-bg-primary">Nouvelle</span>
-                {% elseif adoptionRequest.status == constant('App\\Entity\\AdoptionRequest::STATUS_IN_PROGRESS') %}
+                {% elseif adoptionRequest.status == constant('App\\Entity\\AdoptionRequest\\AdoptionRequest::STATUS_IN_PROGRESS') %}
                     <span class="badge text-bg-secondary">En cours</span>
-                {% elseif adoptionRequest.status == constant('App\\Entity\\AdoptionRequest::STATUS_ADOPTED') %}
+                {% elseif adoptionRequest.status == constant('App\\Entity\\AdoptionRequest\\AdoptionRequest::STATUS_ADOPTED') %}
                     <span class="badge text-bg-success">Adopté</span>
                 {% endif %}
             </td>

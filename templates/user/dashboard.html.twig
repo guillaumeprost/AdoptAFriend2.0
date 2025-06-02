@@ -4,7 +4,6 @@
     <div class="container">
         <h1 class="mt-5">Bienvenue {{ app.user.firstName }} {{ app.user.name }}</h1>
         <br>
-
         <div class="row">
             <div class="col col-md-6">
                 <h3> Votre association </h3>
@@ -35,7 +34,7 @@
         <br>
         <hr class="my-4">
         <div class="row">
-            {% if app.user.animals|length > 0 %}
+
                 <div class="col col-md-6">
                     <h3> Vos animaux </h3>
                 </div>
@@ -44,7 +43,7 @@
                         un
                         animal à adopter</a>
                 </div>
-
+            {% if app.user.animals|length > 0 %}
                 <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4">
                     {% for animal in app.user.animals %}
                         {% include '/animal/include/_card.html.twig' with {'manage': true} %}
