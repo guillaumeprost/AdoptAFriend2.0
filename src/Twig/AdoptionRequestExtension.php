@@ -2,7 +2,7 @@
 
 namespace App\Twig;
 
-use App\Entity\AdoptionRequest;
+use App\Entity\AdoptionRequest\AdoptionRequest;
 use Twig\Extension\AbstractExtension;
 
 class AdoptionRequestExtension extends AbstractExtension

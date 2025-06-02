@@ -2,14 +2,12 @@
 <html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{ asset('favicon.ico') }}">
     <title>{% block title %}Adopt a Friend{% endblock title %}</title>
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
-
-        <!-- Renders a link tag (if your module requires any CSS)
-             <link rel="stylesheet" href="/build/app.css"> -->
     {% endblock stylesheets %}
-    {# <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}"/> #}
 </head>
 
 <body class="d-flex flex-column min-vh-100">
@@ -19,31 +17,29 @@
         {% include('includes/menu.html.twig') %}
     {% endblock header %}
 </header>
-<main>
-    {% block flash %}
-        {% for label, messages in app.flashes %}
-            {% for message in messages %}
-                <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
-                    {{ message }}
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
 
+<main>
+        {% block flash %}
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
             {% endfor %}
-        {% endfor %}
-    {% endblock flash %}
+        {% endblock flash %}
 
     {% block content %}
 
     {% endblock content %}
 </main>
 {% block footer %}
-    <footer class="footer mt-5 py-3 bg-dark-subtle mt-auto">
+    <footer class="footer mt-5 py-4 bg-dark text-light text-center mt-auto">
         <div class="container">
-            <p class="mb-1">Made with love by Guillaume Prost</p>
-            <p class="float-end mb-1 justify-content-end">
-                <a href="#">Back to top</a>
+            <p class="mb-1">🐾 Made with love by Guillaume Prost</p>
+            <p class="mb-0">
+                <a href="#" class="text-light">Back to top</a>
             </p>
         </div>
     </footer>

@@ -2,14 +2,14 @@
 
 namespace App\Entity\Animal;
 
-use App\Entity\AdoptionRequest;
+use App\Entity\AdoptionRequest\AdoptionRequest;
 use App\Entity\Organisation;
 use App\Entity\User;
 use App\Repository\Animal\AnimalRepository;
+use App\Traits\Entity as EntityTraits;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use App\Traits\Entity as EntityTraits;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;

@@ -2,17 +2,15 @@
 
 namespace App\Controller;
 
-use App\Entity\AdoptionRequest;
+use App\Entity\AdoptionRequest\AdoptionRequest;
 use App\Entity\Organisation;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
-use App\Utils\Animal\Affinities;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/user', name: 'user_')]

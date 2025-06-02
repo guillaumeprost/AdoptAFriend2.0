@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repository;
+namespace App\Repository\AdoptionRequest;
 
 use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityRepository;

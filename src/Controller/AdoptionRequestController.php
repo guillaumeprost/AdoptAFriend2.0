@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\AdoptionRequest;
+use App\Entity\AdoptionRequest\AdoptionRequest;
 use App\Entity\Animal\Animal;
 use App\Form\Type\AdoptionRequest\AdoptionRequestDemandType;
 use App\Form\Type\AdoptionRequest\AdoptionRequestUpdateType;
@@ -37,6 +37,8 @@ class AdoptionRequestController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $animal->addAdoptionRequest($adoptionRequest);
+
+            dd($form->getData());
 
             $entityManager = $this->doctrine->getManager();
             $entityManager->persist($adoptionRequest);

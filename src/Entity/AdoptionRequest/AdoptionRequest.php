@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Entity;
+namespace App\Entity\AdoptionRequest;
 
 use App\Entity\Animal\Animal;
-use App\Repository\AdoptionRequestRepository;
-use Gedmo\Timestampable\Traits\TimestampableEntity;
+use App\Repository\AdoptionRequest\AdoptionRequestRepository;
 use App\Traits\Entity as EntityTraits;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 #[ORM\Entity(repositoryClass: AdoptionRequestRepository::class)]
 class AdoptionRequest
@@ -16,7 +18,6 @@ class AdoptionRequest
     const STATUS_ADOPTED = 'adopted';
 
     use EntityTraits\IdTrait;
-    use EntityTraits\DescriptionTrait;
     use TimestampableEntity;
 
     #[ORM\Column(nullable: false)]
@@ -35,8 +36,14 @@ class AdoptionRequest
     #[ORM\JoinColumn(name: 'animal_id', referencedColumnName: 'id')]
     private Animal $animal;
 
-    #[ORM\Column(type: 'text', nullable:true)]
-    private string $notes;
+
+    #[ORM\OneToMany(mappedBy: 'adoptionRequest', targetEntity: Comment::class, orphanRemoval: true)]
+    private Collection $comments;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+    }
 
     public function getName(): string
     {
@@ -93,14 +100,29 @@ class AdoptionRequest
         return $this;
     }
 
-    public function getNotes(): string
+    public function getComments(): Collection
     {
-        return $this->notes;
+        return $this->comments;
     }
 
-    public function setNotes(string $notes): self
+    public function addComment(Comment $comment): static
     {
-        $this->notes = $notes;
+        if (!$this->comments->contains($comment)) {
+            $this->comments->add($comment);
+            $comment->setAdoptionRequest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): static
+    {
+        if ($this->comments->removeElement($comment)) {
+            if ($comment->getAdoptionRequest() === $this) {
+                $comment->setAdoptionRequest(null);
+            }
+        }
+
         return $this;
     }
 }
