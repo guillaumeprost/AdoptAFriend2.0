@@ -56,28 +56,28 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
                     'testtest'
                 )
             );
-        $this->addReference(self::USER_REFERENCE .'2', $user1);
+        $this->addReference(self::USER_REFERENCE .'2', $user2);
 
         $manager->persist($user2);
         $manager->flush();
 
 
         //User Test
-        $user2 = new User();
-        $user2
+        $user3 = new User();
+        $user3
             ->setEmail('guillaume.prost0@gmail.com')
             ->setName('Guillaume')
             ->setFirstName('Prost')
             ->setPassword(
                 $this->passwordHasher->hashPassword(
-                    $user2,
+                    $user3,
                     'adoptme'
                 )
             );
 
-        $this->addReference(self::USER_REFERENCE .'3', $user1);
+        $this->addReference(self::USER_REFERENCE .'3', $user3);
 
-        $manager->persist($user2);
+        $manager->persist($user3);
         $manager->flush();
     }
 

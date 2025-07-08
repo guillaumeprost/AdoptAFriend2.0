@@ -23,12 +23,13 @@ class AnimalType extends AbstractType
         parent::buildForm($builder, $options);
 
         $builder
-            /*->add('type', ChoiceType::class, [
+            ->add('type', ChoiceType::class, [
                 'label' => 'Type',
                 'required' => true,
-                'choices' => Animal::DISCRIMINATORS,
+                'empty_data' => 'Tous les animaux',
+                'choices' => array_merge(['Tous les animaux' => null], Animal::DISCRIMINATORS),
                 'multiple' => false
-            ])*/
+            ])
             ->add('name', TextType::class, [
                 'label' => 'Nom',
                 'required' => false,

@@ -7,6 +7,8 @@ use App\Utils\Animal\Affinities;
 
 class SearchAnimal
 {
+    public ?string $type = null;
+
     public ?string $name = null;
 
     public ?string $sex = null;

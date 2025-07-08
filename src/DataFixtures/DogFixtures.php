@@ -4,7 +4,6 @@ namespace App\DataFixtures;
 
 use App\Entity\Animal\Dog;
 use App\Entity\Organisation;
-use App\Entity\User;
 use App\Utils\Animal\Affinities;
 use App\Utils\Animal\Color;
 use App\Utils\Animal\Dog\Size;

@@ -2,6 +2,7 @@
 
 namespace App\Repository\Animal;
 
+use App\Entity\Animal\Animal;
 use App\Model\SearchAnimal;
 use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityRepository;
@@ -29,6 +30,16 @@ class AnimalRepository extends EntityRepository
         int $pageSize = 20
     ): Paginator {
         $queryBuilder = $this->createQueryBuilder('animal');
+
+        if (isset($searchAnimal->type)) {
+            $type = $searchAnimal->type; // 'dog' ou 'cat'
+
+            //TODO Fix me
+            if (isset(Animal::DISCRIMINATOR_MAP['animal'])) {
+                $queryBuilder->andWhere('animal INSTANCE OF :type')
+                    ->setParameter('type', Animal::DISCRIMINATOR_MAP['animal']);
+            }
+        }
 
         if (isset($searchAnimal->name)) {
             $queryBuilder->andWhere('animal.name LIKE :name')->setParameter('name', '%' . $searchAnimal->name . '%');
@@ -62,6 +73,7 @@ class AnimalRepository extends EntityRepository
         }
 
         $query = $queryBuilder->getQuery();
+
         $query
             ->setFirstResult($pageSize * ($page - 1))
             ->setMaxResults($pageSize);

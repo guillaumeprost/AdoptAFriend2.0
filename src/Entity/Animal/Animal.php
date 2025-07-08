@@ -17,9 +17,14 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: AnimalRepository::class)]
 #[ORM\InheritanceType('SINGLE_TABLE')]
 #[ORM\DiscriminatorColumn(name: 'species', type: 'string')]
-#[ORM\DiscriminatorMap([Dog::DISCRIMINATOR => Dog::class, Cat::DISCRIMINATOR => Cat::class])]
+#[ORM\DiscriminatorMap([
+    Dog::DISCRIMINATOR => Dog::class,
+    Cat::DISCRIMINATOR => Cat::class
+])]
 abstract class Animal
 {
+    const DISCRIMINATOR = 'animal';
+
     use EntityTraits\IdTrait;
     use EntityTraits\DescriptionTrait;
     use EntityTraits\StatusTrait;
@@ -32,9 +37,15 @@ abstract class Animal
 
     const DISCRIMINATORS = [
         'Chien' => Dog::DISCRIMINATOR,
-        'Chat' => Cat::DISCRIMINATOR
+        'Chat' => Cat::DISCRIMINATOR,
+        'Animal' => Animal::DISCRIMINATOR
     ];
 
+    public const DISCRIMINATOR_MAP = [
+        Dog::DISCRIMINATOR => Dog::class,
+        Cat::DISCRIMINATOR => Cat::class,
+        Animal::DISCRIMINATOR => Animal::class,
+    ];
 
     #[ORM\Column(nullable: false)]
     #[Assert\NotBlank(message: 'Veuillez ajouter un nom')]

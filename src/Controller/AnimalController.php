@@ -111,6 +111,7 @@ class AnimalController extends AbstractController
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
             /** @var Paginator $animalsPaginator */
             $animalsPaginator = $entityManager
                 ->getRepository(Animal::class)
