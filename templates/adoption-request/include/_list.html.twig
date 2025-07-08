@@ -4,7 +4,6 @@
         <th scope="col">#</th>
         <th scope="col">Nom</th>
         <th scope="col">Email</th>
-        <th scope="col">Téléphone</th>
         <th scope="col">Animal</th>
         <th scope="col">Status</th>
         <th scope="col">Actions</th>
@@ -14,9 +13,8 @@
     {% for adoptionRequest in adoptionRequests %}
         <tr>
             <th scope="row">{{ adoptionRequest.id }}</th>
-            <td>{{ adoptionRequest.name }}</td>
-            <td>{{ adoptionRequest.email }}</td>
-            <td>{{ adoptionRequest.phone }}</td>
+            <td>{{ adoptionRequest.adopter.name }}</td>
+            <td>{{ adoptionRequest.adopter.email }}</td>
             <td>
                 <a href="{{ path('animal_display', {'id': adoptionRequest.animal.id}) }}">{{ adoptionRequest.animal.name }}</a>
             </td>

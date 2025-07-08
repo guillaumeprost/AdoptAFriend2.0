@@ -19,33 +19,33 @@ class Comment
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?AdoptionRequest $adoptionRequest = null;
+    private AdoptionRequest $adoptionRequest;
 
     #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: true)]
-    private ?User $author = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private User $author;
 
     public function __construct()
     {
         $this->createdAt = new \DateTimeImmutable();
     }
-    public function getAuthor(): ?User
+    public function getAuthor(): User
     {
         return $this->author;
     }
 
-    public function setAuthor(?User $author): self
+    public function setAuthor(User $author): self
     {
         $this->author = $author;
         return $this;
     }
 
-    public function getAdoptionRequest(): ?AdoptionRequest
+    public function getAdoptionRequest(): AdoptionRequest
     {
         return $this->adoptionRequest;
     }
 
-    public function setAdoptionRequest(?AdoptionRequest $adoptionRequest): self
+    public function setAdoptionRequest(AdoptionRequest $adoptionRequest): self
     {
         $this->adoptionRequest = $adoptionRequest;
         return $this;

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\AdoptionRequest\AdoptionRequest;
 use App\Entity\Animal\Animal;
 use App\Repository\UserRepository;
 use App\Traits\Entity\IdTrait;
@@ -45,6 +46,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'manager', targetEntity: Animal::class)]
     private Collection $animals;
+
+    #[ORM\OneToMany(mappedBy: 'adopter', targetEntity: AdoptionRequest::class)]
+    private Collection $adoptionRequests;
 
     public function __construct()
     {

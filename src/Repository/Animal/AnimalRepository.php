@@ -35,9 +35,9 @@ class AnimalRepository extends EntityRepository
             $type = $searchAnimal->type; // 'dog' ou 'cat'
 
             //TODO Fix me
-            if (isset(Animal::DISCRIMINATOR_MAP['animal'])) {
+            if (isset(Animal::DISCRIMINATOR_MAP[$type])) {
                 $queryBuilder->andWhere('animal INSTANCE OF :type')
-                    ->setParameter('type', Animal::DISCRIMINATOR_MAP['animal']);
+                    ->setParameter('type', Animal::DISCRIMINATOR_MAP[$type]);
             }
         }
 

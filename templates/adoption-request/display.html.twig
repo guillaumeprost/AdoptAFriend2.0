@@ -42,12 +42,12 @@
                     </div>
                     <div class="p-4 mb-4 bg-body-tertiary rounded-3">
                         <div class="container-fluid py-5">
-                            <h2 class="display-5 fw-bold">{{ adoptionRequest.name }}</h2>
+                            <h2 class="display-5 fw-bold">{{ adoptionRequest.adopter.name }}</h2>
                             <p class="col-md-8 fs-4">Demande envoyée
                                 le {{ adoptionRequest.createdAt|date('d/m/Y h:i') }}</p>
-                            <i class="fas fa-at" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                               title="email"></i> {{ adoptionRequest.email }} <br>
-                            <i class="fas fa-phone"></i> {{ adoptionRequest.phone }} <br>
+                            <i class="fas fa-envelope" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                               title="email"></i> {{ adoptionRequest.adopter.email }} <br>
+{#                            <i class="fas fa-phone"></i> {{ adoptionRequest.adopter.phone }} <br>#}
                             <br>
                             <p class="col-md-8 fs-4">{{ adoptionRequest.description }}</p>
                         </div>
@@ -61,7 +61,7 @@
                                 {% for comment in adoptionRequest.comments %}
                                     <div class="list-group-item">
                                         <div class="d-flex justify-content-between">
-                                            <strong>{{ comment.author.email }}</strong>
+                                            <strong>{{ comment.author.firstname }} {{ comment.author.name }}</strong>
                                             <small class="text-muted">{{ comment.createdAt|date('d/m/Y H:i') }}</small>
                                         </div>
                                         <p class="mb-0 mt-2">{{ comment.content|nl2br }}</p>

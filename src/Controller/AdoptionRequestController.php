@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\AdoptionRequest\AdoptionRequest;
 use App\Entity\AdoptionRequest\Comment;
 use App\Entity\Animal\Animal;
+use App\Entity\User;
 use App\Form\Type\AdoptionRequest\AdoptionRequestDemandType;
 use App\Form\Type\AdoptionRequest\AdoptionRequestUpdateType;
 use App\Form\Type\AdoptionRequest\CommentType;
@@ -25,6 +26,11 @@ class AdoptionRequestController extends AbstractController
     #[Route('/create/{id}', name: 'create')]
     public function create(Request $request, Animal $animal): Response
     {
+        if (!$this->getUser() instanceof User) {
+            $this->addFlash('warning', 'Vous devez être connecté pour suivre votre demande d\'adoption');
+            return $this->redirectToRoute('register');
+        }
+
         if (!$animal instanceof Animal) {
             throw $this->createNotFoundException('Animal provided does not exist');
         }
@@ -38,6 +44,7 @@ class AdoptionRequestController extends AbstractController
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $adoptionRequest->setAdopter($this->getUser());
             $animal->addAdoptionRequest($adoptionRequest);
 
             $this->doctrine->getManager()->persist($adoptionRequest);
@@ -85,10 +92,10 @@ class AdoptionRequestController extends AbstractController
 
         $commentForm->handleRequest($request);
         if ($commentForm->isSubmitted() && $commentForm->isValid()) {
-            $comment->setAuthor($this->getUser()); // facultatif, mais conseillé
-            $comment->setAdoptionRequest($adoptionRequest); // obligatoire
+            $comment->setAuthor($this->getUser());
+            $comment->setAdoptionRequest($adoptionRequest);
 
-            $this->doctrine->getManager()->persist($comment); // manquant ici
+            $this->doctrine->getManager()->persist($comment);
             $this->doctrine->getManager()->flush();
 
             $this->addFlash('success', 'Le commentaire a été ajouté');

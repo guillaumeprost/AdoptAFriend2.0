@@ -3,6 +3,7 @@
 namespace App\Entity\AdoptionRequest;
 
 use App\Entity\Animal\Animal;
+use App\Entity\User;
 use App\Repository\AdoptionRequest\AdoptionRequestRepository;
 use App\Traits\Entity as EntityTraits;
 use Doctrine\ORM\Mapping as ORM;
@@ -24,14 +25,9 @@ class AdoptionRequest
     #[ORM\Column(nullable: false)]
     private string $status = self::STATUS_NEW;
 
-    #[ORM\Column(nullable: false)]
-    private string $name;
-
-    #[ORM\Column(length: 180, nullable: false)]
-    private string $email;
-
-    #[ORM\Column()]
-    private int $phone;
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
+    private User $adopter;
 
     #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'adoptionRequests')]
     #[ORM\JoinColumn(name: 'animal_id', referencedColumnName: 'id')]
@@ -46,37 +42,14 @@ class AdoptionRequest
         $this->comments = new ArrayCollection();
     }
 
-    public function getName(): string
+    public function getAdopter(): User
     {
-        return $this->name;
+        return $this->adopter;
     }
 
-    public function setName(string $name): self
+    public function setAdopter(User $adopter): void
     {
-        $this->name = $name;
-        return $this;
-    }
-
-    public function getEmail(): string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-        return $this;
-    }
-
-    public function getPhone(): int
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(int $phone): self
-    {
-        $this->phone = $phone;
-        return $this;
+        $this->adopter = $adopter;
     }
 
     public function getAnimal(): Animal
