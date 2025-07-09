@@ -142,4 +142,21 @@ class OrganisationController extends AbstractController
             'organisation' => $organisation,
         ]);
     }
+
+
+    #[Route('/join/{id}', name: 'join')]
+    public function join(Organisation $organisation): Response
+    {
+        $user = $this->getUser();
+        assert($user instanceof User);
+
+        if ($user->getOrganisation() instanceof Organisation) {
+            throw new \Exception('You already have an organisation');
+        }
+
+        $organisation->addUser($this->getUser());
+        $this->doctrine->getManager()->flush();
+
+        return $this->redirectToRoute('organisation_display', ['id' => $organisation->getId()]);
+    }
 }

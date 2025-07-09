@@ -37,7 +37,11 @@ abstract class AnimalType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
-                'required' => true
+                'required' => true,
+                'attr' => [
+                    'rows' => 10,
+                    'placeholder' => 'Décris ton animal...',
+                ],
             ])
             ->add('images', FileType::class, [
                 'label' => 'Images',

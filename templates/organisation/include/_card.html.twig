@@ -1,31 +1,34 @@
 <div class="col pt-3 organisation-card pb-3 p-3">
     <div class="card h-100 clickable"  data-link= {{ path('organisation_display', {'id':organisation.id}) }}>
-        {% if organisation.images|length > 0 %}
-            <div class="overflow-hidden" style="height: 200px;">
+        <div class="position-relative overflow-hidden" style="height: 200px;">
+            {% if organisation.images|length > 0 %}
                 <img src="{{ asset('/upload/organisation/images/'~ organisation.images|first()) }}" class="w-100 h-100 object-fit-cover card-img-top" alt="{{ organisation.name }}">
-            </div>
-        {% else %}
-            <div class="overflow-hidden" style="height: 200px;">
+            {% else %}
                 <img src="{{ asset('/upload/organisation/default-banner.jpg') }}" class="w-100 h-100 object-fit-cover card-img-top" alt="{{ organisation.name }}">
+            {% endif %}
+
+            <div class="position-absolute bottom-0 start-0 m-2">
+                <img src="{% if organisation.logo is defined and organisation.logo %}
+                     {{ asset('/upload/organisation/logo/'~ organisation.logo) }}
+                 {% else %}
+                     {{ asset('/upload/organisation/logo/logo1.jpg') }}
+                 {% endif %}"
+                     class="img-thumbnail shadow" alt="{{ organisation.name }}"
+                     style="width: 80px; height: 80px; background-color: white;">
             </div>
-        {% endif %}
+        </div>
         <div class="card-body">
             <div class="row">
                 <div class="col">
-                    {% if organisation.images|length > 0 %}
-                    <img src="{{ asset('/upload/organisation/logo/'~ organisation.logo) }}" class="img-thumbnail"
-                         alt="{{ organisation.name }}">
-                    {% else %}
-                        <img src="{{ asset('/upload/organisation/logo/logo1.jpg') }}" class="img-thumbnail"
-                             alt="{{ organisation.name }}">
-                    {% endif %}
-                </div>
-                <div class="col">
                     <h1>{{ organisation.name }}</h1>
                     <br>
-                    {{ organisation.description }}
                 </div>
             </div>
+
+            <div class="row p-2">
+                {{ organisation.description }}
+            </div>
+
 
             {% if manage|default(false) == true %}
                 <br>

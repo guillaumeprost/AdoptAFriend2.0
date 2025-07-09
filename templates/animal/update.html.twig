@@ -1,12 +1,34 @@
 {% extends 'base.html.twig' %}
+    {% block content %}
+        <div class="container">
+            <div class="row pt-5">
+                <div class="col-md-4">
+                    <div id="animalCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            {% if animal.images|length > 0 %}
+                                {% for image in animal.images %}
+                                    <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                        <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/'~ image) }}"
+                                             class="d-block w-100"
+                                             alt="{{ animal.name }}">
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/default.jpg') }}"
+                                     class="d-block w-100"
+                                     alt="{{ animal.name }}">
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
 
-{% block content %}
 
-    <div class="container py-5">
-        <h1 class="mt-5">Modifier mon animal</h1>
-        <p class="lead">Modifier les infos de mon animal</p>
+                <div class="col-md-8 p-4 mb-4 bg-body-tertiary rounded-3">
+                    <h1 class="mt-5">Modifier mon animal</h1>
+                    <p class="lead">Modifier les infos de mon animal</p>
 
-        {{ form(form) }}
-    </div>
-
-{% endblock %}
+                    {{ form(form) }}
+                </div>
+            </div>
+        </div>
+    {% endblock %}

@@ -31,6 +31,7 @@
                 <img src="{{ asset('/upload/organisation/logo/'~ organisation.logo|default('logo1.jpg')) }}"
                      class="img-thumbnail"
                      alt="{{ organisation.name }}">
+
             </div>
             <div class="col-8">
                 <h1>{{ organisation.name }}</h1>
@@ -38,6 +39,12 @@
                 <small class="text-muted">Crée le {{ organisation.createdAt|date('d/m/Y') }}</small>
                 <br>
                 {{ organisation.description }}
+                {% if app.user.organisation == null %}
+                    <br>
+                    <a href="{{ path('organisation_join', {'id': organisation.id}) }}" class="btn btn-outline-primary mt-3">
+                        Demander à rejoindre cette association
+                    </a>
+                {% endif %}
 
                 {% if organisation.users.contains(app.user) %}
                     <br>
