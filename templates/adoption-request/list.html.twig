@@ -1,8 +1,45 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
+    {% set hasReceived = adoptionRequestsReceived is not empty %}
+    {% set hasSent = adoptionRequestsSent is not empty %}
     <div class="container">
         <h1 class="mt-5">Vos demandes d'adoptions</h1>
-        {% include 'adoption-request/include/_list.html.twig' %}
+        {% if hasReceived or hasSent %}
+            <ul class="nav nav-tabs justify-content-center border-bottom border-primary" id="adoptionTabs" role="tablist">
+                {% if hasReceived %}
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-bold text-uppercase text-primary {% if hasReceived and not hasSent or hasReceived and hasSent %}active{% endif %}" id="received-tab"
+                                data-bs-toggle="tab" data-bs-target="#received" type="button" role="tab">
+                            Reçues
+                        </button>
+                    </li>
+                {% endif %}
+                {% if hasSent %}
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link fw-bold text-uppercase text-primary {% if hasSent and not hasReceived %}active{% endif %}" id="sent-tab"
+                                data-bs-toggle="tab" data-bs-target="#sent" type="button" role="tab">
+                            Envoyées
+                        </button>
+                    </li>
+                {% endif %}
+            </ul>
+
+            <div class="tab-content mt-3" id="adoptionTabsContent">
+                {% if hasReceived %}
+                    <div class="tab-pane fade {% if hasReceived and not hasSent or hasReceived and hasSent %}show active{% endif %}" id="received" role="tabpanel">
+                        {% include 'adoption-request/include/_list.html.twig' with {'adoptionRequests': adoptionRequestsReceived} %}
+                    </div>
+                {% endif %}
+                {% if hasSent %}
+                    <div class="tab-pane fade {% if hasSent and not hasReceived %}show active{% endif %}" id="sent" role="tabpanel">
+                        {% include 'adoption-request/include/_list.html.twig' with {'adoptionRequests': adoptionRequestsSent} %}
+                    </div>
+                {% endif %}
+            </div>
+        {% else %}
+            <div class="alert alert-info mt-3">Aucune demande d’adoption pour le moment.</div>
+        {% endif %}
+
     </div>
 {% endblock %}

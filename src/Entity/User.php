@@ -182,4 +182,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->animals = $animals;
         return $this;
     }
+
+    public function getAdoptionRequests(): Collection
+    {
+        return $this->adoptionRequests;
+    }
 }

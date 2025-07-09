@@ -33,9 +33,12 @@ class UserController extends AbstractController
     {
         $this->checkUserLogin();
 
-        $adoptionRequests = $this->doctrine->getRepository(AdoptionRequest::class)->findByUser($this->getUser());
+        $adoptionRequestsReceived = $this->doctrine->getRepository(AdoptionRequest::class)->findByUser($this->getUser());
 
-        return $this->render('user/dashboard.html.twig', ['adoptionRequests' => $adoptionRequests]);
+        return $this->render('user/dashboard.html.twig', [
+            'adoptionRequestsReceived' => $adoptionRequestsReceived,
+            'adoptionRequestsSent' => $this->getUser()->getAdoptionRequests()
+        ]);
     }
 
     #[Route('/update', name: 'update')]

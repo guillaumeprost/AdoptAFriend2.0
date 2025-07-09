@@ -62,9 +62,12 @@ class AdoptionRequestController extends AbstractController
     #[Route('/list', name: 'list')]
     public function list(): Response
     {
-        $adoptionRequests = $this->doctrine->getRepository(AdoptionRequest::class)->findByUser($this->getUser());
+        $adoptionRequestsReceived = $this->doctrine->getRepository(AdoptionRequest::class)->findByUser($this->getUser());
 
-        return $this->render('adoption-request/list.html.twig', ['adoptionRequests' => $adoptionRequests]);
+        return $this->render('adoption-request/list.html.twig', [
+            'adoptionRequestsReceived' => $adoptionRequestsReceived,
+            'adoptionRequestsSent' => $this->getUser()->getAdoptionRequests()
+        ]);
     }
     #[Route('/{id}', name: 'display')]
     public function display(AdoptionRequest $adoptionRequest, Request $request): Response
