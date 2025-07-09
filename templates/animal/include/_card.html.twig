@@ -1,11 +1,13 @@
 <div class="col pt-3 animal-card">
     <div class="card h-100 clickable" data-link= {{ path('animal_display', {'type':constant('DISCRIMINATOR', animal), 'id':animal.id}) }}>
         {% if animal.images|length > 0 %}
-            <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/'~ animal.images|first()) }}" class="img-fluid d-block card-img-top"
-                 alt="{{ animal.name }}">
+            <div class="overflow-hidden" style="height: 200px;">
+                <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/'~ animal.images|first()) }}" class="w-100 h-100 object-fit-cover card-img-top" alt="{{ animal.name }}">
+            </div>
         {% else %}
-            <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/default.jpg') }}" class="img-fluid d-block card-img-top"
-                 alt="{{ animal.name }}">
+            <div class="overflow-hidden" style="height: 200px;">
+                <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/default.jpg') }}" class="w-100 h-100 object-fit-cover card-img-top" alt="{{ animal.name }}">
+            </div>
         {% endif %}
         <div class="card-body">
             <div class="row">

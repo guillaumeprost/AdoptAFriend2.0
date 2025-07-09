@@ -1,11 +1,13 @@
 <div class="col pt-3 organisation-card pb-3 p-3">
     <div class="card h-100 clickable"  data-link= {{ path('organisation_display', {'id':organisation.id}) }}>
         {% if organisation.images|length > 0 %}
-            <img src="{{ asset('/upload/organisation/images/'~ organisation.images|first()) }}" class="img-fluid d-block card-img-top"
-                 alt="{{ organisation.name }}">
+            <div class="overflow-hidden" style="height: 200px;">
+                <img src="{{ asset('/upload/organisation/images/'~ organisation.images|first()) }}" class="w-100 h-100 object-fit-cover card-img-top" alt="{{ organisation.name }}">
+            </div>
         {% else %}
-            <img src="{{ asset('/upload/organisation/default-banner.jpg') }}" class="img-fluid d-block card-img-top"
-                 alt="{{ organisation.name }}">
+            <div class="overflow-hidden" style="height: 200px;">
+                <img src="{{ asset('/upload/organisation/default-banner.jpg') }}" class="w-100 h-100 object-fit-cover card-img-top" alt="{{ organisation.name }}">
+            </div>
         {% endif %}
         <div class="card-body">
             <div class="row">
