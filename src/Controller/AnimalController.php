@@ -6,6 +6,7 @@ use App\Entity\Animal\Animal;
 use App\Entity\Animal\Dog;
 use App\Entity\Animal\Cat;
 use App\Entity\Organisation;
+use App\Entity\User;
 use App\Form\Type\Animal\CatType;
 use App\Form\Type\Animal\DogType;
 use App\Form\Type\Search\AnimalType;
@@ -34,6 +35,9 @@ class AnimalController extends AbstractController
     #[Route('/create/{type}', name: 'create')]
     public function create(Request $request, string $type): Response
     {
+        $user = $this->getUser();
+        assert($user instanceof User);
+
         $forms = [];
 
         foreach ($this->mapTypes as $type => $typeClass) {
@@ -77,6 +81,9 @@ class AnimalController extends AbstractController
     #[Route('/update/{id}', name: 'update')]
     public function update(Request $request, Animal $animal): Response
     {
+        $user = $this->getUser();
+        assert($user instanceof User);
+
         $form = $this->createForm($this->mapTypes[$animal->getType()], $animal);
         $form->add('update', SubmitType::class, [
                 'attr' => ['class' => 'btn btn-primary'],
@@ -149,12 +156,24 @@ class AnimalController extends AbstractController
         ]);
     }
 
-
     #[Route('/display/{id}', name: 'display')]
     public function display(Animal $animal): Response
     {
         return $this->render('animal/display.html.twig', [
             'animal' => $animal,
         ]);
+    }
+
+    #[Route('/delete/{id}', name: 'delete')]
+    public function delete(Animal $animal): Response
+    {
+        $user = $this->getUser();
+        assert($user instanceof User);
+
+        $this->doctrine->getManager()->remove($animal);
+        $this->doctrine->getManager()->flush();
+
+        $this->addFlash('success', 'Votre animal à été supprimé');
+        return $this->redirectToRoute('user_animals');
     }
 }

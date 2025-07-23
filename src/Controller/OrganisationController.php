@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\AdoptionRequest\AdoptionRequest;
 use App\Entity\Organisation;
 use App\Entity\User;
 use App\Form\Type\OrganisationType;
@@ -19,6 +20,16 @@ class OrganisationController extends AbstractController
 {
     public function __construct(private readonly ManagerRegistry $doctrine, private readonly FileService $fileService)
     {
+    }
+    #[Route('/dashboard', name: 'dashboard')]
+    public function dashboard(): Response
+    {
+        $adoptionRequestsReceived = $this->doctrine->getRepository(AdoptionRequest::class)->findByOrganisation($this->getUser()->getOrganisation());
+
+        return $this->render('organisation/dashboard.html.twig', [
+            'organisation' => $this->getUser()->getOrganisation(),
+            'adoptionRequestsReceived' => $adoptionRequestsReceived,
+        ]);
     }
 
     #[Route('/search/{page}', name: 'search')]

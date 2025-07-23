@@ -62,6 +62,9 @@ class AdoptionRequestController extends AbstractController
     #[Route('/list', name: 'list')]
     public function list(): Response
     {
+        $user = $this->getUser();
+        assert($user instanceof User);
+
         $adoptionRequestsReceived = $this->doctrine->getRepository(AdoptionRequest::class)->findByUser($this->getUser());
 
         return $this->render('adoption-request/list.html.twig', [
@@ -69,6 +72,30 @@ class AdoptionRequestController extends AbstractController
             'adoptionRequestsSent' => $this->getUser()->getAdoptionRequests()
         ]);
     }
+
+
+    #[Route('/list/{id}', name: 'list-animal')]
+    public function listAnimal(Animal $animal): Response
+    {
+        $user = $this->getUser();
+        assert($user instanceof User);
+
+        if ($animal instanceof Animal) {
+            if ($animal->getManager() !== $user or $animal->getOrganisation() !== $user->getOrganisation()) {
+                throw new \Exception('Vous ne pouvez pas acceder à cette page');
+            }
+
+            $adoptionRequestsReceived = $this->doctrine->getRepository(AdoptionRequest::class)->findByAnimal($animal);
+        } else {
+            $adoptionRequestsReceived = $this->doctrine->getRepository(AdoptionRequest::class)->findByUser($this->getUser());
+        }
+
+        return $this->render('adoption-request/list.html.twig', [
+            'adoptionRequestsReceived' => $adoptionRequestsReceived,
+            'adoptionRequestsSent' => $this->getUser()->getAdoptionRequests()
+        ]);
+    }
+
     #[Route('/{id}', name: 'display')]
     public function display(AdoptionRequest $adoptionRequest, Request $request): Response
     {
