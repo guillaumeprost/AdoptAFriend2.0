@@ -6,11 +6,13 @@ use App\Entity\AdoptionRequest\AdoptionRequest;
 use App\Entity\Organisation;
 use App\Entity\User;
 use App\Form\Type\OrganisationType;
+use App\Model\SearchOrganisation;
 use App\Service\FileService;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -38,18 +40,44 @@ class OrganisationController extends AbstractController
         $entityManager = $this->doctrine->getManager();
 
         $pageSize = $request->query->get('pageSize', 20);
+        $searchOrganisation = new SearchOrganisation();
 
-        /** @var Paginator $organisationPaginator */
+        $form = $this->createForm(\App\Form\Type\Search\OrganisationType::class, $searchOrganisation);
+        $form->add('search', SubmitType::class, [
+            'attr' => ['class' => 'btn btn-primary'],
+            'label' => 'Rechercher'
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            /** @var Paginator $organisationPaginator */
+            $organisationPaginator = $entityManager
+                ->getRepository(Organisation::class)
+                ->findBySearch(
+                    $searchOrganisation,
+                    $page,
+                    $pageSize
+                );
+
+            return $this->render('organisation/list.html.twig', [
+                'form' => $form->createView(),
+                'organisations' => $organisationPaginator,
+                'total' => count($organisationPaginator),
+                'pageCount' => intval(ceil(count($organisationPaginator) / $pageSize)),
+                'page' => $page
+            ]);
+        }
+
+        /** @var Paginator $animalsPaginator */
         $organisationPaginator = $entityManager
             ->getRepository(Organisation::class)
             ->search(
-                $request->get('filters', []),
-                $request->get('sorter', []),
                 $page,
                 $pageSize
             );
 
+
         return $this->render('organisation/list.html.twig', [
+            'form' => $form->createView(),
             'organisations' => $organisationPaginator,
             'total' => count($organisationPaginator),
             'pageCount' => intval(ceil(count($organisationPaginator) / $pageSize)),
@@ -125,14 +153,12 @@ class OrganisationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $organisation = $form->getData();
 
-            if ($form->get('logo')->getData()) {
+            if ($organisation->getLogo()) {
                 $organisation->setLogo(
-                    $this->fileService->addNewFile(
-                        $form->get('logo')->getData(),
-                        'organisation/logo'
-                    )
+                    new File($this->getParameter('kernel.project_dir') . '/public/' . $organisation->getLogo())
                 );
             }
+
             $this->fileService->addOrganisationImages($organisation);
 
             $this->doctrine->getManager()->flush($organisation);

@@ -59,6 +59,7 @@ class AdoptionRequestController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
     #[Route('/list', name: 'list')]
     public function list(): Response
     {

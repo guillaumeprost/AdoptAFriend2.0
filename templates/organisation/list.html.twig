@@ -5,16 +5,11 @@
         <div class="container-fluid">
             <div class="row p-3 d-flex justify-content-between bd-highlight mb-3">
                 <div class="p-2 bd-highlight">
-                    <h2>{{ organisations|length }} associations trouvées !</h2>
+                    <h2>{{ total }} associations trouvées !</h2>
                 </div>
-                {#<div class="p-2 bd-highlight">#}
-                    {#                    <select class="form-select" aria-label="Default select example"> #}
-                    {#                        <option selected>Trier par</option> #}
-                    {#                        <option value="name">Nom</option> #}
-                    {#                        <option value="createdAt">Création</option> #}
-                    {#                        <option value="updatedAt">Mis à jour</option> #}
-                    {#                    </select> #}
-                {#</div>#}
+                <div class="row p-3 d-flex justify-content-between bd-highlight mb-3 h-100 p-5 bg-body-tertiary border rounded-3">
+                    {{ include('organisation/include/_search-form.html.twig') }}
+                </div>
             </div>
             <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 g-2">
                 {% for organisation in organisations %}
