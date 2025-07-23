@@ -11,7 +11,7 @@
         {% endif %}
         <div class="card-body">
             <div class="row">
-                <div class="col"><h5 class="card-title">{{ animal.name }}</h5></div>
+                <div class="col"><h5 class="card-title">{{ animal.name }} {% if animal.status == constant('App\\Entity\\Animal\\Animal::STATUS_ADOPTED') %}<span class="badge rounded-pill text-bg-success">Adopté</span>{% endif %}</h5></div>
                 <div class="col text-right">
                     {% if animal.sex == constant('App\\Utils\\Animal\\Sex::TYPE_MALE') %}
                         <i class="fas fa-mars" data-bs-toggle="tooltip"

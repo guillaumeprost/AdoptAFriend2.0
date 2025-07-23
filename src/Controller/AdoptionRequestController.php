@@ -115,6 +115,12 @@ class AdoptionRequestController extends AbstractController
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($adoptionRequest->getStatus() === AdoptionRequest::STATUS_ADOPTED){
+               $adoptionRequest->getAnimal()->setStatus(Animal::STATUS_ADOPTED);
+                $this->doctrine->getManager()->flush($adoptionRequest->getAnimal());
+            }
+
             $this->doctrine->getManager()->flush($adoptionRequest);
 
             $this->addFlash('success', 'La demande à été mise à jour');
