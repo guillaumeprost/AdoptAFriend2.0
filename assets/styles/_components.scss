@@ -1,0 +1,194 @@
+// Boutons modernes
+.btn {
+    border-radius: $border-radius;
+    font-weight: 500;
+    transition: $transition;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        transition: left 0.5s;
+    }
+    
+    &:hover::before {
+        left: 100%;
+    }
+    
+    &-primary {
+        background: $gradient-primary;
+        box-shadow: $shadow-soft;
+        color: $gris-fonce;
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: $shadow-medium;
+        }
+    }
+    
+    &-outline-primary {
+        border: 2px solid $rose-dragee;
+        color: $rose-dragee;
+        background: transparent;
+        
+        &:hover {
+            background: $gradient-primary;
+            border-color: transparent;
+            transform: translateY(-2px);
+            color: $gris-fonce;
+        }
+    }
+    
+    &-success {
+        background: $gradient-secondary;
+        box-shadow: $shadow-soft;
+        color: $gris-fonce;
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: $shadow-medium;
+        }
+    }
+    
+    &-warning {
+        background: linear-gradient(135deg, $jaune-pale 0%, #FFE066 100%);
+        box-shadow: $shadow-soft;
+        color: $gris-fonce;
+    }
+    
+    &-info {
+        background: $gradient-accent;
+        box-shadow: $shadow-soft;
+        color: $gris-fonce;
+    }
+}
+
+// Cards modernes
+.card {
+    border-radius: $border-radius;
+    border: none;
+    box-shadow: $shadow-soft;
+    transition: $transition;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(10px);
+    
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: $shadow-medium;
+    }
+}
+
+// Alertes modernes
+.alert {
+    border-radius: $border-radius;
+    border: none;
+    box-shadow: $shadow-soft;
+    
+    &-success {
+        background: $gradient-secondary;
+        color: $gris-fonce;
+    }
+    
+    &-danger {
+        background: linear-gradient(135deg, $rose-vif 0%, #FF8A95 100%);
+        color: white;
+    }
+    
+    &-warning {
+        background: linear-gradient(135deg, $jaune-pale 0%, #FFE066 100%);
+        color: $gris-fonce;
+    }
+    
+    &-info {
+        background: $gradient-accent;
+        color: $gris-fonce;
+    }
+}
+
+// Badges personnalisés
+.badge {
+    &.bg-primary {
+        background: $gradient-primary !important;
+        color: $gris-fonce !important;
+    }
+    
+    &.bg-success {
+        background: $gradient-secondary !important;
+        color: $gris-fonce !important;
+    }
+    
+    &.bg-warning {
+        background: linear-gradient(135deg, $jaune-pale 0%, #FFE066 100%) !important;
+        color: $gris-fonce !important;
+    }
+    
+    &.bg-info {
+        background: $gradient-accent !important;
+        color: $gris-fonce !important;
+    }
+    
+    &.bg-danger {
+        background: linear-gradient(135deg, $rose-vif 0%, #FF8A95 100%) !important;
+        color: white !important;
+    }
+}
+
+// Textes avec gradients
+.text-gradient {
+    background: $gradient-primary;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-gradient-secondary {
+    background: $gradient-secondary;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.text-gradient-accent {
+    background: $gradient-accent;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+// Couleurs de fond spéciales
+.bg-rose-dragee {
+    background: $rose-dragee !important;
+}
+
+.bg-menthe-douce {
+    background: $menthe-douce !important;
+}
+
+.bg-lavande {
+    background: $lavande !important;
+}
+
+.bg-jaune-pale {
+    background: $jaune-pale !important;
+}
+
+.bg-bleu-ciel {
+    background: $bleu-ciel !important;
+}
+
+// Gradients spéciaux
+.bg-gradient-warm {
+    background: $gradient-warm !important;
+}
+
+.bg-gradient-cool {
+    background: $gradient-cool !important;
+} 

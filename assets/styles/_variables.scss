@@ -1,0 +1,56 @@
+// Palette de couleurs pastel harmonieuse
+:root {
+    // Couleurs principales
+    --primary-color: #FADADD;      // Rose dragée
+    --secondary-color: #B5EAD7;    // Menthe douce
+    --accent-color: #C7CEEA;       // Lavande
+    --success-color: #A0E7E5;      // Bleu ciel
+    --warning-color: #FFF5BA;      // Jaune pâle
+    --danger-color: #FFB3BA;       // Rose plus vif pour les alertes
+    --dark-color: #4A5568;         // Gris foncé pour le texte
+    --light-color: #F7FAFC;        // Blanc cassé très doux
+    
+    // Gradients
+    --gradient-primary: linear-gradient(135deg, #FADADD 0%, #FFB3BA 100%);
+    --gradient-secondary: linear-gradient(135deg, #B5EAD7 0%, #A0E7E5 100%);
+    --gradient-accent: linear-gradient(135deg, #C7CEEA 0%, #A0E7E5 100%);
+    --gradient-warm: linear-gradient(135deg, #FADADD 0%, #FFF5BA 100%);
+    --gradient-cool: linear-gradient(135deg, #B5EAD7 0%, #C7CEEA 100%);
+    --gradient-soft: linear-gradient(135deg, #FEF7F7 0%, #F0FDFA 100%);
+    
+    // Ombres avec teinte rose
+    --shadow-soft: 0 10px 30px rgba(250, 218, 221, 0.3);
+    --shadow-medium: 0 15px 35px rgba(250, 218, 221, 0.4);
+    --shadow-strong: 0 20px 40px rgba(250, 218, 221, 0.5);
+    
+    // Autres variables
+    --border-radius: 15px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Variables SCSS pour utilisation dans les fichiers
+$rose-dragee: #FADADD;
+$menthe-douce: #B5EAD7;
+$lavande: #C7CEEA;
+$jaune-pale: #FFF5BA;
+$bleu-ciel: #A0E7E5;
+$rose-vif: #FFB3BA;
+$gris-fonce: #4A5568;
+$blanc-doux: #F7FAFC;
+
+// Gradients SCSS
+$gradient-primary: linear-gradient(135deg, $rose-dragee 0%, $rose-vif 100%);
+$gradient-secondary: linear-gradient(135deg, $menthe-douce 0%, $bleu-ciel 100%);
+$gradient-accent: linear-gradient(135deg, $lavande 0%, $bleu-ciel 100%);
+$gradient-warm: linear-gradient(135deg, $rose-dragee 0%, $jaune-pale 100%);
+$gradient-cool: linear-gradient(135deg, $menthe-douce 0%, $lavande 100%);
+$gradient-soft: linear-gradient(135deg, #FEF7F7 0%, #F0FDFA 100%);
+
+// Ombres
+$shadow-soft: 0 10px 30px rgba(250, 218, 221, 0.3);
+$shadow-medium: 0 15px 35px rgba(250, 218, 221, 0.4);
+$shadow-strong: 0 20px 40px rgba(250, 218, 221, 0.5);
+
+// Autres
+$border-radius: 15px;
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 

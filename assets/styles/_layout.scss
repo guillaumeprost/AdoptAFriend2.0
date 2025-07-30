@@ -1,0 +1,81 @@
+// Configuration générale
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: $gradient-soft;
+    min-height: 100vh;
+}
+
+// Footer moderne
+.footer {
+    background: $gradient-primary !important;
+    color: $gris-fonce !important;
+}
+
+// Scrollbar personnalisée
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: $blanc-doux;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: $gradient-primary;
+    border-radius: 10px;
+    
+    &:hover {
+        background: $gradient-secondary;
+    }
+}
+
+// Navigation moderne
+.navbar {
+    background: rgba(255, 255, 255, 0.95) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: $shadow-soft;
+    
+    &.scrolled {
+        background: rgba(255, 255, 255, 0.98) !important;
+        box-shadow: $shadow-medium;
+    }
+}
+
+.navbar-brand {
+    font-weight: 700;
+    background: $gradient-primary;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+// Flash messages
+.alert {
+    &.alert-success {
+        .fas {
+            color: $menthe-douce;
+        }
+    }
+    
+    &.alert-danger {
+        .fas {
+            color: $rose-vif;
+        }
+    }
+    
+    &.alert-warning {
+        .fas {
+            color: $jaune-pale;
+        }
+    }
+    
+    &.alert-info {
+        .fas {
+            color: $lavande;
+        }
+    }
+} 

@@ -1,1 +1,10 @@
 @import '~bootstrap/scss/bootstrap';
+
+// Variables et configuration globale
+@import 'variables';
+@import 'animations';
+@import 'components';
+@import 'layout';
+@import 'homepage';
+@import 'navigation';
+@import 'cards';

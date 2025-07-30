@@ -1,52 +1,103 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/html">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="{{ asset('favicon.ico') }}">
-    <title>{% block title %}Adopt a Friend{% endblock title %}</title>
-    {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
-    {% endblock stylesheets %}
-</head>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
 
-<body class="d-flex flex-column min-vh-100">
-
-<header>
-    {% block header %}
-        {% include('includes/menu.html.twig') %}
-    {% endblock header %}
-</header>
-
-<main>
-        {% block flash %}
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+        {% include 'includes/menu.html.twig' %}
+        
+        {% block header %}{% endblock %}
+        
+        <main class="fade-in">
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
-                    <div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+                    <div class="alert alert-{{ label }} alert-dismissible fade show bounce-in" role="alert">
+                        {% if label == 'success' %}
+                            <i class="fas fa-check-circle me-2"></i>
+                        {% elseif label == 'danger' %}
+                            <i class="fas fa-exclamation-circle me-2"></i>
+                        {% elseif label == 'warning' %}
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                        {% elseif label == 'info' %}
+                            <i class="fas fa-info-circle me-2"></i>
+                        {% endif %}
                         {{ message }}
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 {% endfor %}
             {% endfor %}
-        {% endblock flash %}
+            
+            {% block content %}{% endblock %}
+        </main>
 
-    {% block content %}
+        <footer class="footer text-center py-4 mt-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5 class="mb-3">AdoptAFriend</h5>
+                        <p class="mb-0">Trouvez votre compagnon idéal parmi nos milliers d'animaux en attente d'adoption.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5 class="mb-3">Liens utiles</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="{{ path('animal_search') }}" class="text-decoration-none">Voir les animaux</a></li>
+                            <li><a href="{{ path('organisation_search') }}" class="text-decoration-none">Nos associations</a></li>
+                            <li><a href="#" class="text-decoration-none">Comment adopter</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h5 class="mb-3">Suivez-nous</h5>
+                        <div class="d-flex justify-content-center gap-3">
+                            <a href="#" class="text-decoration-none"><i class="fab fa-facebook fa-2x"></i></a>
+                            <a href="#" class="text-decoration-none"><i class="fab fa-instagram fa-2x"></i></a>
+                            <a href="#" class="text-decoration-none"><i class="fab fa-twitter fa-2x"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <hr class="my-4">
+                <div class="text-center">
+                    <p class="mb-0">&copy; 2024 AdoptAFriend. Tous droits réservés.</p>
+                </div>
+            </div>
+        </footer>
 
-    {% endblock content %}
-</main>
-{% block footer %}
-    <footer class="footer mt-5 py-4 bg-dark text-light text-center mt-auto">
-        <div class="container">
-            <p class="mb-1">🐾 Made with love by Guillaume Prost</p>
-            <p class="mb-0">
-                <a href="#" class="text-light">Back to top</a>
-            </p>
-        </div>
-    </footer>
-{% endblock footer %}
-</body>
+        <script>
+            // Navbar scroll effect
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
 
-{% block javascripts %}
-    {{ encore_entry_script_tags('app') }}
-{% endblock %}
+            // Link hover animations
+            document.querySelectorAll('a').forEach(link => {
+                link.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-1px)';
+                });
+                
+                link.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        </script>
+    </body>
 </html>

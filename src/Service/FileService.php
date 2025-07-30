@@ -52,7 +52,6 @@ class FileService
         $images = [];
         /** @var UploadedFile $image */
         foreach ($organisation->getImages() as $image) {
-            dd($image);
             $newPath = $this->addNewFile($image, 'organisation/images');
             $images[] = $newPath;
         }
