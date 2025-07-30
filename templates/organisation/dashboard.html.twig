@@ -5,10 +5,10 @@
         <h1 class="mt-5">{{ organisation.name }}</h1>
         <br>
         <div class="row">
-            <div class="col col-md-6">
+            <div class="col">
                 {% if adoptionRequestsReceived|length > 0 %}
                     {% set hasAdoptionRequests = true %}
-                    <h3> Vos dernières demandes d'adoptions Recues</h3>
+                    <h3> Vos dernières demandes d'adoptions recues</h3>
                     {% include 'adoption-request/include/_list.html.twig' with {'adoptionRequests': adoptionRequestsReceived} %}
                 {% else %}
                     <div class="alert alert-secondary" role="alert">
@@ -29,7 +29,7 @@
                         animal à adopter</a>
                 </div>
             {% if app.user.animals|length > 0 %}
-                <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4">
+                <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3">
                     {% for animal in organisation.animals %}
                         {% include '/animal/include/_card.html.twig' with {'manage': true} %}
                     {% endfor %}

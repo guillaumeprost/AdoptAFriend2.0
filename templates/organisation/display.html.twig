@@ -1,65 +1,137 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <div class="container mb-5">
-        <div id="organisationCarousel" class="carousel slide" data-bs-ride="carousel">
+    <div class="container mt-4 mb-5">
+        <div id="organisationCarousel" class="carousel slide shadow rounded mb-4" data-bs-ride="carousel">
             <div class="carousel-inner">
                 {% if organisation.images|length > 0 %}
                     {% for image in organisation.images %}
-                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                        <div class="carousel-item {% if loop.first %}active{% endif %} position-relative">
                             <img src="{{ asset('/upload/organisation/images/'~ image) }}" class="d-block w-100"
                                  alt="{{ organisation.name }}">
+                            {% if loop.first %}
+                            {# Desktop version - caption over image #}
+                            <div class="carousel-caption d-none d-md-flex flex-column align-items-start text-start bg-dark bg-opacity-50 p-4 rounded" style="bottom: 2rem; left: 2rem; max-width: 70%;">
+                                <div class="d-flex align-items-center mb-3">
+                                    <img src="{{ asset('/upload/organisation/logo/'~ organisation.logo|default('logo1.jpg')) }}"
+                                         class="rounded-circle me-3"
+                                         style="width: 80px; height: 80px; object-fit: cover;"
+                                         alt="{{ organisation.name }}">
+                                    <h1 class="h4 mb-0 text-white">{{ organisation.name }}</h1>
+                                </div>
+                                <p class="text-white mb-2">{{ organisation.description }}</p>
+
+                                {% if app.user.organisation == null %}
+                                    <a href="{{ path('organisation_join', {'id': organisation.id}) }}" class="btn btn-outline-light mt-2">
+                                        Demander à rejoindre cette association
+                                    </a>
+                                {% endif %}
+
+                                {% if organisation.users.contains(app.user) %}
+                                    <a type="button" class="btn btn-primary mt-2"
+                                       href="{{ path('organisation_update', {id: organisation.id}) }}">Modifier</a>
+                                {% endif %}
+                            </div>
+
+                            {# Mobile version - caption below image #}
+                            <div class="d-md-none bg-light text-dark p-3 rounded my-2">
+                                <div class="d-flex align-items-center mb-2">
+                                    <img src="{{ asset('/upload/organisation/logo/'~ organisation.logo|default('logo1.jpg')) }}"
+                                         class="rounded-circle me-2"
+                                         style="width: 60px; height: 60px; object-fit: cover;"
+                                         alt="{{ organisation.name }}">
+                                    <h1 class="h5 mb-0">{{ organisation.name }}</h1>
+                                </div>
+                                <p class="small mb-2">{{ organisation.description }}</p>
+
+                                {% if app.user.organisation == null %}
+                                    <a href="{{ path('organisation_join', {'id': organisation.id}) }}" class="btn btn-outline-primary btn-sm mt-2">
+                                        Rejoindre cette association
+                                    </a>
+                                {% endif %}
+
+                                {% if organisation.users.contains(app.user) %}
+                                    <a type="button" class="btn btn-primary btn-sm mt-2"
+                                       href="{{ path('organisation_update', {id: organisation.id}) }}">Modifier</a>
+                                {% endif %}
+                            </div>
+                            {% endif %}
                         </div>
                     {% endfor %}
                 {% else %}
-                    <img src="{{ asset('/upload/organisation/default-banner.jpg') }}" class="d-block w-100"
-                         alt="{{ organisation.name }}">
+                    <div class="position-relative">
+                        <img src="{{ asset('/upload/organisation/default-banner.jpg') }}" class="d-block w-100"
+                             alt="{{ organisation.name }}">
+                        {# Desktop version - caption over image #}
+                        <div class="carousel-caption d-none d-md-flex flex-column align-items-start text-start bg-dark bg-opacity-50 p-4 rounded" style="bottom: 2rem; left: 2rem; max-width: 70%;">
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="{{ asset('/upload/organisation/logo/'~ organisation.logo|default('logo1.jpg')) }}"
+                                     class="rounded-circle me-3"
+                                     style="width: 80px; height: 80px; object-fit: cover;"
+                                     alt="{{ organisation.name }}">
+                                <h1 class="h4 mb-0 text-white">{{ organisation.name }}</h1>
+                            </div>
+                            <p class="text-white mb-2">{{ organisation.description }}</p>
+
+                            {% if app.user.organisation == null %}
+                                <a href="{{ path('organisation_join', {'id': organisation.id}) }}" class="btn btn-outline-light mt-2">
+                                    Demander à rejoindre cette association
+                                </a>
+                            {% endif %}
+
+                            {% if organisation.users.contains(app.user) %}
+                                <a type="button" class="btn btn-primary mt-2"
+                                   href="{{ path('organisation_update', {id: organisation.id}) }}">Modifier</a>
+                            {% endif %}
+                        </div>
+
+                        {# Mobile version - caption below image #}
+                        <div class="d-md-none bg-light text-dark p-3 rounded my-2">
+                            <div class="d-flex align-items-center mb-2">
+                                <img src="{{ asset('/upload/organisation/logo/'~ organisation.logo|default('logo1.jpg')) }}"
+                                     class="rounded-circle me-2"
+                                     style="width: 60px; height: 60px; object-fit: cover;"
+                                     alt="{{ organisation.name }}">
+                                <h1 class="h5 mb-0">{{ organisation.name }}</h1>
+                            </div>
+                            <p class="small mb-2">{{ organisation.description }}</p>
+
+                            {% if app.user.organisation == null %}
+                                <a href="{{ path('organisation_join', {'id': organisation.id}) }}" class="btn btn-outline-primary btn-sm mt-2">
+                                    Rejoindre cette association
+                                </a>
+                            {% endif %}
+
+                            {% if organisation.users.contains(app.user) %}
+                                <a type="button" class="btn btn-primary btn-sm mt-2"
+                                   href="{{ path('organisation_update', {id: organisation.id}) }}">Modifier</a>
+                            {% endif %}
+                        </div>
+                    </div>
                 {% endif %}
             </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#animalCarousel" data-bs-slide="prev">
+            <button class="carousel-control-prev" type="button" data-bs-target="#organisationCarousel" data-bs-slide="prev">
                 <span class="carousel-control-prev-icon" aria-hidden="true"></span>
                 <span class="visually-hidden"></span>
             </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#animalCarousel" data-bs-slide="next">
+            <button class="carousel-control-next" type="button" data-bs-target="#organisationCarousel" data-bs-slide="next">
                 <span class="carousel-control-next-icon" aria-hidden="true"></span>
                 <span class="visually-hidden"></span>
             </button>
         </div>
 
-        <div class="row pt-3 pb-3">
-            <div class="col">
-                <img src="{{ asset('/upload/organisation/logo/'~ organisation.logo|default('logo1.jpg')) }}"
-                     class="img-thumbnail"
-                     alt="{{ organisation.name }}">
-
-            </div>
-            <div class="col-8">
-                <h1>{{ organisation.name }}</h1>
-
-                <small class="text-muted">Crée le {{ organisation.createdAt|date('d/m/Y') }}</small>
-                <br>
-                {{ organisation.description }}
-                {% if app.user.organisation == null %}
-                    <br>
-                    <a href="{{ path('organisation_join', {'id': organisation.id}) }}" class="btn btn-outline-primary mt-3">
-                        Demander à rejoindre cette association
-                    </a>
-                {% endif %}
-
-                {% if organisation.users.contains(app.user) %}
-                    <br>
-                    <br>
-                    <a type="button" class="btn btn-primary"
-                       href="{{ path('organisation_update', {id: organisation.id}) }}">Modifier</a>
-                {% endif %}
-            </div>
-        </div>
-        <br>
+        <hr class="my-5">
         <h2> Animaux à l'adoption </h2>
         <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
-            {% for animal in organisation.animals %}
-                {% include '/animal/include/_card.html.twig' %}
-            {% endfor %}
+            {% if organisation.animals|length > 0 %}
+                {% for animal in organisation.animals %}
+                    {% include '/animal/include/_card.html.twig' %}
+                {% endfor %}
+            {% else %}
+                <div class="col text-center text-muted">
+                    Aucun animal à l'adoption actuellement.
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
