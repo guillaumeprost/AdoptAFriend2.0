@@ -1,7 +1,12 @@
 <div class="animal-card">
     <div class="card h-100">
         <div class="position-relative">
-            <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/default.jpg') }}"
+
+            <img src="{% if animal.images|length > 0 %}
+                    {{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/'~ animal.images|first()) }}
+                 {% else %}
+                     {{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/default.jpg') }}
+                    {% endif %} "
                  class="card-img-top" 
                  alt="{{ animal.name }}"
                  style="height: 250px; object-fit: cover;"

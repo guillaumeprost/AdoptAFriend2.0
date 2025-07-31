@@ -34,8 +34,8 @@
     }
     
     &-outline-primary {
-        border: 2px solid $rose-dragee;
-        color: $rose-dragee;
+        border: 2px solid $orange-dore;
+        color: $orange-dore;
         background: transparent;
         
         &:hover {
@@ -58,7 +58,7 @@
     }
     
     &-warning {
-        background: linear-gradient(135deg, $jaune-pale 0%, #FFE066 100%);
+        background: linear-gradient(135deg, $orange-dore 0%, #FFE066 100%);
         box-shadow: $shadow-soft;
         color: $gris-fonce;
     }
@@ -98,12 +98,12 @@
     }
     
     &-danger {
-        background: linear-gradient(135deg, $rose-vif 0%, #FF8A95 100%);
+        background: linear-gradient(135deg, $rose-corail 0%, #FF8A95 100%);
         color: white;
     }
     
     &-warning {
-        background: linear-gradient(135deg, $jaune-pale 0%, #FFE066 100%);
+        background: linear-gradient(135deg, $orange-dore 0%, #FFE066 100%);
         color: $gris-fonce;
     }
     
@@ -126,7 +126,7 @@
     }
     
     &.bg-warning {
-        background: linear-gradient(135deg, $jaune-pale 0%, #FFE066 100%) !important;
+        background: linear-gradient(135deg, $orange-dore 0%, #FFE066 100%) !important;
         color: $gris-fonce !important;
     }
     
@@ -136,7 +136,7 @@
     }
     
     &.bg-danger {
-        background: linear-gradient(135deg, $rose-vif 0%, #FF8A95 100%) !important;
+        background: linear-gradient(135deg, $rose-corail 0%, #FF8A95 100%) !important;
         color: white !important;
     }
 }
@@ -164,24 +164,24 @@
 }
 
 // Couleurs de fond spéciales
-.bg-rose-dragee {
-    background: $rose-dragee !important;
+.bg-orange-dore {
+    background: $orange-dore !important;
 }
 
-.bg-menthe-douce {
-    background: $menthe-douce !important;
+.bg-beige-clair {
+    background: $beige-clair !important;
 }
 
-.bg-lavande {
-    background: $lavande !important;
+.bg-rose-poudre {
+    background: $rose-poudre !important;
 }
 
-.bg-jaune-pale {
-    background: $jaune-pale !important;
+.bg-vert-sage {
+    background: $vert-sage !important;
 }
 
-.bg-bleu-ciel {
-    background: $bleu-ciel !important;
+.bg-rose-corail {
+    background: $rose-corail !important;
 }
 
 // Gradients spéciaux
@@ -191,4 +191,8 @@
 
 .bg-gradient-cool {
     background: $gradient-cool !important;
+}
+
+.bg-gradient-nature {
+    background: $gradient-nature !important;
 } 

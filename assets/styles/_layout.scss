@@ -20,7 +20,7 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: $blanc-doux;
+    background: $beige-clair;
     border-radius: 10px;
 }
 
@@ -57,25 +57,25 @@ body {
 .alert {
     &.alert-success {
         .fas {
-            color: $menthe-douce;
+            color: $vert-sage;
         }
     }
     
     &.alert-danger {
         .fas {
-            color: $rose-vif;
+            color: $rose-corail;
         }
     }
     
     &.alert-warning {
         .fas {
-            color: $jaune-pale;
+            color: $orange-dore;
         }
     }
     
     &.alert-info {
         .fas {
-            color: $lavande;
+            color: $rose-poudre;
         }
     }
 } 
