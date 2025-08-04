@@ -67,18 +67,20 @@
                         </ul>
                     </li>
                 {% else %}
-                    <li class="nav-item">
-                        <a class="btn btn-primary" href="{{ path('register') }}">
-                            <i class="fas fa-user-plus me-1"></i>
-                            S'inscrire
-                        </a>
-                    </li>
-                    <li class="nav-item ms-2">
-                        <a class="btn btn-outline-primary" href="{{ path('login') }}">
-                            <i class="fas fa-sign-in-alt me-1"></i>
-                            Se connecter
-                        </a>
-                    </li>
+                    <div class="d-flex flex-column flex-lg-row align-items-stretch">
+                        <li class="nav-item mb-2 mb-lg-0">
+                            <a class="btn btn-primary w-100" href="{{ path('register') }}">
+                                <i class="fas fa-user-plus me-1"></i>
+                                S'inscrire
+                            </a>
+                        </li>
+                        <li class="nav-item ms-lg-2">
+                            <a class="btn btn-outline-primary w-100" href="{{ path('login') }}">
+                                <i class="fas fa-sign-in-alt me-1"></i>
+                                Se connecter
+                            </a>
+                        </li>
+                    </div>
                 {% endif %}
             </ul>
         </div>
