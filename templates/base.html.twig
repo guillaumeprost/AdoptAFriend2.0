@@ -19,12 +19,12 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
-    <body>
+    <body class="d-flex flex-column min-vh-100">
         {% include 'includes/menu.html.twig' %}
         
         {% block header %}{% endblock %}
         
-        <main class="fade-in">
+        <main class="fade-in flex-grow-1">
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
                     <div class="alert alert-{{ label }} alert-dismissible fade show bounce-in" role="alert">

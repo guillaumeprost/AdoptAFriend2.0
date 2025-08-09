@@ -59,33 +59,15 @@
         align-items: center;
         justify-content: center;
     }
-    
+
     .affinities-section, .vet-care-section {
-        background: rgba(181, 234, 215, 0.2);
         padding: 12px;
         border-radius: 12px;
-        border: 1px solid rgba(181, 234, 215, 0.3);
-        
         h6 {
             font-size: 0.85rem;
             font-weight: 600;
             margin-bottom: 8px;
             color: #059669;
-        }
-    }
-    
-    .affinity-badge, .care-badge {
-        display: inline-flex;
-        align-items: center;
-        padding: 4px 8px;
-        background: rgba(250, 218, 221, 0.3);
-        border-radius: 12px;
-        font-size: 0.8rem;
-        transition: all 0.2s ease;
-        
-        &:hover {
-            background: rgba(250, 218, 221, 0.4);
-            transform: translateY(-1px);
         }
     }
 } 

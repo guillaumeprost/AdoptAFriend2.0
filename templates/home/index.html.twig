@@ -1,8 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% block navbar %}{% endblock %}
+
 {% block header %}
     <!-- Hero Section -->
     <header class="hero-section position-relative overflow-hidden">
+        <style>
+            .navbar { display: none !important; }
+            .fixed-top { position: static !important; }
+            body { padding-top: 0 !important; }
+        </style>
         <div class="hero-bg parallax"></div>
         <div class="container position-relative" style="z-index: 10;">
             <div class="row min-vh-100 align-items-center">
@@ -58,7 +65,7 @@
 
     <!-- Derniers animaux avec fond vert sage -->
     <section class="py-5 bg-vert-sage">
-        <div class="container">
+        <div class="p-5">
             <div class="text-center mb-5">
                 <h2 class="display-5 fw-bold mb-3 text-gradient-accent">🐕 Derniers arrivants 🐈</h2>
                 <p class="lead text-muted">Découvrez nos nouveaux compagnons qui cherchent une famille</p>
@@ -81,7 +88,7 @@
 
     <!-- Associations partenaires avec fond rose poudré -->
     <section class="py-5 bg-rose-poudre">
-        <div class="container">
+        <div class="p-5">
             <div class="text-center mb-5">
                 <h2 class="display-5 fw-bold mb-3 text-gradient-secondary">Nos associations partenaires</h2>
                 <p class="lead text-muted">Des organisations dévouées qui prennent soin des animaux</p>
@@ -104,7 +111,7 @@
 
     <!-- Statistiques avec couleurs variées -->
     <section class="py-5">
-        <div class="container">
+        <div class="p-5">
             <div class="row text-center">
                 <div class="col-md-3 mb-4">
                     <div class="stat-card hover-lift bg-orange-dore">

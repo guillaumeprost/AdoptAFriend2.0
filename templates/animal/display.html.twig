@@ -1,227 +1,270 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <div class="container">
-        <div class="row pt-5">
-            <div class="col-md-4">
-                <div id="animalCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-inner">
-                        {% if animal.images|length > 0 %}
-                            {% for image in animal.images %}
-                                <div class="carousel-item {% if loop.first %}active{% endif %}">
-                                    <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/'~ image) }}"
-                                         class="d-block w-100"
-                                         alt="{{ animal.name }}">
-                                </div>
-                            {% endfor %}
-                        {% else %}
-                            <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/default.jpg') }}"
-                                 class="d-block w-100"
-                                 alt="{{ animal.name }}">
+    <div class="container-xxl py-5">
+        <div class="row g-4 align-items-start">
+            <!-- Galerie -->
+            <div class="col-lg-5">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-2">
+                        <div id="animalCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner rounded-3 overflow-hidden">
+                                {% if animal.images|length > 0 %}
+                                    {% for image in animal.images %}
+                                        <div class="carousel-item {% if loop.first %}active{% endif %}">
+                                            <div class="ratio ratio-4x3 bg-body-secondary">
+                                                <img
+                                                    src="{{ asset('/upload/animal/' ~ constant('DISCRIMINATOR', animal) ~ '/' ~ image) }}"
+                                                    class="w-100 h-100 object-fit-cover"
+                                                    loading="lazy"
+                                                    alt="{{ animal.name }} - photo {{ loop.index }}"/>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="carousel-item active">
+                                        <div class="ratio ratio-4x3 bg-body-secondary">
+                                            <img
+                                                src="{{ asset('/upload/animal/' ~ constant('DISCRIMINATOR', animal) ~ '/default.jpg') }}"
+                                                class="w-100 h-100 object-fit-cover"
+                                                loading="lazy"
+                                                alt="{{ animal.name }} - image par défaut"/>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+
+                            {% if animal.images|length > 1 %}
+                                <button class="carousel-control-prev" type="button" data-bs-target="#animalCarousel"
+                                        data-bs-slide="prev" aria-label="Image précédente">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Précédent</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#animalCarousel"
+                                        data-bs-slide="next" aria-label="Image suivante">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Suivant</span>
+                                </button>
+                            {% endif %}
+                        </div>
+
+                        {% if animal.images|length > 1 %}
+                            <div class="d-flex gap-2 mt-3 overflow-auto">
+                                {% for image in animal.images %}
+                                    <button type="button"
+                                            class="btn p-0 border-0"
+                                            data-thumb-index="{{ loop.index0 }}"
+                                            aria-label="Voir la photo {{ loop.index }}">
+                                        <img
+                                            src="{{ asset('/upload/animal/' ~ constant('DISCRIMINATOR', animal) ~ '/' ~ image) }}"
+                                            class="rounded object-fit-cover"
+                                            style="width:72px;height:72px"
+                                            loading="lazy"
+                                            alt="{{ animal.name }} - miniature {{ loop.index }}">
+                                    </button>
+                                {% endfor %}
+                            </div>
                         {% endif %}
                     </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#animalCarousel"
-                            data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden"></span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#animalCarousel"
-                            data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden"></span>
-                    </button>
                 </div>
 
-                <div class=" mt-3">
-                    <div class="m-3 d-flex gap-2">
+                <!-- Actions -->
+                <div class="mt-3">
+                    <div class="d-grid gap-2 d-md-flex">
                         {% if app.user and (animal.manager == app.user or animal.organisation == app.user.organisation) %}
                             <a href="{{ path('animal_update', {'id': animal.id}) }}" class="btn btn-outline-primary">
-                                Modifier {{ animal.name }}
+                                <i class="fas fa-pen me-1"></i> Modifier {{ animal.name }}
                             </a>
                             <a href="{{ path('adoption-request_list-animal', {'id': animal.id}) }}"
                                class="btn btn-outline-secondary">
-                                Liste des demandes d'adoption
+                                <i class="fas fa-list me-1"></i> Liste des demandes d'adoption
                             </a>
                         {% else %}
                             <a type="button" href="{{ path('adoption-request_create', {'id': animal.id}) }}"
-                               class="btn btn-primary btn-lg btn-block">Envoyer une demande d'adoption</a>
+                               class="btn btn-primary btn-lg w-100">
+                                <i class="fas fa-heart me-2"></i>Envoyer une demande d'adoption
+                            </a>
                         {% endif %}
                     </div>
                 </div>
             </div>
 
-
-            <div class="col-md-8 p-4 mb-4 bg-body-tertiary rounded-3">
-                <div class="pt-3 pb-3">
-                    <h1>{{ animal.name }} {% if animal.status == constant('App\\Entity\\Animal\\Animal::STATUS_ADOPTED') %}<span class="badge rounded-pill text-bg-success">Adopté</span>{% endif %}</h1>
-                    {#        <h2>Race</h2> #}
-                    <div class="row">
-                        <div class="col-2">
-                            <h3>{{ animal.weight }}kg</h3>
-                        </div>
-                        <div class="col-7">
-                            <h3>{{ date('now').diff(animal.birthDate).format('%y ans et %m mois') }}</h3>
-                        </div>
-                    </div>
-                    <small class="text-muted">Dernière modification le {{ animal.updatedAt|date('d/m/Y') }}</small>
-                    <br><br>
-                    <div class="row mb-5">
-                        <div class="col">
-                            {% if animal.organisation %}
-                                <div class="row">
-                                    <div class="col-1">
-                                        <i class="fas fa-house " data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom" title="association"></i>
-                                    </div>
-                                    <div class="col-11">
-                                        <a href="{{ path('organisation_display', {id: animal.organisation.id}) }}">{{ animal.organisation.name }}</a>
-                                    </div>
-                                </div>
-                                <br>
+            <!-- Détails -->
+            <div class="col-lg-7">
+                <div class="card border-0 shadow-sm">
+                    <div class="card-body p-4">
+                        <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+                            <h1 class="h2 mb-0">{{ animal.name }}</h1>
+                            {% if animal.status == constant('App\\Entity\\Animal\\Animal::STATUS_ADOPTED') %}
+                                <span class="badge rounded-pill text-bg-success">
+                                    <i class="fas fa-check-circle me-1"></i>Adopté
+                                </span>
                             {% endif %}
-                            <div class="row">
-                                {% if animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
-                                    <div class="col-1">
-                                        <i class="fas fa-baby text-success" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom" title="Bonne entente avec les enfants"></i>
-                                    </div>
-                                    <div class="col-11">
-                                        Bonne entente avec les enfants
-                                    </div>
+                        </div>
+                        <div class="text-muted mb-3">
+                            Dernière modification le {{ animal.updatedAt|date('d/m/Y') }}
+                        </div>
 
-                                {% elseif animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
-                                    <div class="col-1">
-                                        <i class="fas fa-baby text-danger" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom" title="Mauvaise entente avec les enfants"></i>
-                                    </div>
+                        <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+                            <span class="badge text-bg-primary">
+                                <i class="fas fa-weight-hanging me-1"></i>{{ animal.weight }} kg
+                            </span>
+                            <span class="badge text-bg-info">
+                                <i class="fas fa-cake-candles me-1"></i>{{ date('now').diff(animal.birthDate).format('%y ans • %m mois') }}
+                            </span>
+                        </div>
 
-                                    <div class="col-11">
-                                        Mauvaise entente avec les enfants
-                                    </div>
-                                {% else %}
-                                    <div class="col-1">
-                                        <i class="fas fa-baby text-secondary" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom"
-                                           title="Entente avec les enfants inconnue"></i>
-                                    </div>
-                                    <div class="col-11">
-                                        Entente avec les enfants inconnue
-                                    </div>
-                                {% endif %}
+                        {% if animal.organisation %}
+                            <div class="d-flex align-items-center mb-4">
+                                <i class="fas fa-house text-primary me-2" data-bs-toggle="tooltip"
+                                   data-bs-placement="bottom" title="Association"></i>
+                                <a href="{{ path('organisation_display', {id: animal.organisation.id}) }}"
+                                   class="link-underline link-underline-opacity-0 link-underline-opacity-75-hover">
+                                    {{ animal.organisation.name }}
+                                </a>
                             </div>
-                            <div class="row">
-                                {% if animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
-                                    <div class="col-1">
-                                        <i class="fas fa-dog text-success" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom" title="Bonne entente avec les chiens"></i>
-                                    </div>
+                        {% endif %}
 
-                                    <div class="col-11">Bonne entente avec les chiens</div>
-                                {% elseif animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
-                                    <div class="col-1">
-                                        <i class="fas fa-dog text-danger" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom"
-                                           title="Mauvaise entente avec les chiens"></i>
-                                    </div>
-                                    <div class="col-11">Mauvaise entente avec les chiens</div>
-                                {% else %}
-                                    <div class="col-1">
-                                        <i class="fas fa-dog text-secondary" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom"
-                                           title="Entente avec les chiens inconnue"></i></div>
-                                    <div class="col-11">Entente avec les chiens inconnue</div>
-                                {% endif %}
-                            </div>
-                            <div class="row">
-                                {% if animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
-                                    <div class="col-1">
-                                        <i class="fas fa-cat text-success" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom" title="Bonne entente avec les chats"></i></div>
-                                    <div class="col-11">Bonne entente avec les chats</div>
-                                {% elseif animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
-                                    <div class="col-1">
-                                        <i class="fas fa-cat text-danger" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom"
-                                           title="Mauvaise entente avec les chats"></i></div>
-                                    <div class="col-11">Mauvaise entente avec les chats</div>
-                                {% else %}
-                                    <div class="col-1">
-                                        <i class="fas fa-cat text-secondary" data-bs-toggle="tooltip"
-                                           data-bs-placement="botætom"
-                                           title="Entente avec les chats inconnue"></i></div>
-                                    <div class="col-11">Entente avec les chats inconnue</div>
-                                {% endif %}
-                            </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="card bg-body-tertiary border-0 h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-3">
+                                            <i class="fas fa-people-arrows me-2 text-secondary"></i>Affinités
+                                        </h5>
 
-                            <div class="row"><br></div>
-                            <div class="row">
-                                {% if animal.vaccination == true %}
-                                    <div class="col-1">
-                                        <i class="fas fa-syringe text-success" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom" title="Vacciné"></i>
+                                        <div class="d-flex align-items-start mb-2">
+                                            {% if animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
+                                                <i class="fas fa-baby text-success me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Bonne entente avec les enfants"></i>
+                                                <div>Bonne entente avec les enfants</div>
+                                            {% elseif animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
+                                                <i class="fas fa-baby text-danger me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Mauvaise entente avec les enfants"></i>
+                                                <div>Mauvaise entente avec les enfants</div>
+                                            {% else %}
+                                                <i class="fas fa-baby text-secondary me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Entente avec les enfants inconnue"></i>
+                                                <div>Entente avec les enfants inconnue</div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="d-flex align-items-start mb-2">
+                                            {% if animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
+                                                <i class="fas fa-dog text-success me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Bonne entente avec les chiens"></i>
+                                                <div>Bonne entente avec les chiens</div>
+                                            {% elseif animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
+                                                <i class="fas fa-dog text-danger me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Mauvaise entente avec les chiens"></i>
+                                                <div>Mauvaise entente avec les chiens</div>
+                                            {% else %}
+                                                <i class="fas fa-dog text-secondary me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Entente avec les chiens inconnue"></i>
+                                                <div>Entente avec les chiens inconnue</div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="d-flex align-items-start">
+                                            {% if animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
+                                                <i class="fas fa-cat text-success me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Bonne entente avec les chats"></i>
+                                                <div>Bonne entente avec les chats</div>
+                                            {% elseif animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
+                                                <i class="fas fa-cat text-danger me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Mauvaise entente avec les chats"></i>
+                                                <div>Mauvaise entente avec les chats</div>
+                                            {% else %}
+                                                <i class="fas fa-cat text-secondary me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Entente avec les chats inconnue"></i>
+                                                <div>Entente avec les chats inconnue</div>
+                                            {% endif %}
+                                        </div>
                                     </div>
-                                    <div class="col-11">
-                                        Vaccination faite
-                                    </div>
-                                {% else %}
-                                    <div class="col-1">
-                                        <i class="fas fa-syringe text-danger" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom" title="Non vacciné"></i>
-                                    </div>
-                                    <div class="col-11">
-                                        Vaccination à faire
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="row">
-                                {% if animal.sterilized == true %}
-                                    <div class="col-1">
-                                        <i class="far fa-hand-scissors text-success" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom" title="Stérilisé"></i>
-                                    </div>
-                                    <div class="col-11">
-                                        Stérilisé
-                                    </div>
-                                {% else %}
-                                    <div class="col-1">
-                                        <i class="far fa-hand-scissors text-danger" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom" title="Non stérilisé"></i>
-                                    </div>
-                                    <div class="col-11">
-                                        Non stérilisé
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="row">
-                                {% if animal.dewormed == true %}
-                                    <div class="col-1">
-                                        <i class="fas fa-capsules text-success" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom" title="Vermifugé"></i>
-                                    </div>
-                                    <div class="col-11">
-                                        Vermifugé
-                                    </div>
-                                {% else %}
-                                    <div class="col-1">
-                                        <i class="fas fa-capsules text-danger" data-bs-toggle="tooltip"
-                                           data-bs-placement="bottom" title="Non vermifugé"></i>
-                                    </div>
-                                    <div class="col-11">
-                                        A vermifugé
-                                    </div>
-                                {% endif %}
-                            </div>
-                            <div class="row"><br></div>
-                            <div class=" mt-3 bg-body-tertiary rounded-3">
-                                <div class="card-body">
-                                    <h5 class="card-title">Description</h5>
-                                    <p class="card-text">{{ animal.description }}</p>
                                 </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="card bg-body-tertiary border-0 h-100">
+                                    <div class="card-body">
+                                        <h5 class="card-title mb-3">
+                                            <i class="fas fa-notes-medical me-2 text-secondary"></i> Santé
+                                        </h5>
+
+                                        <div class="d-flex align-items-start mb-2">
+                                            {% if animal.vaccination == true %}
+                                                <i class="fas fa-syringe text-success me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Vacciné"></i>
+                                                <div>Vaccination faite</div>
+                                            {% else %}
+                                                <i class="fas fa-syringe text-danger me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Non vacciné"></i>
+                                                <div>Vaccination à faire</div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="d-flex align-items-start mb-2">
+                                            {% if animal.sterilized == true %}
+                                                <i class="far fa-hand-scissors text-success me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Stérilisé"></i>
+                                                <div>Stérilisé</div>
+                                            {% else %}
+                                                <i class="far fa-hand-scissors text-danger me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Non stérilisé"></i>
+                                                <div>Non stérilisé</div>
+                                            {% endif %}
+                                        </div>
+
+                                        <div class="d-flex align-items-start">
+                                            {% if animal.dewormed == true %}
+                                                <i class="fas fa-capsules text-success me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Vermifugé"></i>
+                                                <div>Vermifugé</div>
+                                            {% else %}
+                                                <i class="fas fa-capsules text-danger me-2" data-bs-toggle="tooltip"
+                                                   data-bs-placement="bottom" title="Non vermifugé"></i>
+                                                <div>À vermifuger</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card bg-body-tertiary border-0 mt-4">
+                            <div class="card-body">
+                                <h5 class="card-title">Description</h5>
+                                <p class="card-text mb-0">{{ animal.description }}</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                // Tooltips Bootstrap 5
+                const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+                tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+                    new bootstrap.Tooltip(tooltipTriggerEl);
+                });
+
+                // Miniatures -> navigation carrousel
+                const carouselEl = document.getElementById('animalCarousel');
+                if (carouselEl) {
+                    const carousel = bootstrap.Carousel.getOrCreateInstance(carouselEl);
+                    const thumbs = document.querySelectorAll('[data-thumb-index]');
+                    thumbs.forEach(function (btn) {
+                        btn.addEventListener('click', function () {
+                            const idx = parseInt(btn.getAttribute('data-thumb-index'), 10);
+                            if (!Number.isNaN(idx)) {
+                                carousel.to(idx);
+                            }
+                        });
+                    });
+                }
+            });
+        </script>
     </div>
 {% endblock %}

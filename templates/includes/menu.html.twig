@@ -12,33 +12,26 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarNav">
+            {% set currentRoute = app.request.attributes.get('_route') %}
             <ul class="navbar-nav me-auto">
                 <li class="nav-item">
-                    <a class="nav-link nav-link-modern" href="{{ path('homepage') }}">
+                    <a class="nav-link nav-link-modern {{ currentRoute == 'homepage' ? 'nav-active' : '' }}" href="{{ path('homepage') }}"{% if currentRoute == 'homepage' %} aria-current="page"{% endif %}>
                         <i class="fas fa-home me-1"></i>
                         Accueil
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-modern" href="{{ path('animal_search') }}">
+                    <a class="nav-link nav-link-modern {{ currentRoute == 'animal_search' ? 'nav-active' : '' }}" href="{{ path('animal_search') }}"{% if currentRoute == 'animal_search' %} aria-current="page"{% endif %}>
                         <i class="fas fa-paw me-1"></i>
                         Animaux
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link nav-link-modern organisation-link" href="{{ path('organisation_search') }}">
+                    <a class="nav-link nav-link-modern organisation-link {{ currentRoute == 'organisation_search' ? 'nav-active' : '' }}" href="{{ path('organisation_search') }}"{% if currentRoute == 'organisation_search' %} aria-current="page"{% endif %}>
                         <i class="fas fa-building me-1"></i>
                         Associations
                     </a>
                 </li>
-                {% if app.user %}
-                    <li class="nav-item">
-                        <a class="nav-link nav-link-modern" href="{{ path('user_dashboard') }}">
-                            <i class="fas fa-user me-1"></i>
-                            Mon profil
-                        </a>
-                    </li>
-                {% endif %}
             </ul>
 
             <ul class="navbar-nav">
@@ -51,13 +44,13 @@
                             {{ app.user.firstName }}
                         </a>
                         <ul class="dropdown-menu modern-dropdown">
-                            <li><a class="dropdown-item modern-dropdown-item" href="{{ path('user_dashboard') }}">
+                            <li><a class="dropdown-item modern-dropdown-item {{ currentRoute == 'user_dashboard' ? 'active' : '' }}" href="{{ path('user_dashboard') }}">
                                 <i class="fas fa-tachometer-alt me-2"></i>Tableau de bord
                             </a></li>
-                            <li><a class="dropdown-item modern-dropdown-item" href="{{ path('user_update') }}">
+                            <li><a class="dropdown-item modern-dropdown-item {{ currentRoute == 'user_update' ? 'active' : '' }}" href="{{ path('user_update') }}">
                                 <i class="fas fa-user-edit me-2"></i>Modifier mon profil
                             </a></li>
-                            <li><a class="dropdown-item modern-dropdown-item" href="{{ path('user_animals') }}">
+                            <li><a class="dropdown-item modern-dropdown-item {{ currentRoute == 'user_animals' ? 'active' : '' }}" href="{{ path('user_animals') }}">
                                 <i class="fas fa-paw me-2"></i>Mes animaux
                             </a></li>
                             <li><hr class="dropdown-divider"></li>

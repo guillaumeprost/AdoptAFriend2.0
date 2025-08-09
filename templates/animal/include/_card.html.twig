@@ -46,52 +46,69 @@
                         <i class="fas fa-dog me-1"></i>Chien
                     </span>
             </div>
+
+            <div class="mb-3">
+                <div class="d-flex align-items-center gap-2">
+                    {% if animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
+                        <i class="fas fa-baby text-success" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Bonne entente avec les enfants"></i>
+                    {% elseif animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
+                        <i class="fas fa-baby text-danger" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Mauvaise entente avec les enfants"></i>
+                    {% else %}
+                        <i class="fas fa-baby text-secondary" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Entente avec les enfants inconnue"></i>
+                    {% endif %}
+
+                    {% if animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
+                        <i class="fas fa-dog text-success" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Bonne entente avec les chiens"></i>
+                    {% elseif animal.dogsAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
+                        <i class="fas fa-dog text-danger" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Mauvaise entente avec les chiens"></i>
+                    {% else %}
+                        <i class="fas fa-dog text-secondary" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Entente avec les chiens inconnue"></i>
+                    {% endif %}
+
+                    {% if animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
+                        <i class="fas fa-cat text-success" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Bonne entente avec les chats"></i>
+                    {% elseif animal.catsAffinities == constant('App\\Utils\\Animal\\Affinities::Bad') %}
+                        <i class="fas fa-cat text-danger" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Mauvaise entente avec les chats"></i>
+                    {% else %}
+                        <i class="fas fa-cat text-secondary" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Entente avec les chats inconnue"></i>
+                    {% endif %}
+                    -
+                    {% if animal.vaccination == true %}
+                        <i class="fas fa-syringe text-success" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Vacciné"></i>
+                    {% else %}
+                        <i class="fas fa-syringe text-danger" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Non vacciné"></i>
+                    {% endif %}
+                    {% if animal.sterilized == true %}
+                        <i class="far fa-hand-scissors text-success" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Stérilisé"></i>
+                    {% else %}
+                        <i class="far fa-hand-scissors text-danger" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Non stérilisé"></i>
+                    {% endif %}
+                    {% if animal.dewormed == true %}
+                        <i class="fas fa-capsules text-success" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Vermifugé"></i>
+                    {% else %}
+                        <i class="fas fa-capsules text-danger" data-bs-toggle="tooltip"
+                           data-bs-placement="bottom" title="Non vermifugé"></i>
+                    {% endif %}
+                </div>
+            </div>
             
             <p class="card-text text-muted mb-3">
-                {{ animal.description|length > 80 ? animal.description|slice(0, 80) ~ '...' : animal.description }}
+                {{ animal.description|length > 500 ? animal.description|slice(0, 500) ~ '...' : animal.description }}
             </p>
-            
-            <div class="affinities-section mb-3">
-                <h6><i class="fas fa-star me-1"></i>Affinités</h6>
-                <div class="d-flex flex-wrap gap-1">
-                    {% if animal.childAffinities %}
-                        <span class="affinity-badge">
-                            <i class="fas fa-baby me-1"></i>Enfants: {{ animal.childAffinities.value }}
-                        </span>
-                    {% endif %}
-                    {% if animal.dogsAffinities %}
-                        <span class="affinity-badge">
-                            <i class="fas fa-dog me-1"></i>Chiens: {{ animal.dogsAffinities.value }}
-                        </span>
-                    {% endif %}
-                    {% if animal.catsAffinities %}
-                        <span class="affinity-badge">
-                            <i class="fas fa-cat me-1"></i>Chats: {{ animal.catsAffinities.value }}
-                        </span>
-                    {% endif %}
-                </div>
-            </div>
-            
-            <div class="vet-care-section mb-3">
-                <h6><i class="fas fa-stethoscope me-1"></i>Soins vétérinaires</h6>
-                <div class="d-flex flex-wrap gap-1">
-                    {% if animal.vaccination %}
-                        <span class="care-badge">
-                            <i class="fas fa-syringe me-1"></i>Vacciné
-                        </span>
-                    {% endif %}
-                    {% if animal.sterilized %}
-                        <span class="care-badge">
-                            <i class="fas fa-cut me-1"></i>Stérilisé
-                        </span>
-                    {% endif %}
-                    {% if animal.dewormed %}
-                        <span class="care-badge">
-                            <i class="fas fa-pills me-1"></i>Vermifugé
-                        </span>
-                    {% endif %}
-                </div>
-            </div>
         </div>
         
         <div class="card-footer bg-transparent border-0">
