@@ -2,9 +2,14 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        
+        <title>{% block title %}Adopt A Friend{% endblock %}</title>
+
+        {# Favicon emoji 🐾 (SVG en data URL, encodé pour éviter les problèmes d’échappement) #}
+        <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 128 128'%3E%3Ctext y='1.1em' font-size='96'%3E🐾%3C/text%3E%3C/svg%3E">
+
+        {# Fallback PNG si nécessaire (placez public/favicon.png) #}
+        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('favicon.png') }}">
+
         <!-- Google Fonts -->
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         
