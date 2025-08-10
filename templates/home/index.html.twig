@@ -1,48 +1,181 @@
 {% extends 'base.html.twig' %}
 
-{% block header %}
-    <header class="bg-light text-center py-5 shadow-sm">
-        <div class="container">
-            <h1 class="display-4 fw-bold mb-3">🐶 Bienvenue sur Adopt a Friend 🐱</h1>
-            <p class="lead mb-4">Trouvez votre futur compagnon parmi les animaux proposés à l’adoption.</p>
+{% block navbar %}{% endblock %}
 
-            <div class="d-flex justify-content-center gap-3 flex-wrap">
-                <a href="{{ path('animal_search') }}" class="btn btn-primary btn-lg">
-                    Voir les animaux à adopter
-                </a>
-                {% if app.user %}
-                    <a href="{{ path('user_dashboard') }}" class="btn btn-outline-secondary btn-lg">
-                        Mon profil
-                    </a>
-                {% else %}
-                    <a href="{{ path('login') }}" class="btn btn-outline-secondary btn-lg">
-                        Se connecter
-                    </a>
-                {% endif %}
+{% block header %}
+    <!-- Hero Section -->
+    <header class="hero-section position-relative overflow-hidden">
+        <style>
+            .navbar { display: none !important; }
+            .fixed-top { position: static !important; }
+            body { padding-top: 0 !important; }
+        </style>
+        <div class="hero-bg parallax"></div>
+        <div class="container position-relative" style="z-index: 10;">
+            <div class="row min-vh-100 align-items-center">
+                <div class="col-lg-8 text-dark">
+                    <h1 class="display-3 fw-bold mb-4 slide-up">
+                        <span class="text-gradient">Adopt A Friend</span>
+                    </h1>
+                    <h2 class="display-3 mb-4 slide-up">Trouvez votre <span class="text-gradient">compagnon idéal</span> 🐾</h2>
+                    <p class="lead mb-5 slide-up" style="animation-delay: 0.2s;">
+                        Des milliers d'animaux attendent une famille aimante. 
+                        Rejoignez notre communauté et donnez une seconde chance à un ami à quatre pattes.
+                    </p>
+                    <div class="d-flex gap-3 flex-wrap slide-up" style="animation-delay: 0.4s;">
+                        <a href="{{ path('animal_search') }}" class="btn btn-primary btn-lg px-4 py-3">
+                            <i class="fas fa-search me-2"></i>
+                            Voir les animaux
+                        </a>
+                        {% if app.user %}
+                            <a href="{{ path('user_dashboard') }}" class="btn btn-outline-primary btn-lg px-4 py-3">
+                                <i class="fas fa-user me-2"></i>
+                                Mon profil
+                            </a>
+                        {% else %}
+                            <a href="{{ path('login') }}" class="btn btn-outline-primary btn-lg px-4 py-3">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                Se connecter
+                            </a>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="col-lg-4 d-none d-lg-block">
+                    <div class="hero-image-container slide-up" style="animation-delay: 0.6s;">
+                        <div class="floating-card">
+                            <i class="fas fa-heart text-danger fa-3x mb-3"></i>
+                            <h4>Adoptions réussies</h4>
+                            <p class="text-muted">Plus de 1000 familles heureuses</p>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+        
+        <!-- Scroll indicator -->
+        <div class="scroll-indicator">
+            <div class="mouse">
+                <div class="wheel"></div>
+            </div>
+            <div class="arrow"></div>
         </div>
     </header>
 {% endblock %}
 
 {% block content %}
-    <div class="album py-5 bg-light">
-        <div class="container-fluid px-5">
-            <h2>Derniers animaux ajoutés</h2>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 row-cols-lg-6">
+
+    <!-- Derniers animaux avec fond vert sage -->
+    <section class="py-5 bg-vert-sage">
+        <div class="p-5">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3 text-gradient-accent">🐕 Derniers arrivants 🐈</h2>
+                <p class="lead text-muted">Découvrez nos nouveaux compagnons qui cherchent une famille</p>
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                 {% for animal in lastAnimals %}
-                    {% include '/animal/include/_card.html.twig' %}
+                    <div class="col">
+                        {% include '/animal/include/_card.html.twig' %}
+                    </div>
                 {% endfor %}
             </div>
+            <div class="text-center mt-5">
+                <a href="{{ path('animal_search') }}" class="btn btn-success btn-lg">
+                    <i class="fas fa-search me-2"></i>
+                    Voir tous les animaux
+                </a>
+            </div>
         </div>
-    </div>
-    <div class="album py-5 bg-light">
-        <div class="container-fluid px-5">
-            <h2>Nouvelles associations</h2>
-            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-4">
+    </section>
+
+    <!-- Associations partenaires avec fond rose poudré -->
+    <section class="py-5 bg-rose-poudre">
+        <div class="p-5">
+            <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold mb-3 text-gradient-secondary">Nos associations partenaires</h2>
+                <p class="lead text-muted">Des organisations dévouées qui prennent soin des animaux</p>
+            </div>
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                 {% for organisation in lastOrganisations %}
-                    {% include '/organisation/include/_card.html.twig' %}
+                    <div class="col">
+                        {% include '/organisation/include/_card.html.twig' %}
+                    </div>
                 {% endfor %}
             </div>
+            <div class="text-center mt-5">
+                <a href="{{ path('organisation_search') }}" class="btn btn-info btn-lg">
+                    <i class="fas fa-building me-2"></i>
+                    Découvrir toutes les associations
+                </a>
+            </div>
         </div>
-    </div>
+    </section>
+
+    <!-- Statistiques avec couleurs variées -->
+    <section class="py-5">
+        <div class="p-5">
+            <div class="row text-center">
+                <div class="col-md-3 mb-4">
+                    <div class="stat-card hover-lift bg-orange-dore">
+                        <div class="stat-icon mb-3">
+                            <i class="fas fa-paw fa-3x text-primary"></i>
+                        </div>
+                        <h3 class="fw-bold text-primary">1,247</h3>
+                        <p class="text-muted">Animaux adoptés</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="stat-card hover-lift bg-vert-sage">
+                        <div class="stat-icon mb-3">
+                            <i class="fas fa-home fa-3x text-success"></i>
+                        </div>
+                        <h3 class="fw-bold text-success">89</h3>
+                        <p class="text-muted">Associations partenaires</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="stat-card hover-lift bg-rose-poudre">
+                        <div class="stat-icon mb-3">
+                            <i class="fas fa-users fa-3x text-info"></i>
+                        </div>
+                        <h3 class="fw-bold text-info">2,156</h3>
+                        <p class="text-muted">Familles heureuses</p>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="stat-card hover-lift bg-rose-corail">
+                        <div class="stat-icon mb-3">
+                            <i class="fas fa-heart fa-3x text-warning"></i>
+                        </div>
+                        <h3 class="fw-bold text-warning">156</h3>
+                        <p class="text-muted">En attente d'adoption</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action avec gradient nature -->
+    <section class="py-5 bg-gradient-nature text-dark">
+        <div class="container text-center">
+            <h2 class="display-5 fw-bold mb-4">Prêt à adopter ?</h2>
+            <p class="lead mb-5">Rejoignez notre communauté et donnez une chance à un animal dans le besoin</p>
+            <div class="d-flex justify-content-center gap-3 flex-wrap">
+                {% if app.user %}
+                    <a href="{{ path('animal_search') }}" class="btn btn-primary btn-lg px-4">
+                        <i class="fas fa-search me-2"></i>
+                        Commencer ma recherche
+                    </a>
+                {% else %}
+                    <a href="{{ path('register') }}" class="btn btn-success btn-lg px-4">
+                        <i class="fas fa-user-plus me-2"></i>
+                        Créer mon compte
+                    </a>
+                    <a href="{{ path('login') }}" class="btn btn-outline-primary btn-lg px-4">
+                        <i class="fas fa-sign-in-alt me-2"></i>
+                        Se connecter
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
 {% endblock content %}

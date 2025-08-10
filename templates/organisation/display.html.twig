@@ -73,7 +73,7 @@
                             </div>
                             <p class="text-white mb-2">{{ organisation.description }}</p>
 
-                            {% if app.user.organisation == null %}
+                            {% if app.user and app.user.organisation == null %}
                                 <a href="{{ path('organisation_join', {'id': organisation.id}) }}" class="btn btn-outline-light mt-2">
                                     Demander à rejoindre cette association
                                 </a>
@@ -96,7 +96,7 @@
                             </div>
                             <p class="small mb-2">{{ organisation.description }}</p>
 
-                            {% if app.user.organisation == null %}
+                            {% if app.user and app.user.organisation == null %}
                                 <a href="{{ path('organisation_join', {'id': organisation.id}) }}" class="btn btn-outline-primary btn-sm mt-2">
                                     Rejoindre cette association
                                 </a>

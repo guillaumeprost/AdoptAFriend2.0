@@ -1,0 +1,57 @@
+// Palette de couleurs chaleureuse et naturelle
+:root {
+    // Couleurs principales
+    --primary-color: #F5CAC3;      // Orange doré
+    --secondary-color: #84A59D;     // Vert sage
+    --accent-color: #F6BD60;        // Rose poudré
+    --success-color: #84A59D;       // Vert sage
+    --warning-color: #F6BD60;       // Orange doré
+    --danger-color: #F28482;        // Rose corail
+    --dark-color: #4A5568;          // Gris foncé pour le texte
+    --light-color: #F7EDE2;         // Beige très clair
+    --neutral-color: #F5CAC3;       // Rose poudré pour les éléments neutres
+    
+    // Gradients
+    --gradient-primary: linear-gradient(135deg, #F5CAC3 0%, #F6BD60 100%);
+    --gradient-secondary: linear-gradient(135deg, #84A59D 0%, #F5CAC3 100%);
+    --gradient-accent: linear-gradient(135deg, #F5CAC3 0%, #F28482 100%);
+    --gradient-warm: linear-gradient(135deg, #F6BD60 0%, #F5CAC3 100%);
+    --gradient-cool: linear-gradient(135deg, #84A59D 0%, #F5CAC3 100%);
+    --gradient-soft: linear-gradient(135deg, #F7EDE2 0%, #F5CAC3 100%);
+    --gradient-nature: linear-gradient(135deg, #F6BD60 0%, #84A59D 100%);
+    
+    // Ombres avec teinte chaude
+    --shadow-soft: 0 10px 30px rgba(246, 189, 96, 0.3);
+    --shadow-medium: 0 15px 35px rgba(246, 189, 96, 0.4);
+    --shadow-strong: 0 20px 40px rgba(246, 189, 96, 0.5);
+    
+    // Autres variables
+    --border-radius: 15px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// Variables SCSS pour utilisation dans les fichiers
+$orange-dore: #F6BD60;
+$beige-clair: #F7EDE2;
+$rose-poudre: #F5CAC3;
+$vert-sage: #84A59D;
+$rose-corail: #F28482;
+$gris-fonce: #4A5568;
+
+// Gradients SCSS
+$gradient-primary: linear-gradient(135deg, $orange-dore 0%, $rose-corail 100%);
+$gradient-secondary: linear-gradient(135deg, $vert-sage 0%, $rose-poudre 100%);
+$gradient-accent: linear-gradient(135deg, $rose-poudre 0%, $rose-corail 100%);
+$gradient-warm: linear-gradient(135deg, $orange-dore 0%, $rose-poudre 100%);
+$gradient-cool: linear-gradient(135deg, $vert-sage 0%, $rose-poudre 100%);
+$gradient-soft: linear-gradient(135deg, $beige-clair 0%, $rose-poudre 100%);
+$gradient-nature: linear-gradient(135deg, $orange-dore 0%, $vert-sage 100%);
+
+// Ombres
+$shadow-soft: 0 10px 30px rgba(246, 189, 96, 0.3);
+$shadow-medium: 0 15px 35px rgba(246, 189, 96, 0.4);
+$shadow-strong: 0 20px 40px rgba(246, 189, 96, 0.5);
+
+// Autres
+$border-radius: 15px;
+$transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); 

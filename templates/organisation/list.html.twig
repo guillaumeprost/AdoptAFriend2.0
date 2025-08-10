@@ -1,48 +1,97 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <div class="album py-5 bg-ligh  px-4">
+    <section class="organisations-list-page py-5 px-4">
         <div class="container-fluid">
-            <div class="row p-3 d-flex justify-content-between bd-highlight mb-3">
-                <div class="p-2 bd-highlight">
-                    <h2>{{ total }} associations trouvées !</h2>
-                </div>
-                <div class="row p-3 d-flex justify-content-between bd-highlight mb-3 h-100 p-5 bg-body-tertiary border rounded-3">
-                    {{ include('organisation/include/_search-form.html.twig') }}
+
+            <!-- En-tête de section -->
+            <div class="organisations-hero mb-4 p-4 rounded-4 shadow-sm">
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                    <div>
+                        <h1 class="h2 mb-1">Associations</h1>
+                        <p class="text-muted mb-0">Découvrez nos associations partenaires</p>
+                    </div>
+                    <span class="badge bg-primary-subtle text-primary-emphasis px-3 py-2">
+                        <i class="fas fa-building me-2"></i>{{ total }} trouvées
+                    </span>
                 </div>
             </div>
-            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-3 g-2">
+
+            <!-- Barre de filtres -->
+            <div class="filters-bar mb-4 p-4 bg-body-tertiary border rounded-4 shadow-sm">
+                {{ include('organisation/include/_search-form.html.twig') }}
+            </div>
+
+            <!-- Grille d'associations -->
+            <div class="organisations-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
                 {% for organisation in organisations %}
-                    {% include '/organisation/include/_card.html.twig' %}
+                    <div class="col">
+                        {% include '/organisation/include/_card.html.twig' %}
+                    </div>
+                {% else %}
+                    <div class="col-12">
+                        <div class="empty-state text-center p-5 bg-white border rounded-4 shadow-sm">
+                            <div class="display-6 mb-3">🏢</div>
+                            <h3 class="mb-2">Aucune association trouvée</h3>
+                            <p class="text-muted mb-4">Essayez d'ajuster vos critères ou réinitialisez la recherche.</p>
+                            <a href="{{ path('organisation_search') }}" class="btn btn-primary">Réinitialiser la recherche</a>
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
-        </div>
-        {% if pageCount > 1 %}
-        <br><br>
-        <div>
-            <nav>
-                <ul class="pagination justify-content-center">
-                    {% if page > 1 %}
-                        <li class="page-item">
-                            <a class="page-link" href="{{ path('organisation_search', {'page': page-1}) }}" tabindex="-1"
-                               aria-disabled="true">Précédents</a>
-                        </li>
+
+            <!-- Pagination -->
+            <hr class="my-4">
+            <nav aria-label="Pagination associations">
+                {% if pageCount > 1 %}
+                <ul class="pagination pagination-lg justify-content-center organisations-pagination">
+                    <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+                        <a class="page-link" href="{{ path('organisation_search', {'page': page > 1 ? page-1 : 1}) }}" aria-label="Précédent" tabindex="{% if page <= 1 %}-1{% else %}0{% endif %}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    {# Calcule la fenêtre sans |max / |min #}
+                    {% set start = page - 2 %}
+                    {% if start < 1 %}{% set start = 1 %}{% endif %}
+                    {% set end = page + 2 %}
+                    {% if end > pageCount %}{% set end = pageCount %}{% endif %}
+
+                    {% if (end - start) < 4 %}
+                        {% set start = end - 4 %}
+                        {% if start < 1 %}{% set start = 1 %}{% endif %}
+                        {% set end = start + 4 %}
+                        {% if end > pageCount %}{% set end = pageCount %}{% endif %}
                     {% endif %}
-                    {% for pageNumber in 1..pageCount %}
+
+                    {% if start > 1 %}
+                        <li class="page-item"><a class="page-link" href="{{ path('organisation_search', {'page': 1}) }}">1</a></li>
+                        {% if start > 2 %}
+                            <li class="page-item disabled"><span class="page-link">…</span></li>
+                        {% endif %}
+                    {% endif %}
+
+                    {% for pageNumber in start..end %}
                         <li class="page-item {% if page == pageNumber %}active{% endif %}">
-                            <a class="page-link"
-                               href="{{ path('organisation_search', {'page': pageNumber}) }}">{{ pageNumber }}</a>
+                            <a class="page-link" href="{{ path('organisation_search', {'page': pageNumber}) }}">{{ pageNumber }}</a>
                         </li>
                     {% endfor %}
-                    {% if page < pageCount%}
-                        <li class="page-item">
-                            <a class="page-link {% if (pageCount) == (page) %}disabled{% endif %}"
-                               href="{{ path('organisation_search', {'page': page+1}) }}">Suivants</a>
-                        </li>
+
+                    {% if end < pageCount %}
+                        {% if end < pageCount - 1 %}
+                            <li class="page-item disabled"><span class="page-link">…</span></li>
+                        {% endif %}
+                        <li class="page-item"><a class="page-link" href="{{ path('organisation_search', {'page': pageCount}) }}">{{ pageCount }}</a></li>
                     {% endif %}
+
+                    <li class="page-item {% if page >= pageCount %}disabled{% endif %}">
+                        <a class="page-link" href="{{ path('organisation_search', {'page': page < pageCount ? page+1 : pageCount}) }}" aria-label="Suivant">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
                 </ul>
+                {% endif %}
             </nav>
         </div>
-        {% endif %}
-    </div>
+    </section>
 {% endblock %}

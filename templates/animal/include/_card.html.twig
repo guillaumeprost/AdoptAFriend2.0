@@ -1,38 +1,54 @@
-<div class="col pt-3 animal-card">
-    <div class="card h-100 clickable" data-link= {{ path('animal_display', {'type':constant('DISCRIMINATOR', animal), 'id':animal.id}) }}>
-        {% if animal.images|length > 0 %}
-            <div class="position-relative overflow-hidden" style="height: 200px;">
-                <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/'~ animal.images|first()) }}" class="w-100 h-100 object-fit-cover card-img-top" alt="{{ animal.name }}">
-                {% if animal.status == constant('App\\Entity\\Animal\\Animal::STATUS_ADOPTED') %}
-                    <span class="badge rounded-pill text-bg-success position-absolute top-0 start-0 m-2">Adopté</span>
-                {% endif %}
+<div class="animal-card">
+    <div class="card h-100">
+        <div class="position-relative">
+
+            <img src="{% if animal.images|length > 0 %}
+                    {{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/'~ animal.images|first()) }}
+                 {% else %}
+                     {{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/default.jpg') }}
+                    {% endif %} "
+                 class="card-img-top" 
+                 alt="{{ animal.name }}"
+                 style="height: 250px; object-fit: cover;"
+                 onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="card-overlay" style="display: none;">
+                <div class="overlay-content">
+                    <i class="fas fa-eye fa-3x mb-2"></i>
+                    <h5>Voir les détails</h5>
+                </div>
             </div>
-        {% else %}
-            <div class="position-relative overflow-hidden" style="height: 200px;">
-                <img src="{{ asset('/upload/animal/'~ constant('DISCRIMINATOR', animal) ~'/default.jpg') }}" class="w-100 h-100 object-fit-cover card-img-top" alt="{{ animal.name }}">
-                {% if animal.status == constant('App\\Entity\\Animal\\Animal::STATUS_ADOPTED') %}
-                    <span class="badge rounded-pill text-bg-success position-absolute top-0 start-0 m-2">Adopté</span>
-                {% endif %}
-            </div>
-        {% endif %}
-        <div class="card-body">
-            <div class="row">
-                <div class="col"><h5 class="card-title">{{ animal.name }}</h5></div>
-                <div class="col text-right">
-                    {% if animal.sex == constant('App\\Utils\\Animal\\Sex::TYPE_MALE') %}
-                        <i class="fas fa-mars" data-bs-toggle="tooltip"
-                           data-bs-placement="bottom" title="Male"></i>
-                    {% elseif animal.sex == constant('App\\Utils\\Animal\\Sex::TYPE_FEMALE') %}
-                        <i class="fas fa-venus" data-bs-toggle="tooltip"
-                           data-bs-placement="bottom" title="Femelle"></i>
+        </div>
+        
+        <div class="card-body d-flex flex-column">
+            <div class="d-flex justify-content-between align-items-start mb-2">
+                <h5 class="card-title mb-0">{{ animal.name }}</h5>
+                <div class="sex-indicator">
+                    {% if animal.sex == 'M' %}
+                        <i class="fas fa-mars text-primary"></i>
                     {% else %}
-                        <i class="fas fa-question" data-bs-toggle="tooltip"
-                           data-bs-placement="bottom" title="Sexe inconnu"></i>
+                        <i class="fas fa-venus text-danger"></i>
                     {% endif %}
                 </div>
             </div>
-            <div class="row">
-                <div class="col">
+            
+            <div class="mb-3">
+                {% if animal.status == 'adopted' %}
+                    <span class="badge bg-success">
+                        <i class="fas fa-check me-1"></i>Adopté
+                    </span>
+                {% else %}
+                    <span class="badge bg-primary">
+                        <i class="fas fa-heart me-1"></i>Disponible
+                    </span>
+                {% endif %}
+
+                    <span class="badge bg-info">
+                        <i class="fas fa-dog me-1"></i>Chien
+                    </span>
+            </div>
+
+            <div class="mb-3">
+                <div class="d-flex align-items-center gap-2">
                     {% if animal.childAffinities == constant('App\\Utils\\Animal\\Affinities::Good') %}
                         <i class="fas fa-baby text-success" data-bs-toggle="tooltip"
                            data-bs-placement="bottom" title="Bonne entente avec les enfants"></i>
@@ -65,8 +81,7 @@
                         <i class="fas fa-cat text-secondary" data-bs-toggle="tooltip"
                            data-bs-placement="bottom" title="Entente avec les chats inconnue"></i>
                     {% endif %}
-                </div>
-                <div class="col text-right">
+                    -
                     {% if animal.vaccination == true %}
                         <i class="fas fa-syringe text-success" data-bs-toggle="tooltip"
                            data-bs-placement="bottom" title="Vacciné"></i>
@@ -90,19 +105,21 @@
                     {% endif %}
                 </div>
             </div>
-
-            <p class="card-text text-truncate">
-                {{ animal.description }}
-                {# {{ animal.description|length > 50 ? animal.description|slice(0, 50) ~ '...' : animal.description }} #}
+            
+            <p class="card-text text-muted mb-3">
+                {{ animal.description|length > 500 ? animal.description|slice(0, 500) ~ '...' : animal.description }}
             </p>
-            <br>
         </div>
-        <div class="card-footer">
-            <div class="row justify-content-md-end">
-                {% if manage|default(false) == true %}
-                    <a type="button" class="btn btn-secondary mb-2" href="{{ path('animal_update', {id: animal.id}) }}">Modifier</a>
-                {% endif %}
-                    <a type="button" class="btn btn-primary" href="{{ path('animal_display', {id: animal.id}) }}">Voir</a>
+        
+        <div class="card-footer bg-transparent border-0">
+            <div class="d-flex justify-content-between align-items-center">
+                <small class="text-muted">
+                    <i class="fas fa-map-marker-alt me-1"></i>
+                        Adresse non disponible
+                </small>
+                <a href="{{ path('animal_display', {'id': animal.id}) }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-eye me-1"></i>Voir
+                </a>
             </div>
         </div>
     </div>
