@@ -7,6 +7,7 @@ use App\Model\SearchAnimal;
 use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Doctrine\Persistence\ManagerRegistry;
 
 class AnimalRepository extends EntityRepository
 {
@@ -117,5 +118,43 @@ class AnimalRepository extends EntityRepository
             ->setMaxResults($pageSize)
             ->getQuery()
             ->getResult();
+    }
+
+
+    /** Hydrate la colonne geography depuis la WKT stockée (lon lat). */
+    public function syncGeography(Animal $animal): void
+    {
+        if ($animal->getGeo() === null || $animal->getId() === null) return;
+
+        $this->db->executeStatement(
+        // ST_GeogFromText attend 'SRID=4326;POINT(lon lat)'
+            "UPDATE animal 
+             SET geo = ST_GeogFromText(:wkt)
+             WHERE id = :id",
+            [
+                'wkt' => 'SRID=4326;'.$animal->getGeo(),
+                'id'  => $animal->getId(),
+            ]
+        );
+    }
+
+    /** Recherche par rayon (km) autour (lat,lng) */
+    public function findWithinRadius(float $lat, float $lng, int $radiusKm = 25, int $limit = 100): array
+    {
+        $meters = $radiusKm * 1000;
+
+        $qb = $this->createQueryBuilder('a')
+            ->andWhere('a.geo IS NOT NULL')
+            ->addSelect('ST_Distance(a.geo, ST_MakePoint(:lng, :lat)::geography) AS HIDDEN dist')
+            ->andWhere('STDWithin(a.geo, ST_MakePoint(:lng, :lat)::geography, :meters) = true')
+            ->setParameters([
+                'lat' => $lat,
+                'lng' => $lng,
+                'meters' => $meters,
+            ])
+            ->orderBy('dist', 'ASC')
+            ->setMaxResults($limit);
+
+        return $qb->getQuery()->getArrayResult();
     }
 }

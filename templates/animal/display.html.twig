@@ -125,6 +125,20 @@
                             </div>
                         {% endif %}
 
+                        {% set address = null %}
+                        {% if animal.address is defined and animal.address %}
+                            {% set address = animal.address %}
+                        {% elseif animal.organisation and animal.organisation.address is defined and animal.organisation.address %}
+                            {% set address = animal.organisation.address %}
+                        {% endif %}
+                        {% if address.city %}
+                            <div class="d-flex align-items-center mb-4">
+                                <i class="fas fa-map-marker-alt text-danger me-2" data-bs-toggle="tooltip"
+                                   data-bs-placement="bottom" title="Adresse"></i>
+                                <span>{{ address.city }}</span>
+                            </div>
+                        {% endif %}
+
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="card bg-body-tertiary border-0 h-100">

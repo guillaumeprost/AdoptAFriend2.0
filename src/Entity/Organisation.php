@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Entity\Animal\Animal;
+use App\Entity\ValueObject\Address;
+use App\Entity\ValueObject\GeoPoint;
 use App\Repository\OrganisationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -32,9 +34,6 @@ class Organisation
     #[Column(nullable:true)]
     private ?array $images;
 
-    #[Column(nullable:true)]
-    private string $address;
-
     #[Column(type:'text', nullable:true)]
     private string $signature;
 
@@ -44,10 +43,21 @@ class Organisation
     #[OneToMany(mappedBy: 'organisation', targetEntity: User::class, cascade: ['persist', 'remove'])]
     private Collection $users;
 
+    #[ORM\Embedded(class: Address::class, columnPrefix: 'address_')]
+    private Address $address;
+
+    #[ORM\Embedded(class: GeoPoint::class, columnPrefix: 'geo_')]
+    private GeoPoint $location;
+
+    #[ORM\Column(type:'string', nullable:true, columnDefinition:'GEOGRAPHY(POINT,4326)')]
+    private ?string $geo = null;
+
     public function __construct()
     {
         $this->animals = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->address = new Address();
+        $this->location = new GeoPoint();
     }
 
     public function getName(): string

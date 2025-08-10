@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -107,6 +108,44 @@ abstract class AnimalType extends AbstractType
                 'label' => 'Affinité avec les chiens',
                 'required' => false,
                 'choices' => Affinities::cases()
+            ])
+            // Adresse (Address embeddable)
+            ->add('addressLine1', TextType::class, [
+                'label' => 'Adresse',
+                'property_path' => 'address.line1',
+                'required' => true,
+                'attr' => ['autocomplete' => 'address-line1'],
+            ])
+            ->add('addressLine2', TextType::class, [
+                'label' => 'Complément',
+                'property_path' => 'address.line2',
+                'required' => false,
+            ])
+            ->add('postalCode', TextType::class, [
+                'label' => 'Code postal',
+                'property_path' => 'address.postalCode',
+                'required' => true,
+                'attr' => ['inputmode' => 'numeric'],
+            ])
+            ->add('city', TextType::class, [
+                'label' => 'Ville',
+                'property_path' => 'address.city',
+                'required' => true,
+            ])
+            ->add('country', TextType::class, [
+                'label' => 'Pays',
+                'property_path' => 'address.country',
+                'required' => true,
+                'empty_data' => 'FR',
+            ])
+            // Coordonnées (GeoPoint embeddable)
+            ->add('geoLat', HiddenType::class, [
+                'property_path' => 'location.lat',
+                'required' => false,
+            ])
+            ->add('geoLng', HiddenType::class, [
+                'property_path' => 'location.lng',
+                'required' => false,
             ])
         ;
     }

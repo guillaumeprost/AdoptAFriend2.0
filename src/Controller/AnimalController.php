@@ -12,6 +12,7 @@ use App\Form\Type\Animal\DogType;
 use App\Form\Type\Search\AnimalType;
 use App\Model\SearchAnimal;
 use App\Service\FileService;
+use App\Service\GeocoderService;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,8 +29,11 @@ class AnimalController extends AbstractController
         Cat::DISCRIMINATOR => CatType::class
     ];
 
-    public function __construct(private FileService $fileService, private ManagerRegistry $doctrine)
-    {
+    public function __construct(
+        private FileService $fileService,
+        private ManagerRegistry $doctrine,
+        private GeocoderService $geocoder
+    ) {
     }
 
     #[Route('/create/{type}', name: 'create')]
@@ -58,6 +62,20 @@ class AnimalController extends AbstractController
 
                 if ($this->getUser()->getOrganisation() instanceof Organisation) {
                     $animal->setOrganisation($this->getUser()->getOrganisation());
+                }
+
+                // Si coords manquantes -> géocoder côté serveur
+                if (!$animal->getLocation()?->lat || !$animal->getLocation()?->lng) {
+                    $q = sprintf('%s, %s %s, %s',
+                        $animal->getAddress()->line1 ?? '',
+                        $animal->getAddress()->postalCode ?? '',
+                        $animal->getAddress()->city ?? '',
+                        $animal->getAddress()->country ?? 'FR'
+                    );
+                    if ($geo = $this->geocoder->geocode($q)) {
+                        $animal->getLocation()->lat = $geo['lat'];
+                        $animal->getLocation()->lng = $geo['lng'];
+                    }
                 }
 
                 $entityManager = $this->doctrine->getManager();

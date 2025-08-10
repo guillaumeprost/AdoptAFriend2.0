@@ -7,7 +7,15 @@ doctrine:
         user: 'user'
         password: 'pass'
         charset: 'utf8'
-        server_version: '14'
+        server_version: '16'
+        types:
+          geometry: CrEOF\Spatial\DBAL\Types\GeometryType
+          point: CrEOF\Spatial\DBAL\Types\Geometry\PointType
+          polygon: CrEOF\Spatial\DBAL\Types\Geometry\PolygonType
+          linestring: CrEOF\Spatial\DBAL\Types\Geometry\LineStringType
+          geography: CrEOF\Spatial\DBAL\Types\GeographyType
+        mapping_types:
+          geography: geography
 
         # IMPORTANT: You MUST configure your server version,
         # either here or in the DATABASE_URL env var (see .env file)
@@ -23,3 +31,11 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Entity'
                 prefix: 'App\Entity'
                 alias: App
+        dql:
+          numeric_functions:
+            ST_Distance: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STDistance
+            ST_DWithin: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STDWithin
+          string_functions:
+            ST_AsText: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STAsText
+            ST_GeogFromText: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STGeogFromText
+            ST_MakePoint: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STMakePoint
