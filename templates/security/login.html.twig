@@ -2,48 +2,110 @@
 
 {% block title %}Log in!{% endblock %}
 
+
 {% block content %}
 
     <div class="container py-5">
-        <form method="post">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-5">
+                {% if error %}
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="fa fa-exclamation-circle me-2"></i>
+                        {{ error.messageKey|trans(error.messageData, 'security') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+                    </div>
+                {% endif %}
 
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                {% if app.user %}
+                    <div class="alert alert-info d-flex align-items-center" role="alert">
+                        <i class="fa fa-user-circle me-2"></i>
+                        <div>
+                            Connecté en tant que <strong>{{ app.user.username }}</strong>.
+                            <a href="{{ path('app_logout') }}" class="alert-link ms-1">Se déconnecter</a>
+                        </div>
+                    </div>
+                {% endif %}
+
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <h1 class="h4 mb-1">Connexion</h1>
+                            <p class="text-muted small mb-0">Accédez à votre compte pour gérer vos annonces.</p>
+                        </div>
+
+                        <form method="post" novalidate>
+                            <div class="form-floating mb-3">
+                                <input
+                                    type="email"
+                                    class="form-control"
+                                    id="inputEmail"
+                                    name="_username"
+                                    value="{{ last_username }}"
+                                    placeholder="nom@domaine.fr"
+                                    required
+                                    autofocus
+                                >
+                                <label for="inputEmail"><i class="fa fa-envelope me-2"></i>Email</label>
+                                <div class="form-text">Utilisez l’adresse email de votre compte.</div>
+                            </div>
+
+                            <div class="form-floating mb-3 position-relative">
+                                <input
+                                    type="password"
+                                    class="form-control"
+                                    id="inputPassword"
+                                    name="_password"
+                                    placeholder="••••••••"
+                                    required
+                                >
+                                <label for="inputPassword"><i class="fa fa-lock me-2"></i>Mot de passe</label>
+                                <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-50 end-0 translate-middle-y me-2" id="togglePassword" aria-label="Afficher/masquer le mot de passe">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                                <div class="form-text">Minimum 8 caractères recommandés.</div>
+                            </div>
+
+                            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" value="on" id="remember_me" name="_remember_me">
+                                    <label class="form-check-label" for="remember_me">
+                                        Se souvenir de moi
+                                    </label>
+                                </div>
+                                <a href="{{ path('register') }}" class="small text-muted">Créer un compte</a>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button class="btn btn-primary btn-lg" type="submit">
+                                    <i class="fa fa-sign-in-alt me-2"></i>Se connecter
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            {% endif %}
 
-            <h1 class="h3 mb-3 font-weight-normal">Connectez vous</h1>
-            <label for="inputEmail">Email</label>
-            <input type="email" value="{{ last_username }}" name="_username" id="inputEmail" class="form-control" required
-                   autofocus>
-            <label for="inputPassword">Password</label>
-            <input type="password" name="_password" id="inputPassword" class="form-control" required>
-
-            <input type="hidden" name="_csrf_token"
-                   value="{{ csrf_token('authenticate') }}"
-            >
-
-            {#
-            Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-            See https://symfony.com/doc/current/security/remember_me.html
-
-            <div class="checkbox mb-3">
-                <label>
-                    <input type="checkbox" name="_remember_me"> Remember me
-                </label>
+                <p class="text-center text-muted small mt-3 mb-0">
+                    Besoin d’aide ? <a href="#" class="text-decoration-none">Contacter le support</a>
+                </p>
             </div>
-            #}
-            <br>
-            <button class="btn btn-lg btn-primary" type="submit">
-                Se connecter
-            </button>
-            <a class="btn btn-lg btn-secondary" href="{{ path('register') }}">
-                Créer un compte
-            </a>
-        </form>
+        </div>
     </div>
+
+    <script>
+    (function(){
+        const toggle = document.getElementById('togglePassword');
+        const input  = document.getElementById('inputPassword');
+        if (toggle && input) {
+            toggle.addEventListener('click', function(){
+                const isText = input.getAttribute('type') === 'text';
+                input.setAttribute('type', isText ? 'password' : 'text');
+                this.querySelector('i')?.classList.toggle('fa-eye');
+                this.querySelector('i')?.classList.toggle('fa-eye-slash');
+            });
+        }
+    })();
+    </script>
+
 {% endblock %}

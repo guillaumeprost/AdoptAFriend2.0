@@ -31,10 +31,6 @@ class RegistrationController extends AbstractController
     {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
-        $form->add('save', SubmitType::class, [
-            'label' => "S'inscrire",
-            'attr' => ['class' => 'btn btn-primary'],
-        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

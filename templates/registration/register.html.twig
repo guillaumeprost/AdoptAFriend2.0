@@ -3,13 +3,127 @@
 {% block title %}Register{% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div class="container py-5">
         {% for flashError in app.flashes('verify_email_error') %}
-            <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="fa fa-exclamation-circle me-2"></i>
+                {{ flashError }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fermer"></button>
+            </div>
         {% endfor %}
 
-        <h1 class="mt-5">Inscrivez vous</h1>
+        <div class="row justify-content-center">
+            <div class="col-12 col-md-8 col-lg-6">
+                <div class="card shadow-sm border-0">
+                    <div class="card-body p-4">
+                        <div class="text-center mb-4">
+                            <h1 class="h4 mb-1">Créer un compte</h1>
+                            <p class="text-muted small mb-0">Rejoignez Adopt a Friend pour publier et suivre vos annonces.</p>
+                        </div>
 
-        {{ form(registrationForm) }}
+                        {{ form_start(registrationForm, {'attr': {'class': 'needs-validation'}}) }}
+                        {{ form_errors(registrationForm) }}
+
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.name) }}
+                        </div>
+
+
+                        <div class="mb-3">
+                            {{ form_row(registrationForm.firstName) }}
+                        </div>
+
+                        {# Email #}
+                        {% if registrationForm.email is defined %}
+                            <div class="mb-3">
+                                {{ form_row(registrationForm.email, {
+                                    label: 'Email',
+                                    attr: { placeholder: 'nom@domaine.fr', autocomplete: 'email' },
+                                    help: 'Utilisez une adresse valide pour la confirmation.',
+                                    help_attr: { class: 'form-text text-muted' }
+                                }) }}
+                            </div>
+                        {% endif %}
+
+                        {# Mot de passe (gère RepeatedType ou champ simple) #}
+                        {% if registrationForm.plainPassword is defined and registrationForm.plainPassword.first is defined %}
+                            <div class="mb-3 position-relative">
+                                {{ form_row(registrationForm.plainPassword.first, {
+                                    label: 'Mot de passe',
+                                    attr: { placeholder: '••••••••', autocomplete: 'new-password' },
+                                    help: 'Au moins 8 caractères. Évitez les mots courants.',
+                                    help_attr: { class: 'form-text text-muted' }
+                                }) }}
+                                <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 mt-2 me-2 toggle-pass" data-target="{{ registrationForm.plainPassword.first.vars.id }}" aria-label="Afficher/masquer le mot de passe">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </div>
+                            <div class="mb-3 position-relative">
+                                {{ form_row(registrationForm.plainPassword.second, {
+                                    label: 'Confirmer le mot de passe',
+                                    attr: { placeholder: '••••••••', autocomplete: 'new-password' }
+                                }) }}
+                                <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 mt-2 me-2 toggle-pass" data-target="{{ registrationForm.plainPassword.second.vars.id }}" aria-label="Afficher/masquer le mot de passe">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </div>
+                        {% elseif registrationForm.plainPassword is defined %}
+                            <div class="mb-3 position-relative">
+                                {{ form_row(registrationForm.plainPassword, {
+                                    label: 'Mot de passe',
+                                    attr: { placeholder: '••••••••', autocomplete: 'new-password' },
+                                    help: 'Au moins 8 caractères. Évitez les mots courants.',
+                                    help_attr: { class: 'form-text text-muted' }
+                                }) }}
+                                <button type="button" class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 mt-2 me-2 toggle-pass" data-target="{{ registrationForm.plainPassword.vars.id }}" aria-label="Afficher/masquer le mot de passe">
+                                    <i class="fa fa-eye"></i>
+                                </button>
+                            </div>
+                        {% endif %}
+
+                        {# CGU #}
+                        {% if registrationForm.agreeTerms is defined %}
+                            <div class="mb-3">
+                                {{ form_row(registrationForm.agreeTerms, {
+                                    label: 'J’accepte les conditions d’utilisation',
+                                }) }}
+                                <div class="form-text">En créant un compte, vous acceptez nos <a href="#" target="_blank" rel="noopener">CGU</a>.</div>
+                            </div>
+                        {% endif %}
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fa fa-user-plus me-2"></i>S’inscrire
+                            </button>
+                        </div>
+
+                        {{ form_end(registrationForm) }}
+                    </div>
+                </div>
+
+                <p class="text-center text-muted small mt-3 mb-0">
+                    Déjà un compte ? <a href="{{ path('login') }}" class="text-decoration-none">Se connecter</a>
+                </p>
+            </div>
+        </div>
     </div>
+
+    <script>
+    (function(){
+        document.querySelectorAll('.toggle-pass').forEach(function(btn){
+            btn.addEventListener('click', function(){
+                var id = this.getAttribute('data-target');
+                var input = document.getElementById(id);
+                if (!input) return;
+                var isText = input.getAttribute('type') === 'text';
+                input.setAttribute('type', isText ? 'password' : 'text');
+                var icon = this.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('fa-eye');
+                    icon.classList.toggle('fa-eye-slash');
+                }
+            });
+        });
+    })();
+    </script>
 {% endblock %}
