@@ -34,20 +34,23 @@ abstract class AnimalType extends AbstractType
             ->add('sex', ChoiceType::class, [
                 'label' => 'Sexe',
                 'required' => false,
-                'choices' => array_flip(Sex::$choices)
+                'choices' => array_flip(Sex::$choices),
+                'placeholder' => 'Sélectionne le sexe',
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'required' => true,
                 'attr' => [
                     'rows' => 10,
-                    'placeholder' => 'Décris ton animal...',
+                    'placeholder' => 'Âge, caractère, entente, habitudes…',
                 ],
             ])
             ->add('images', FileType::class, [
                 'label' => 'Images',
                 'multiple' => true,
-                'required' => false
+                'required' => false,
+                'help' => 'JPG/PNG/WebP conseillés. Ajoute plusieurs photos nettes (portrait + entier).',
+                'help_attr' => ['class' => 'form-text text-muted']
             ])
             ->add('birthDate', DateType::class, [
                 'widget' => 'choice',
@@ -58,16 +61,19 @@ abstract class AnimalType extends AbstractType
             ->add('weight', NumberType::class, [
                 'label' => 'Poids',
                 'required' => false,
+                'attr' => ['placeholder' => 'En kg']
             ])
             ->add('fur', ChoiceType::class, [
                 'label' => 'Pelage',
                 'required' => false,
-                'choices' => array_flip(Fur::$types)
+                'choices' => array_flip(Fur::$types),
+                'placeholder' => 'Non précisé'
             ])
             ->add('color', ChoiceType::class, [
                 'label' => 'Couleur',
                 'required' => false,
-                'choices' => Color::$types
+                'choices' => Color::$types,
+                'placeholder' => 'Non précisée'
             ])
             ->add('vaccination', CheckboxType::class, [
                 'label' => 'Vacciné ?',
@@ -92,51 +98,63 @@ abstract class AnimalType extends AbstractType
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Compensation demandée',
-                'required' => false,
+                'required' => false
             ])
             ->add('childAffinities', ChoiceType::class, [
                 'label' => 'Affinité avec les enfants',
                 'required' => false,
-                'choices' => Affinities::cases()
+                'choices' => Affinities::cases(),
+                'placeholder' => 'Non précisé'
             ])
             ->add('catsAffinities', ChoiceType::class, [
                 'label' => 'Affinité avec les chats',
                 'required' => false,
-                'choices' => Affinities::cases()
+                'choices' => Affinities::cases(),
+                'placeholder' => 'Non précisé'
             ])
             ->add('dogsAffinities', ChoiceType::class, [
                 'label' => 'Affinité avec les chiens',
                 'required' => false,
-                'choices' => Affinities::cases()
+                'choices' => Affinities::cases(),
+                'placeholder' => 'Non précisé'
             ])
             // Adresse (Address embeddable)
             ->add('addressLine1', TextType::class, [
                 'label' => 'Adresse',
                 'property_path' => 'address.line1',
                 'required' => true,
-                'attr' => ['autocomplete' => 'address-line1'],
+                'attr' => [
+                    'autocomplete' => 'address-line1',
+                    'placeholder' => 'Numéro et rue',
+                ]
             ])
             ->add('addressLine2', TextType::class, [
                 'label' => 'Complément',
                 'property_path' => 'address.line2',
                 'required' => false,
+                'attr' => ['placeholder' => 'Bâtiment, étage, interphone…']
             ])
             ->add('postalCode', TextType::class, [
                 'label' => 'Code postal',
                 'property_path' => 'address.postalCode',
                 'required' => true,
-                'attr' => ['inputmode' => 'numeric'],
+                'attr' => [
+                    'inputmode' => 'numeric',
+                    'placeholder' => 'Ex. 01000',
+                ]
             ])
             ->add('city', TextType::class, [
                 'label' => 'Ville',
                 'property_path' => 'address.city',
                 'required' => true,
+                'attr' => ['placeholder' => 'Ex. Lyon']
             ])
             ->add('country', TextType::class, [
                 'label' => 'Pays',
                 'property_path' => 'address.country',
                 'required' => true,
                 'empty_data' => 'FR',
+                'attr' => ['placeholder' => 'FR']
             ])
             // Coordonnées (GeoPoint embeddable)
             ->add('geoLat', HiddenType::class, [
