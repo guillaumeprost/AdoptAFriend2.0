@@ -1,44 +1,103 @@
 {% extends 'base.html.twig' %}
 
 {% block content %}
-    <div class="album py-5 bg-light px-4">
+    <section class="animals-list-page py-5 px-4">
         <div class="container-fluid">
-            <div class="row p-3 d-flex justify-content-between bd-highlight mb-3">
-                    <h3>{{ totalAnimals }} animaux trouvés !</h3>
+
+            <!-- En-tête de section -->
+            <div class="animals-hero mb-4 p-4 rounded-4 shadow-sm">
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                    <div>
+                        <h1 class="h2 mb-1">Animaux à l'adoption</h1>
+                        <p class="text-muted mb-0">Parcourez nos compagnons et trouvez votre match parfait</p>
+                    </div>
+                    <div class="d-flex align-items-center gap-3">
+                        <span class="badge bg-primary-subtle text-primary-emphasis px-3 py-2">
+                            <i class="fas fa-paw me-2"></i>{{ totalAnimals }} trouvés
+                        </span>
+                    </div>
+                </div>
             </div>
-            <div class="row p-3 d-flex justify-content-between bd-highlight mb-3 h-100 p-5 bg-body-tertiary border rounded-3">
+
+            <!-- Barre de filtres -->
+            <div class="animals-hero mb-4 p-4 rounded-4 shadow-sm">
                 {{ include('animal/include/_search-form.html.twig') }}
             </div>
-            <div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4">
+
+            <!-- Grille d'animaux -->
+            <div class="animals-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
                 {% for animal in animals %}
-                    {% include '/animal/include/_card.html.twig' %}
+                    <div class="col">
+                        {% include '/animal/include/_card.html.twig' %}
+                    </div>
+                {% else %}
+                    <div class="col-12">
+                        <div class="empty-state text-center p-5 bg-white border rounded-4 shadow-sm">
+                            <div class="display-6 mb-3">🐾</div>
+                            <h3 class="mb-2">Aucun animal trouvé</h3>
+                            <p class="text-muted mb-4">Essayez d'élargir vos critères de recherche ou réinitialiser les filtres.</p>
+                            <a href="{{ path('animal_search') }}" class="btn btn-primary">
+                                Réinitialiser la recherche
+                            </a>
+                        </div>
+                    </div>
                 {% endfor %}
             </div>
-        </div>
-        <br><br>
-        <div>
-            <nav>
-                <ul class="pagination justify-content-center">
-                    {% if page > 1 %}
-                        <li class="page-item">
-                            <a class="page-link" href="{{ path('animal_search', {'page': page-1}) }}" tabindex="-1"
-                               aria-disabled="true">Précédents</a>
-                        </li>
+
+            <!-- Pagination -->
+            <hr class="my-4">
+            <nav aria-label="Pagination animaux">
+                {% if pageCount > 1 %}
+                <ul class="pagination pagination-lg justify-content-center animals-pagination">
+                    <li class="page-item {% if page <= 1 %}disabled{% endif %}">
+                        <a class="page-link" href="{{ path('animal_search', {'page': page > 1 ? page-1 : 1}) }}" aria-label="Précédent" tabindex="{% if page <= 1 %}-1{% else %}0{% endif %}">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    {# Calcule une fenêtre centrée autour de la page courante sans utiliser |max / |min #}
+                    {% set start = page - 2 %}
+                    {% if start < 1 %}{% set start = 1 %}{% endif %}
+                    {% set end = page + 2 %}
+                    {% if end > pageCount %}{% set end = pageCount %}{% endif %}
+
+                    {% if (end - start) < 4 %}
+                        {% set start = end - 4 %}
+                        {% if start < 1 %}{% set start = 1 %}{% endif %}
+                        {% set end = start + 4 %}
+                        {% if end > pageCount %}{% set end = pageCount %}{% endif %}
                     {% endif %}
-                    {% for pageNumber in 1..pageCount %}
+
+                    {% if start > 1 %}
+                        <li class="page-item"><a class="page-link" href="{{ path('animal_search', {'page': 1}) }}">1</a></li>
+                        {% if start > 2 %}
+                            <li class="page-item disabled"><span class="page-link">…</span></li>
+                        {% endif %}
+                    {% endif %}
+
+                    {% for pageNumber in start..end %}
                         <li class="page-item {% if page == pageNumber %}active{% endif %}">
-                            <a class="page-link"
-                               href="{{ path('animal_search', {'page': pageNumber}) }}">{{ pageNumber }}</a>
+                            <a class="page-link" href="{{ path('animal_search', {'page': pageNumber}) }}">{{ pageNumber }}</a>
                         </li>
                     {% endfor %}
-                    {% if page < pageCount %}
-                        <li class="page-item">
-                            <a class="page-link {% if (pageCount) == (page) %}disabled{% endif %}"
-                               href="{{ path('animal_search', {'page': page+1}) }}">Suivants</a>
-                        </li>
+
+                    {% if end < pageCount %}
+                        {% if end < pageCount - 1 %}
+                            <li class="page-item disabled"><span class="page-link">…</span></li>
+                        {% endif %}
+                        <li class="page-item"><a class="page-link" href="{{ path('animal_search', {'page': pageCount}) }}">{{ pageCount }}</a></li>
                     {% endif %}
+
+                    <li class="page-item {% if page >= pageCount %}disabled{% endif %}">
+                        <a class="page-link" href="{{ path('animal_search', {'page': page < pageCount ? page+1 : pageCount}) }}" aria-label="Suivant">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
                 </ul>
+                {% endif %}
             </nav>
         </div>
-    </div>
+
+        <!-- -->
+    </section>
 {% endblock %}
