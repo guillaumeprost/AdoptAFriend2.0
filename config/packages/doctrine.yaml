@@ -9,11 +9,11 @@ doctrine:
         charset: 'utf8'
         server_version: '16'
         types:
-          geometry: CrEOF\Spatial\DBAL\Types\GeometryType
-          point: CrEOF\Spatial\DBAL\Types\Geometry\PointType
-          polygon: CrEOF\Spatial\DBAL\Types\Geometry\PolygonType
-          linestring: CrEOF\Spatial\DBAL\Types\Geometry\LineStringType
-          geography: CrEOF\Spatial\DBAL\Types\GeographyType
+          geometry:   LongitudeOne\Spatial\DBAL\Types\GeometryType
+          point:      LongitudeOne\Spatial\DBAL\Types\Geometry\PointType
+          polygon:    LongitudeOne\Spatial\DBAL\Types\Geometry\PolygonType
+          linestring: LongitudeOne\Spatial\DBAL\Types\Geometry\LineStringType
+          geography:  LongitudeOne\Spatial\DBAL\Types\GeographyType
         mapping_types:
           geography: geography
 
@@ -33,9 +33,8 @@ doctrine:
                 alias: App
         dql:
           numeric_functions:
-            ST_Distance: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STDistance
-            ST_DWithin: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STDWithin
+            ST_Distance: LongitudeOne\Spatial\ORM\Query\AST\Functions\Standard\StDistance
+            ST_DWithin:  LongitudeOne\Spatial\ORM\Query\AST\Functions\PostgreSql\SpDWithin
           string_functions:
-            ST_AsText: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STAsText
-            ST_GeogFromText: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STGeogFromText
-            ST_MakePoint: CrEOF\Spatial\ORM\Query\AST\Functions\PostgreSql\STMakePoint
+            ST_AsText:       LongitudeOne\Spatial\ORM\Query\AST\Functions\Standard\StAsText
+            ST_GeogFromText: LongitudeOne\Spatial\ORM\Query\AST\Functions\PostgreSql\SpGeogFromText

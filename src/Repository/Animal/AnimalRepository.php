@@ -7,7 +7,6 @@ use App\Model\SearchAnimal;
 use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
-use Doctrine\Persistence\ManagerRegistry;
 
 class AnimalRepository extends EntityRepository
 {
@@ -27,7 +26,6 @@ class AnimalRepository extends EntityRepository
         return new Paginator($query);
     }
 
-
     public function findBySearch(
         SearchAnimal $searchAnimal,
         int $page = 1,
@@ -35,13 +33,14 @@ class AnimalRepository extends EntityRepository
     ): Paginator {
         $queryBuilder = $this->createQueryBuilder('animal');
 
+        $hasCoords = isset($searchAnimal->geoLat, $searchAnimal->geoLng)
+            && $searchAnimal->geoLat !== null && $searchAnimal->geoLng !== null;
+
         if (isset($searchAnimal->type)) {
             $type = $searchAnimal->type; // 'dog' ou 'cat'
-
-            //TODO Fix me
             if (isset(Animal::DISCRIMINATOR_MAP[$type])) {
-                $queryBuilder->andWhere('animal INSTANCE OF :type')
-                    ->setParameter('type', Animal::DISCRIMINATOR_MAP[$type]);
+                // INSTANCE OF attend un FQCN directement dans le DQL
+                $queryBuilder->andWhere('animal INSTANCE OF ' . Animal::DISCRIMINATOR_MAP[$type]);
             }
         }
 
@@ -86,10 +85,22 @@ class AnimalRepository extends EntityRepository
                 ->setParameter('childAffinities', $searchAnimal->childAffinities);
         }
 
-
         $queryBuilder
             ->andWhere('animal.status != :adopted')
             ->setParameter('adopted', Animal::STATUS_ADOPTED);
+
+        if ($hasCoords) {
+            $meters = (int) (($searchAnimal->radiusKm ?? 25) * 1000);
+            $wkt = sprintf('SRID=4326;POINT(%F %F)', $searchAnimal->geoLng, $searchAnimal->geoLat);
+
+            $queryBuilder
+                ->andWhere('animal.location.lat IS NOT NULL AND animal.location.lng IS NOT NULL')
+                ->addSelect("ST_Distance(ST_GeogFromText(CONCAT('SRID=4326;POINT(', animal.location.lng, ' ', animal.location.lat, ')')), ST_GeogFromText(:wkt)) AS HIDDEN dist")
+                ->andWhere("ST_DWithin(ST_GeogFromText(CONCAT('SRID=4326;POINT(', animal.location.lng, ' ', animal.location.lat, ')')), ST_GeogFromText(:wkt), :meters) = true")
+                ->setParameter('wkt', $wkt)
+                ->setParameter('meters', $meters)
+                ->addOrderBy('dist', 'ASC');
+        }
 
         $query = $queryBuilder->getQuery();
 
@@ -120,19 +131,18 @@ class AnimalRepository extends EntityRepository
             ->getResult();
     }
 
-
     /** Hydrate la colonne geography depuis la WKT stockée (lon lat). */
     public function syncGeography(Animal $animal): void
     {
         if ($animal->getGeo() === null || $animal->getId() === null) return;
 
         $this->db->executeStatement(
-        // ST_GeogFromText attend 'SRID=4326;POINT(lon lat)'
+            // ST_GeogFromText attend 'SRID=4326;POINT(lon lat)'
             "UPDATE animal 
              SET geo = ST_GeogFromText(:wkt)
              WHERE id = :id",
             [
-                'wkt' => 'SRID=4326;'.$animal->getGeo(),
+                'wkt' => 'SRID=4326;' . $animal->getGeo(),
                 'id'  => $animal->getId(),
             ]
         );
@@ -142,16 +152,14 @@ class AnimalRepository extends EntityRepository
     public function findWithinRadius(float $lat, float $lng, int $radiusKm = 25, int $limit = 100): array
     {
         $meters = $radiusKm * 1000;
+        $wkt = sprintf('SRID=4326;POINT(%F %F)', $lng, $lat);
 
         $qb = $this->createQueryBuilder('a')
-            ->andWhere('a.geo IS NOT NULL')
-            ->addSelect('ST_Distance(a.geo, ST_MakePoint(:lng, :lat)::geography) AS HIDDEN dist')
-            ->andWhere('STDWithin(a.geo, ST_MakePoint(:lng, :lat)::geography, :meters) = true')
-            ->setParameters([
-                'lat' => $lat,
-                'lng' => $lng,
-                'meters' => $meters,
-            ])
+            ->andWhere('a.location.lat IS NOT NULL AND a.location.lng IS NOT NULL')
+            ->addSelect("ST_Distance(ST_GeogFromText(CONCAT('SRID=4326;POINT(', a.location.lng, ' ', a.location.lat, ')')), ST_GeogFromText(:wkt)) AS HIDDEN dist")
+            ->andWhere("ST_DWithin(ST_GeogFromText(CONCAT('SRID=4326;POINT(', a.location.lng, ' ', a.location.lat, ')')), ST_GeogFromText(:wkt), :meters) = true")
+            ->setParameter('wkt', $wkt)
+            ->setParameter('meters', $meters)
             ->orderBy('dist', 'ASC')
             ->setMaxResults($limit);
 

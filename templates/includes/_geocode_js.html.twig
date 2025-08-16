@@ -15,15 +15,26 @@
         const lat = document.querySelector('[name$="[geoLat]"]');
         const lng = document.querySelector('[name$="[geoLng]"]');
 
-        const statusEl = document.createElement('small');
-        statusEl.className = 'text-muted d-block mt-1';
-        (adr?.parentElement || document.body).appendChild(statusEl);
+        // Utiliser un élément status existant si présent
+        const statusExisting = document.getElementById('geocodeStatus');
+        const statusEl = statusExisting || document.createElement('small');
+        if (!statusExisting) {
+          statusEl.className = 'text-muted d-block mt-1';
+          (adr?.parentElement || document.body).appendChild(statusEl);
+        }
 
         async function geocodeNow() {
-            if (!adr || !cp || !city || !country) return;
+            if (!adr) return;
 
-            const q = [adr.value, adr2?.value, cp.value, city.value, country.value]
-                .filter(Boolean).join(', ').trim();
+            const parts = [];
+            if (adr && adr.value) parts.push(adr.value);
+            if (adr2 && adr2.value) parts.push(adr2.value);
+            if (cp && cp.value) parts.push(cp.value);
+            if (city && city.value) parts.push(city.value);
+            if (country && country.value) parts.push(country.value);
+            // Si on n'a qu'une adresse seule, ajouter un contexte pays par défaut
+            if (parts.length === 1 && !country) parts.push('France');
+            const q = parts.join(', ').trim();
 
             if (q.length < 6) return; // évite les requêtes trop tôt
 
