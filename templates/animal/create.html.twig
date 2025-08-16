@@ -3,16 +3,76 @@
 {% block content %}
 
     <div class="container py-5">
-        <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
-            {% for type, data in forms %}
-                <li class="nav-item" role="presentation">
-                    <button class="nav-link {% if loop.first %}active{% endif %}" id="{{ type }}-tab"
-                            data-bs-toggle="tab" data-bs-target="#{{ type }}-tab-pane" type="button" role="tab"
-                            aria-controls="{{ type }}-tab-pane" aria-selected="true">
-                        {{ data.label }}</button>
-                </li>
-            {% endfor %}
-        </ul>
+        <div class="animal-type-tabs">
+            <style>
+                /* Palette tabs alignée sur la charte du site */
+                .animal-type-tabs {
+                  /* Neutralise le fond bleu Bootstrap */
+                  --bs-nav-pills-link-active-bg: transparent;
+                  --bs-nav-pills-link-active-color: #fff;
+                }
+                .animal-type-tabs #myTab.nav { border-bottom: none; }
+
+                .animal-type-tabs .nav-link {
+                  margin: 0 .25rem;
+                  border: 1px solid rgba(0,0,0,0.06);
+                  border-radius: 14px;
+                  padding: .65rem 1rem;
+                  color: var(--p4n-text, #2b2b2b);
+                  background: #fff;
+                  transition: all .2s ease;
+                  box-shadow: var(--p4n-shadow-soft, 0 1px 3px rgba(0,0,0,.06));
+                }
+                .animal-type-tabs .nav-link .tab-icon { color: var(--p4n-accent, #d4a24c); }
+                .animal-type-tabs .nav-link .tab-label { font-weight: 600; }
+
+                .animal-type-tabs .nav-link:hover {
+                  transform: translateY(-1px);
+                  box-shadow: var(--p4n-shadow-medium, 0 6px 14px rgba(0,0,0,.08));
+                  border-color: rgba(212,162,76, .35); /* proche $orange-dore */
+                }
+
+                /* États actifs forcés sur le gradient de marque */
+                .animal-type-tabs .nav-link.active,
+                .animal-type-tabs .nav-link.active:focus,
+                .animal-type-tabs .nav-link.active:hover {
+                  color: #fff !important;
+                  background: var(--p4n-gradient, linear-gradient(90deg,#F59E0B,#EC4899)) !important; /* $gradient-primary */
+                  border-color: transparent !important;
+                  box-shadow: var(--p4n-shadow-medium, 0 6px 14px rgba(0,0,0,.08));
+                }
+                .animal-type-tabs .nav-link.active .tab-icon { color: #fff; }
+
+                /* Teinte subtile par type (bordure) quand inactif */
+                .animal-type-tabs .nav-link.tab-dog { border-color: rgba(212,162,76,.25); }
+                .animal-type-tabs .nav-link.tab-cat { border-color: rgba(212,162,76,.18); }
+
+                /* Quand actif, on unifie sur le gradient brand */
+                .animal-type-tabs .nav-link.tab-dog.active,
+                .animal-type-tabs .nav-link.tab-cat.active {
+                  background: var(--p4n-gradient, linear-gradient(90deg,#F59E0B,#EC4899)) !important;
+                  border-color: transparent !important;
+                }
+            </style>
+            <ul class="nav nav-pills nav-justified" id="myTab" role="tablist">
+                {% for type, data in forms %}
+                    {% set lowerType = type|lower %}
+                    {% set lowerLabel = data.label|lower %}
+                    {% set isDog = ('dog' in lowerType) or ('chien' in lowerLabel) %}
+                    {% set icon = isDog ? 'fa-dog' : 'fa-cat' %}
+                    <li class="nav-item flex-fill" role="presentation">
+                        <button class="nav-link d-flex align-items-center justify-content-center gap-2 {{ isDog ? 'tab-dog' : 'tab-cat' }} {% if loop.first %}active{% endif %}"
+                                id="{{ type }}-tab"
+                                data-bs-toggle="tab" data-bs-target="#{{ type }}-tab-pane" type="button" role="tab"
+                                aria-controls="{{ type }}-tab-pane" aria-selected="{% if loop.first %}true{% else %}false{% endif %}"
+                                aria-label="Créer un {{ data.label }}">
+                            <span class="tab-icon"><i class="fas {{ icon }}"></i></span>
+                            <span class="tab-label">{{ data.label }}</span>
+                        </button>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
 
         <div class="tab-content" id="myTabContent">
             {% for type, data in forms %}
@@ -22,10 +82,113 @@
                     <h1 class="mt-5">Ajouter un {{ data.label }}</h1>
                     <p class="lead">Ajouter un {{ data.label }} à adopter</p>
 
-                    {{ form(data.form) }}
+                    {{ form_start(data.form, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+                    <div class="row g-4 mt-3">
+                        <div class="col-12">
+                            <div class="card shadow-sm">
+                                <div class="card-body">
+                                    <div class="d-flex align-items-center justify-content-between mb-3">
+                                        <div>
+                                            <span class="text-muted">Renseignez les informations de l’animal</span>
+                                        </div>
+                                        <small class="text-muted">Les champs marqués d’un <span class="text-danger">*</span> sont obligatoires</small>
+                                    </div>
+
+                                    {# Layout explicite et organisé en groupes #}
+                                    <div class="row g-3">
+                                        <!-- Colonne gauche : Identité, Description, Médias -->
+                                        <div class="col-md-6">
+                                            <div class="card border-0 mb-3">
+                                                <div class="card-body p-3">
+                                                    <h6 class="text-uppercase text-muted mb-3">Identité</h6>
+                                                    {{ form_row(data.form.name) }}
+                                                    <div class="row">
+                                                        <div class="col-sm-6">{{ form_row(data.form.sex) }}</div>
+                                                        <div class="col-sm-6">{{ form_row(data.form.birthDate) }}</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">{{ form_row(data.form.weight) }}</div>
+                                                        <div class="col-sm-6">{{ form_row(data.form.price) }}</div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-sm-6">{{ form_row(data.form.color) }}</div>
+                                                        <div class="col-sm-6">{{ form_row(data.form.fur) }}</div>
+                                                    </div>
+
+                                                    {{ form_row(data.form.description) }}
+
+                                                    <h6 class="text-uppercase text-muted mt-4 mb-2">Photos</h6>
+                                                    {{ form_row(data.form.images) }}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Colonne droite : Localisation, Santé, Comportement -->
+                                        <div class="col-md-6">
+                                            <div class="card bg-light-subtle border-0 mb-3">
+                                                <div class="card-body">
+                                                    <h6 class="text-uppercase text-muted mb-3">Localisation</h6>
+                                                    {{ form_row(data.form.addressLine1) }}
+                                                    {{ form_row(data.form.addressLine2) }}
+                                                    <div class="row">
+                                                        <div class="col-sm-5">{{ form_row(data.form.postalCode) }}</div>
+                                                        <div class="col-sm-7">{{ form_row(data.form.city) }}</div>
+                                                    </div>
+                                                    {{ form_row(data.form.country) }}
+                                                    {# Champs cachés lat/lng #}
+                                                    {{ form_row(data.form.geoLat) }}
+                                                    {{ form_row(data.form.geoLng) }}
+                                                    <div id="geocodeStatus" class="small text-muted mt-1"></div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card border-0 mb-3">
+                                                <div class="card-body p-3">
+                                                    <h6 class="text-uppercase text-muted mb-3">Santé</h6>
+                                                    <div class="row">
+                                                        <div class="col-sm-4">{{ form_row(data.form.vaccination) }}</div>
+                                                        <div class="col-sm-4">{{ form_row(data.form.sterilized) }}</div>
+                                                        <div class="col-sm-4">{{ form_row(data.form.dewormed) }}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="card border-0">
+                                                <div class="card-body p-3">
+                                                    <h6 class="text-uppercase text-muted mb-3">Comportement</h6>
+                                                    {{ form_row(data.form.childAffinities) }}
+                                                    {{ form_row(data.form.catsAffinities) }}
+                                                    {{ form_row(data.form.dogsAffinities) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{ form_rest(data.form) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Barre d’actions persistante -->
+                    <div class="fixed-bottom bg-body-tertiary border-top py-3">
+                        <div class="container d-flex justify-content-between align-items-center">
+                            <span class="small text-muted">Vous pourrez modifier ces informations après publication.</span>
+                            <div class="d-flex gap-2">
+                                <a href="javascript:history.back()" class="btn btn-outline-secondary">Annuler</a>
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa fa-check me-1"></i> Publier l’annonce
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{ form_end(data.form) }}
                 </div>
             {% endfor %}
         </div>
     </div>
 
+    {% include 'includes/_geocode_js.html.twig' %}
 {% endblock %}

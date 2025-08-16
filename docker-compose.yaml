@@ -7,13 +7,13 @@ services:
   ###> doctrine/doctrine-bundle ###
   database:
     container_name: database
-    image: bitnami/postgresql:16.1.0
+    image: postgis/postgis:16-3.4
     ports:
       - "5432:5432"
     environment:
-      POSTGRESQL_DATABASE: adopt
-      POSTGRESQL_PASSWORD: pass
-      POSTGRESQL_USER: user
+      POSTGRES_DB: adopt
+      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: user
       POSTGRESQL_POSTGRES_PASSWORD: postpass
     networks:
       - app_network

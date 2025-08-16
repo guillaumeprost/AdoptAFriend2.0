@@ -38,6 +38,19 @@
     <div class="col">
         {{ form_row(form.childAffinities) }}
     </div>
+
+<div class="row">
+    <div class="col">
+        {{ form_row(form.addressLine1) }}
+        {# Champs cachés lat/lng #}
+        {{ form_row(form.geoLat) }}
+        {{ form_row(form.geoLng) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col">
+        <div id="geocodeStatus" class="small text-muted mt-1"></div>
+    </div>
 </div>
 
 <div class="row">
@@ -45,4 +58,6 @@
         {{ form_row(form.search) }}
     </div>
 </div>
+
+    {% include 'includes/_geocode_js.html.twig' %}
 {{ form_end(form) }}

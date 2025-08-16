@@ -25,6 +25,11 @@ class SearchAnimal
 
     public ?bool $dewormed = null;
 
+    public ?string $address = null;
+    public ?float $geoLat = null;
+    public ?float $geoLng = null;
+    public ?int $radiusKm = 50;
+
     public ?Organisation $organisation = null;
 
     public ?Affinities $dogsAffinities = null;

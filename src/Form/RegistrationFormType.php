@@ -20,33 +20,41 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez renseigner votre nom.']),
+                ],
             ])
             ->add('firstName', TextType::class, [
-                'label' => 'Prénom'
+                'label' => 'Prénom',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez renseigner votre prénom.']),
+                ],
             ])
             ->add('email', EmailType::class, [
-                'label' => 'Email'
+                'label' => 'Email',
+                'required' => true,
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez saisir un email.']),
+                    new \Symfony\Component\Validator\Constraints\Email(['message' => 'Adresse email invalide.']),
+                ],
             ])
             ->add('plainPassword', PasswordType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
                 'label' => 'Mot de passe',
                 'mapped' => false,
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Ajouter un mot de passe',
-                    ]),
+                    new NotBlank(['message' => 'Ajoutez un mot de passe']),
                     new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
+                        'min' => 8,
+                        'minMessage' => 'Votre mot de passe doit faire au moins {{ limit }} caractères',
                         'max' => 4096,
                     ]),
                 ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'Accords',
+                'label' => 'J’accepte les conditions d’utilisation',
                 'mapped' => false,
                 'constraints' => [
                     new IsTrue([

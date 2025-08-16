@@ -12,6 +12,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -84,6 +85,25 @@ class AnimalType extends AbstractType
                 'label' => 'Affinité avec les chiens',
                 'required' => false,
                 'class' => Affinities::class,
+            ])
+
+            // Adresse (Address embeddable)
+            ->add('addressLine1', TextType::class, [
+                'property_path' => 'address',
+                'label' => 'Adresse',
+                'required' => false,
+                'attr' => [
+                    'autocomplete' => 'address-line1',
+                    'placeholder' => 'Adresse',
+                ]
+            ])
+
+            // Coordonnées (GeoPoint embeddable)
+            ->add('geoLat', HiddenType::class, [
+                'required' => false,
+            ])
+            ->add('geoLng', HiddenType::class, [
+                'required' => false,
             ])
 
         ;

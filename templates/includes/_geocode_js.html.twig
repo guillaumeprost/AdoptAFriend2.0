@@ -1,0 +1,79 @@
+{# templates/animal/_geocode_js.html.twig #}
+<script>
+    (function() {
+        // Utilitaire debounce
+        function debounce(fn, delay = 600) {
+            let t; return (...args) => { clearTimeout(t); t = setTimeout(() => fn(...args), delay); };
+        }
+
+        // Sélecteurs à adapter si ton form a des prefixes différents
+        const adr = document.querySelector('[name$="[addressLine1]"]');
+        const adr2 = document.querySelector('[name$="[addressLine2]"]');
+        const cp  = document.querySelector('[name$="[postalCode]"]');
+        const city = document.querySelector('[name$="[city]"]');
+        const country = document.querySelector('[name$="[country]"]');
+        const lat = document.querySelector('[name$="[geoLat]"]');
+        const lng = document.querySelector('[name$="[geoLng]"]');
+
+        // Utiliser un élément status existant si présent
+        const statusExisting = document.getElementById('geocodeStatus');
+        const statusEl = statusExisting || document.createElement('small');
+        if (!statusExisting) {
+          statusEl.className = 'text-muted d-block mt-1';
+          (adr?.parentElement || document.body).appendChild(statusEl);
+        }
+
+        async function geocodeNow() {
+            if (!adr) return;
+
+            const parts = [];
+            if (adr && adr.value) parts.push(adr.value);
+            if (adr2 && adr2.value) parts.push(adr2.value);
+            if (cp && cp.value) parts.push(cp.value);
+            if (city && city.value) parts.push(city.value);
+            if (country && country.value) parts.push(country.value);
+            // Si on n'a qu'une adresse seule, ajouter un contexte pays par défaut
+            if (parts.length === 1 && !country) parts.push('France');
+            const q = parts.join(', ').trim();
+
+            if (q.length < 6) return; // évite les requêtes trop tôt
+
+            statusEl.textContent = '🔎 Géocodage...';
+            try {
+                const url = new URL('https://nominatim.openstreetmap.org/search');
+                url.searchParams.set('q', q);
+                url.searchParams.set('format', 'json');
+                url.searchParams.set('limit', '1');
+                // Respect Nominatim: un User-Agent explicite côté serveur; côté client on reste léger
+
+                const res = await fetch(url.toString(), {
+                    headers: { 'Accept': 'application/json' }
+                });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const data = await res.json();
+                if (data && data[0]) {
+                    lat.value = data[0].lat;
+                    lng.value = data[0].lon; // Nominatim renvoie "lon"
+                    statusEl.textContent = `✅ Position trouvée (${Number(lat.value).toFixed(5)}, ${Number(lng.value).toFixed(5)})`;
+                } else {
+                    statusEl.textContent = '⚠️ Adresse introuvable. Vérifie CP/ville.';
+                    // On ne vide pas forcément les anciens lat/lng
+                }
+            } catch (e) {
+                statusEl.textContent = '⚠️ Erreur géocodage, on réessayera à l’envoi.';
+                console.error(e);
+            }
+        }
+
+        const trigger = debounce(geocodeNow, 700);
+        [adr, adr2, cp, city, country].forEach(el => el && el.addEventListener('input', trigger));
+
+        // Bonus: tenter un géocodage avant soumission si coords vides
+        const form = (adr && adr.form) || document.querySelector('form');
+        form?.addEventListener('submit', async (e) => {
+            if (!lat?.value || !lng?.value) {
+                await geocodeNow();
+            }
+        });
+    })();
+</script>

@@ -5,6 +5,8 @@ namespace App\Entity\Animal;
 use App\Entity\AdoptionRequest\AdoptionRequest;
 use App\Entity\Organisation;
 use App\Entity\User;
+use App\Entity\ValueObject\Address;
+use App\Entity\ValueObject\GeoPoint;
 use App\Repository\Animal\AnimalRepository;
 use App\Traits\Entity as EntityTraits;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -82,6 +84,15 @@ abstract class Animal
     #[ORM\Column(nullable: true)]
     private ?float $price;
 
+    #[ORM\Embedded(class: Address::class, columnPrefix: 'address_')]
+    private Address $address;
+
+    #[ORM\Embedded(class: GeoPoint::class, columnPrefix: 'geo_')]
+    private GeoPoint $location;
+
+    #[ORM\Column(type:'string', nullable:true, columnDefinition:'GEOGRAPHY(POINT,4326)')]
+    private ?string $geo = null;
+
     #[ORM\ManyToOne(targetEntity: Organisation::class, inversedBy: 'animals')]
     #[ORM\JoinColumn(name: 'organisation_id', referencedColumnName: 'id')]
     private ?Organisation $organisation = null;
@@ -96,6 +107,8 @@ abstract class Animal
     public function __construct()
     {
         $this->adoptionRequests = new ArrayCollection();
+        $this->address = new Address();
+        $this->location = new GeoPoint();
     }
 
     abstract public function getType(): string;
@@ -219,6 +232,36 @@ abstract class Animal
     {
         $this->price = $price;
         return $this;
+    }
+
+    public function getAddress(): Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(Address $address): void
+    {
+        $this->address = $address;
+    }
+
+    public function getLocation(): GeoPoint
+    {
+        return $this->location;
+    }
+
+    public function setLocation(GeoPoint $location): void
+    {
+        $this->location = $location;
+    }
+
+    public function getGeo(): ?string
+    {
+        return $this->geo;
+    }
+
+    public function setGeo(?string $geo): void
+    {
+        $this->geo = $geo;
     }
 
     public function getOrganisation(): ?Organisation
