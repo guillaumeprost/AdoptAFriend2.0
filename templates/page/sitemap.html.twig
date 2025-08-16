@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+{% block title %}Plan du site • Adopt A Friend{% endblock %}
+{% block content %}
+<div class="container py-5">
+    <h1 class="mb-4">Plan du site</h1>
+    <div class="row">
+        <div class="col-md-6">
+            <h5>Adoptions</h5>
+            <ul class="list-unstyled">
+                <li><a href="{{ path('animal_search') }}">Voir les animaux</a></li>
+                {# ajoute les routes de filtres populaires si tu en as #}
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h5>Associations</h5>
+            <ul class="list-unstyled">
+                <li><a href="{{ path('organisation_search') }}">Nos associations</a></li>
+            </ul>
+        </div>
+    </div>
+    <hr class="my-4">
+    <div class="row">
+        <div class="col-md-6">
+            <h5>À propos</h5>
+            <ul class="list-unstyled">
+                <li><a href="{{ path('page_about') }}">Notre mission</a></li>
+                <li><a href="{{ path('page_legal') }}">Mentions légales</a></li>
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h5>Utiles</h5>
+            <ul class="list-unstyled">
+                <li><a href="{{ path('login') }}">Connexion</a></li>
+                <li><a href="{{ path('register') }}">Inscription</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
