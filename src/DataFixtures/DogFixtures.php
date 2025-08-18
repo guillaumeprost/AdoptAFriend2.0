@@ -39,6 +39,8 @@ class DogFixtures extends Fixture implements OrderedFixtureInterface
 
         for ($i = 1; $i < 50; $i++) {
             $dog = new Dog();
+            $dog->setForAdoption((bool)random_int(0, 1));
+            $dog->setForFoster((bool)random_int(0, 1));
             $dog->setName('Chien ' . $i);
             $dog->setSex(array_rand(Sex::$choices));
             $dog->setDescription(

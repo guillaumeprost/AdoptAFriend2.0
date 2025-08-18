@@ -4,11 +4,43 @@
     <section class="animals-list-page py-5 px-4">
         <div class="container-fluid">
 
+            <!-- Onglets de filtrage adoption / foster -->
+            <div class="animals-tabs nav-scroller mb-3">
+                <ul class="nav nav-pills nav-justified flex-nowrap">
+                    <li class="nav-item">
+                        <a class="nav-link {{ status is not defined or status is empty ? 'active' : '' }} rounded-pill d-inline-flex align-items-center gap-2 px-3"
+                           href="{{ path('animal_search') }}"
+                           aria-current="{{ status is not defined or status is empty ? 'page' : false }}">
+                            <i class="fa-solid fa-paw"></i>
+                            <span>Tous</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ status == 'adoption' ? 'active' : '' }} rounded-pill d-inline-flex align-items-center gap-2 px-3"
+                           href="{{ path('animal_search', {status: 'adoption'}) }}"
+                           aria-current="{{ status == 'adoption' ? 'page' : false }}">
+                            <i class="fas fa-heart"></i>
+                            <span>À l’adoption</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ status == 'foster' ? 'active' : '' }} rounded-pill d-inline-flex align-items-center gap-2 px-3"
+                           href="{{ path('animal_search', {status: 'foster'}) }}"
+                           aria-current="{{ status == 'foster' ? 'page' : false }}">
+                            <i class="fas fa-hand-holding-heart"></i>
+                            <span>Recherche Famille d'acceuil</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
             <!-- En-tête de section -->
             <div class="animals-hero mb-4 p-4 rounded-4 shadow-sm">
                 <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
                     <div>
-                        <h1 class="h2 mb-1">Animaux à l'adoption</h1>
+                        <h1 class="h2 mb-1">
+                            {% if status == 'adoption' %}Animaux à l'adoption{% elseif status == 'foster' %}Animaux en recherche de famille d'accueil{% else %}Tous les animaux{% endif %}
+                        </h1>
                         <p class="text-muted mb-0">Parcourez nos compagnons et trouvez votre match parfait</p>
                     </div>
                     <div class="d-flex align-items-center gap-3">
@@ -19,10 +51,7 @@
                 </div>
             </div>
 
-            <!-- Barre de filtres -->
-            <div class="animals-hero mb-4 p-4 rounded-4 shadow-sm">
-                {{ include('animal/include/_search-form.html.twig') }}
-            </div>
+            {{ include('animal/include/_search-form.html.twig') }}
 
             <!-- Grille d'animaux -->
             <div class="animals-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
@@ -36,7 +65,7 @@
                             <div class="display-6 mb-3">🐾</div>
                             <h3 class="mb-2">Aucun animal trouvé</h3>
                             <p class="text-muted mb-4">Essayez d'élargir vos critères de recherche ou réinitialiser les filtres.</p>
-                            <a href="{{ path('animal_search') }}" class="btn btn-primary">
+                            <a href="{{ path('animal_search', status ? {status: status} : {}) }}" class="btn btn-primary">
                                 Réinitialiser la recherche
                             </a>
                         </div>
@@ -50,7 +79,7 @@
                 {% if pageCount > 1 %}
                 <ul class="pagination pagination-lg justify-content-center animals-pagination">
                     <li class="page-item {% if page <= 1 %}disabled{% endif %}">
-                        <a class="page-link" href="{{ path('animal_search', {'page': page > 1 ? page-1 : 1}) }}" aria-label="Précédent" tabindex="{% if page <= 1 %}-1{% else %}0{% endif %}">
+                        <a class="page-link" href="{{ path('animal_search', (status ? {'status': status} : {}) | merge({'page': page > 1 ? page-1 : 1})) }}" aria-label="Précédent" tabindex="{% if page <= 1 %}-1{% else %}0{% endif %}">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
@@ -69,7 +98,7 @@
                     {% endif %}
 
                     {% if start > 1 %}
-                        <li class="page-item"><a class="page-link" href="{{ path('animal_search', {'page': 1}) }}">1</a></li>
+                        <li class="page-item"><a class="page-link" href="{{ path('animal_search', (status ? {'status': status} : {}) | merge({'page': 1})) }}">1</a></li>
                         {% if start > 2 %}
                             <li class="page-item disabled"><span class="page-link">…</span></li>
                         {% endif %}
@@ -77,7 +106,7 @@
 
                     {% for pageNumber in start..end %}
                         <li class="page-item {% if page == pageNumber %}active{% endif %}">
-                            <a class="page-link" href="{{ path('animal_search', {'page': pageNumber}) }}">{{ pageNumber }}</a>
+                            <a class="page-link" href="{{ path('animal_search', (status ? {'status': status} : {}) | merge({'page': pageNumber})) }}">{{ pageNumber }}</a>
                         </li>
                     {% endfor %}
 
@@ -85,11 +114,11 @@
                         {% if end < pageCount - 1 %}
                             <li class="page-item disabled"><span class="page-link">…</span></li>
                         {% endif %}
-                        <li class="page-item"><a class="page-link" href="{{ path('animal_search', {'page': pageCount}) }}">{{ pageCount }}</a></li>
+                        <li class="page-item"><a class="page-link" href="{{ path('animal_search', (status ? {'status': status} : {}) | merge({'page': pageCount})) }}">{{ pageCount }}</a></li>
                     {% endif %}
 
                     <li class="page-item {% if page >= pageCount %}disabled{% endif %}">
-                        <a class="page-link" href="{{ path('animal_search', {'page': page < pageCount ? page+1 : pageCount}) }}" aria-label="Suivant">
+                        <a class="page-link" href="{{ path('animal_search', (status ? {'status': status} : {}) | merge({'page': page < pageCount ? page+1 : pageCount})) }}" aria-label="Suivant">
                             <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

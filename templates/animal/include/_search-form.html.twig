@@ -1,63 +1,83 @@
-
-{{ form_start(form) }}
-
-<div class="row">
-    {{ form_row(form.type) }}
+<div class="filters-disclosure mb-3">
+  <button
+    class="filters-toggle btn btn-light w-100 d-flex align-items-center justify-content-between px-3 py-2"
+    type="button"
+    data-bs-toggle="collapse"
+    data-bs-target="#filtersCollapse"
+    aria-expanded="false"
+    aria-controls="filtersCollapse">
+    <span class="d-inline-flex align-items-center gap-2">
+      <i class="fa-solid fa-sliders"></i>
+      <strong>Filtres de recherche</strong>
+    </span>
+    <i class="fa-solid fa-chevron-right chevron" aria-hidden="true"></i>
+  </button>
 </div>
 
-<div class="row">
-    <div class="col">
-        {{ form_row(form.name) }}
-    </div>
-    <div class="col">
-        {{ form_row(form.sex) }}
-    </div>
-    <div class="col">
-        {{ form_row(form.vaccination) }}
-        {{ form_row(form.sterilized) }}
-        {{ form_row(form.dewormed) }}
-    </div>
-</div>
+<div id="filtersCollapse" class="collapse">
+  <div class="animals-hero mb-4 p-4 rounded-4 shadow-sm">
+    {{ form_start(form) }}
 
-<div class="row">
-    <div class="col">
-        {{ form_row(form.fur) }}
-    </div>
-    <div class="col">
-        {{ form_row(form.color) }}
-    </div>
-</div>
-
-<div class="row">
-    <div class="col">
-        {{ form_row(form.dogsAffinities) }}
-    </div>
-    <div class="col">
-        {{ form_row(form.catsAffinities) }}
-    </div>
-    <div class="col">
-        {{ form_row(form.childAffinities) }}
+    <div class="row">
+        {{ form_row(form.type) }}
     </div>
 
-<div class="row">
-    <div class="col">
-        {{ form_row(form.addressLine1) }}
-        {# Champs cachés lat/lng #}
-        {{ form_row(form.geoLat) }}
-        {{ form_row(form.geoLng) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.name) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.sex) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.vaccination) }}
+            {{ form_row(form.sterilized) }}
+            {{ form_row(form.dewormed) }}
+        </div>
     </div>
-</div>
-<div class="row">
-    <div class="col">
-        <div id="geocodeStatus" class="small text-muted mt-1"></div>
-    </div>
-</div>
 
-<div class="row">
-    <div class="col">
-        {{ form_row(form.search) }}
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.fur) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.color) }}
+        </div>
     </div>
-</div>
+
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.dogsAffinities) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.catsAffinities) }}
+        </div>
+        <div class="col">
+            {{ form_row(form.childAffinities) }}
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.addressLine1) }}
+            {# Champs cachés lat/lng #}
+            {{ form_row(form.geoLat) }}
+            {{ form_row(form.geoLng) }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <div id="geocodeStatus" class="small text-muted mt-1"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col">
+            {{ form_row(form.search) }}
+        </div>
+    </div>
 
     {% include 'includes/_geocode_js.html.twig' %}
-{{ form_end(form) }}
+    {{ form_end(form) }}
+  </div>
+</div>
