@@ -51,10 +51,6 @@ class AnimalController extends AbstractController
             assert($animal instanceof Animal);
 
             $form = $this->createForm($this->mapTypes[$type], $animal);
-            $form->add('save', SubmitType::class, [
-                'label' => 'Ajouter à l\'adoption ',
-                'attr' => ['class' => 'btn btn-primary'],
-            ]);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->fileService->addAnimalImages($animal, $type);
@@ -103,9 +99,6 @@ class AnimalController extends AbstractController
         assert($user instanceof User);
 
         $form = $this->createForm($this->mapTypes[$animal->getType()], $animal);
-        $form->add('update', SubmitType::class, [
-                'attr' => ['class' => 'btn btn-primary'],
-            ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->fileService->addAnimalImages($animal, $animal->getType());
@@ -129,6 +122,7 @@ class AnimalController extends AbstractController
         $entityManager = $this->doctrine->getManager();
         $searchAnimal = new SearchAnimal();
         $pageSize = $request->query->get('pageSize', 20);
+        $status = $request->query->get('status'); // null | 'adoption' | 'foster'
 
         $form = $this->createForm(AnimalType::class, $searchAnimal);
         $form->add('search', SubmitType::class, [
@@ -147,13 +141,27 @@ class AnimalController extends AbstractController
                     $pageSize
                 );
 
+            // -- Applique un filtre optionnel (adoption/foster) côté contrôleur + re-pagination simple --
+            $animalsIterable = iterator_to_array($animalsPaginator);
+            if (in_array($status, ['adoption', 'foster'], true)) {
+                $animalsIterable = array_values(array_filter($animalsIterable, function(Animal $a) use ($status) {
+                    return $status === 'adoption' ? $a->isForAdoption() : $a->isForFoster();
+                }));
+            }
+
+            $totalFiltered = count($animalsIterable);
+            $pageCount = (int) ceil(max($totalFiltered, 1) / $pageSize);
+            $page = max(1, min($page, max($pageCount, 1)));
+            $offset = ($page - 1) * $pageSize;
+            $pageItems = array_slice($animalsIterable, $offset, $pageSize);
 
             return $this->render('animal/list.html.twig', [
                 'form' => $form->createView(),
-                'animals' => $animalsPaginator,
-                'totalAnimals' => count($animalsPaginator),
-                'pageCount' => intval(ceil(count($animalsPaginator) / $pageSize)),
-                'page' => $page
+                'animals' => $pageItems,
+                'totalAnimals' => $totalFiltered,
+                'pageCount' => $pageCount,
+                'page' => $page,
+                'status' => $status,
             ]);
         }
 
@@ -165,12 +173,27 @@ class AnimalController extends AbstractController
                 $pageSize
             );
 
+        // -- Applique un filtre optionnel (adoption/foster) côté contrôleur + re-pagination simple --
+        $animalsIterable = iterator_to_array($animalsPaginator);
+        if (in_array($status, ['adoption', 'foster'], true)) {
+            $animalsIterable = array_values(array_filter($animalsIterable, function(Animal $a) use ($status) {
+                return $status === 'adoption' ? $a->isForAdoption() : $a->isForFoster();
+            }));
+        }
+
+        $totalFiltered = count($animalsIterable);
+        $pageCount = (int) ceil(max($totalFiltered, 1) / $pageSize);
+        $page = max(1, min($page, max($pageCount, 1)));
+        $offset = ($page - 1) * $pageSize;
+        $pageItems = array_slice($animalsIterable, $offset, $pageSize);
+
         return $this->render('animal/list.html.twig', [
             'form' => $form->createView(),
-            'animals' => $animalsPaginator,
-            'totalAnimals' => count($animalsPaginator),
-            'pageCount' => intval(ceil(count($animalsPaginator) / $pageSize)),
-            'page' => $page
+            'animals' => $pageItems,
+            'totalAnimals' => $totalFiltered,
+            'pageCount' => $pageCount,
+            'page' => $page,
+            'status' => $status,
         ]);
     }
 

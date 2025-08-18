@@ -7,6 +7,10 @@ use App\Utils\Animal\Affinities;
 
 class SearchAnimal
 {
+    private bool $forAdoption = false;
+
+    private bool $forFoster = false;
+
     public ?string $type = null;
 
     public ?string $name = null;

@@ -50,6 +50,14 @@ abstract class Animal
     ];
 
     #[ORM\Column(nullable: false)]
+    #[Assert\NotBlank(message: 'Veuillez préciser si il est à l\'adoption')]
+    private bool $forAdoption = true;
+
+    #[ORM\Column(nullable: false)]
+    #[Assert\NotBlank(message: 'Veuillez préciser si il recherche une famille d\'acceuil')]
+    private bool $forFoster = false;
+
+    #[ORM\Column(nullable: false)]
     #[Assert\NotBlank(message: 'Veuillez ajouter un nom')]
     private string $name;
 
@@ -112,6 +120,26 @@ abstract class Animal
     }
 
     abstract public function getType(): string;
+
+    public function isForAdoption(): bool
+    {
+        return $this->forAdoption;
+    }
+
+    public function setForAdoption(bool $forAdoption): void
+    {
+        $this->forAdoption = $forAdoption;
+    }
+
+    public function isForFoster(): bool
+    {
+        return $this->forFoster;
+    }
+
+    public function setForFoster(bool $forFoster): void
+    {
+        $this->forFoster = $forFoster;
+    }
 
     public function getName(): string
     {

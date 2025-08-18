@@ -31,16 +31,112 @@
         }
     }
 
-    // Cases à cocher et radios
+    // Cases à cocher et radios — version améliorée
     .form-check {
-        padding-left: 1.75rem;
+        position: relative;
+        padding-left: 2rem; // un peu plus d'espace pour le nouveau visuel
+
         .form-check-input {
-            width: 1.1rem;
-            height: 1.1rem;
+            // reset
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            margin-top: .1rem;
+            cursor: pointer;
+
+            // base
+            width: 1.15rem;
+            height: 1.15rem;
+            border-radius: 10px; // coins légèrement arrondis
+            border: 1px solid rgba(0,0,0,0.2);
+            background: #fff;
+            box-shadow: 0 1px 2px rgba(0,0,0,.06) inset, 0 0 0 0 rgba(13,110,253,0);
+            transition: box-shadow .2s ease, border-color .2s ease, background-color .2s ease, transform .06s ease;
+
+            // hover
+            &:hover {
+                border-color: rgba(0,0,0,0.35);
+            }
+
+            // focus state
+            &:focus-visible {
+                outline: none;
+                box-shadow: 0 0 0 .25rem rgba(13,110,253,.15);
+                border-color: rgba(13,110,253,.5);
+            }
+
+            // checked
+            &:checked {
+                border-color: transparent;
+                background: $gradient-primary; // dégradé de marque
+                box-shadow: 0 2px 6px rgba(0,0,0,.12);
+            }
+
+            // checked icon (SVG inline via background-image)
+            &:checked::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                display: block;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 70% 70%;
+                // icône check blanc
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='%23fff' d='M7.629 13.233L3.88 9.485l-1.415 1.414 5.164 5.164L17.95 5.742l-1.414-1.414z'/%3E%3C/svg%3E");
+            }
+
+            // indeterminate state (si utilisé par Symfony)
+            &:indeterminate {
+                border-color: transparent;
+                background: $gradient-primary;
+            }
+            &:indeterminate::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                display: block;
+                background-repeat: no-repeat;
+                background-position: center;
+                background-size: 60% 60%;
+                background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Crect x='4' y='9' width='12' height='2' rx='1' ry='1' fill='%23fff'/%3E%3C/svg%3E");
+            }
+
+            // disabled
+            &:disabled {
+                cursor: not-allowed;
+                background: #f2f2f2;
+                border-color: rgba(0,0,0,0.15);
+                box-shadow: none;
+            }
+            &:disabled + .form-check-label {
+                color: rgba(0,0,0,0.45);
+                cursor: not-allowed;
+            }
+
+            // pressed micro interaction
+            &:active {
+                transform: scale(.98);
+            }
         }
+
         .form-check-label {
-            margin-left: .25rem;
+            margin-left: .5rem;
+            font-weight: 500;
+            color: $gris-fonce;
         }
+    }
+
+    // Radios — look cohérent
+    .form-check-input[type="radio"] {
+        border-radius: 50%;
+        background-clip: padding-box;
+    }
+    .form-check-input[type="radio"]:checked::after {
+        content: "";
+        position: absolute;
+        inset: 3px;
+        border-radius: 50%;
+        background: #fff;
     }
 
     // Messages d'erreur un peu rapprochés

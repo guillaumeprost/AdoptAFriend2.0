@@ -1,4 +1,68 @@
 // Styles page liste des animaux
+// Segmented tabs styling
+.animals-tabs {
+  position: relative;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+
+  .nav {
+    gap: .5rem;
+    white-space: nowrap;
+  }
+
+  .nav-link {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.06);
+    box-shadow: $shadow-soft;
+    color: $gris-fonce;
+    transition: $transition;
+  }
+  .nav-link:hover {
+    transform: translateY(-1px);
+    box-shadow: $shadow-medium;
+  }
+  .nav-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 .25rem rgba(13,110,253,.2), $shadow-medium;
+  }
+  .nav-link.active {
+    color: #fff;
+    background: $gradient-primary;
+    border-color: transparent;
+    box-shadow: $shadow-medium;
+  }
+  .nav-link .badge {
+    border-radius: 999px;
+  }
+}
+
+// Filters disclosure header
+.filters-disclosure {
+  .filters-toggle {
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.08);
+    box-shadow: $shadow-soft;
+    color: $gris-fonce;
+    transition: $transition;
+    text-align: left;
+  }
+  .filters-toggle:hover {
+    transform: translateY(-1px);
+    box-shadow: $shadow-medium;
+  }
+  .filters-toggle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 .25rem rgba(13,110,253,.2), $shadow-medium;
+  }
+  .filters-toggle .chevron {
+    transition: transform .2s ease;
+  }
+  .filters-toggle[aria-expanded="true"] .chevron {
+    transform: rotate(90deg);
+  }
+}
+
 .animals-list-page {
     background: $gradient-primary;
     min-height: 100%;

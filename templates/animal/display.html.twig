@@ -254,6 +254,21 @@
                     </div>
                 </div>
             </div>
+
+            {% if animal.organisation %}
+                <div class="container-xxl py-5">
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-4">
+                            <h2 class="h3 mb-4">D'autres animaux de l'association</h2>
+                            <div class="animals-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+                            {% for otherAnimal in animal.organisation.animals %}
+                                {% include'/animal/include/_card.html.twig' with {animal: otherAnimal} %}
+                            {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
 
         <script>

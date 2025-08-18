@@ -27,6 +27,20 @@ abstract class AnimalType extends AbstractType
         parent::buildForm($builder, $options);
 
         $builder
+            ->add('forAdoption', CheckboxType::class, [
+                'label' => 'En recherche d\'adoption',
+                'required' => true,
+                'row_attr' => [
+                    'class' => 'form-switch'
+                ]
+            ])
+            ->add('forFoster', CheckboxType::class, [
+                'label' => 'En recherche de famille d\'acceuil',
+                'required' => true,
+                'row_attr' => [
+                    'class' => 'form-switch'
+                ]
+            ])
             ->add('name', TextType::class, [
                 'label' => 'Nom',
                 'required' => true

@@ -8,6 +8,7 @@ doctrine:
         password: 'pass'
         charset: 'utf8'
         server_version: '16'
+        schema_filter: '~^(?!tiger\.|tiger_data\.|topology\.|spatial_ref_sys$)~'
         types:
           geometry:   LongitudeOne\Spatial\DBAL\Types\GeometryType
           point:      LongitudeOne\Spatial\DBAL\Types\Geometry\PointType
