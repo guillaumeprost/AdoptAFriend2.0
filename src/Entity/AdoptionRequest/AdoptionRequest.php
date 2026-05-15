@@ -23,16 +23,15 @@ class AdoptionRequest
     use TimestampableEntity;
 
     #[ORM\Column(nullable: false)]
-    private string $status = self::STATUS_NEW;
+    public private(set) string $status = self::STATUS_NEW;
 
-    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'adoptionRequests')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private User $adopter;
 
     #[ORM\ManyToOne(targetEntity: Animal::class, inversedBy: 'adoptionRequests')]
     #[ORM\JoinColumn(name: 'animal_id', referencedColumnName: 'id')]
     private Animal $animal;
-
 
     #[ORM\OneToMany(mappedBy: 'adoptionRequest', targetEntity: Comment::class, orphanRemoval: true)]
     private Collection $comments;
@@ -42,14 +41,21 @@ class AdoptionRequest
         $this->comments = new ArrayCollection();
     }
 
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
+        return $this;
+    }
+
     public function getAdopter(): User
     {
         return $this->adopter;
     }
 
-    public function setAdopter(User $adopter): void
+    public function setAdopter(User $adopter): static
     {
         $this->adopter = $adopter;
+        return $this;
     }
 
     public function getAnimal(): Animal
@@ -57,20 +63,9 @@ class AdoptionRequest
         return $this->animal;
     }
 
-    public function setAnimal(Animal $animal): self
+    public function setAnimal(Animal $animal): static
     {
         $this->animal = $animal;
-        return $this;
-    }
-
-    public function getStatus(): string
-    {
-        return $this->status;
-    }
-
-    public function setStatus(string $status): self
-    {
-        $this->status = $status;
         return $this;
     }
 
@@ -85,7 +80,6 @@ class AdoptionRequest
             $this->comments->add($comment);
             $comment->setAdoptionRequest($this);
         }
-
         return $this;
     }
 
@@ -96,7 +90,6 @@ class AdoptionRequest
                 $comment->setAdoptionRequest(null);
             }
         }
-
         return $this;
     }
 }

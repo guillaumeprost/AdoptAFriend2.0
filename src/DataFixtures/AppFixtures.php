@@ -22,7 +22,7 @@ class AppFixtures extends Fixture
      * @param ObjectManager $manager
      * @throws \Exception
      */
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
     }
 }

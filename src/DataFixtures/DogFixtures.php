@@ -17,7 +17,7 @@ use App\Entity\ValueObject\GeoPoint;
 
 class DogFixtures extends Fixture implements OrderedFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $organisations = $manager->getRepository(Organisation::class)->findAll();
 

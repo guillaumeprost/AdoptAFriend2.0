@@ -11,7 +11,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class OrganisationFixtures extends Fixture implements OrderedFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         for ($i = 1; $i < 10; $i++) {
             $organisation = new Organisation();

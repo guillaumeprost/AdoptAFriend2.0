@@ -15,7 +15,7 @@ class Comment
     use TimestampableEntity;
 
     #[ORM\Column(type: 'text')]
-    private string $content;
+    public private(set) string $content;
 
     #[ORM\ManyToOne(inversedBy: 'comments')]
     #[ORM\JoinColumn(nullable: false)]
@@ -29,12 +29,19 @@ class Comment
     {
         $this->createdAt = new \DateTimeImmutable();
     }
+
+    public function setContent(string $content): static
+    {
+        $this->content = $content;
+        return $this;
+    }
+
     public function getAuthor(): User
     {
         return $this->author;
     }
 
-    public function setAuthor(User $author): self
+    public function setAuthor(User $author): static
     {
         $this->author = $author;
         return $this;
@@ -45,19 +52,9 @@ class Comment
         return $this->adoptionRequest;
     }
 
-    public function setAdoptionRequest(AdoptionRequest $adoptionRequest): self
+    public function setAdoptionRequest(AdoptionRequest $adoptionRequest): static
     {
         $this->adoptionRequest = $adoptionRequest;
         return $this;
-    }
-
-    public function getContent(): string
-    {
-        return $this->content;
-    }
-
-    public function setContent(string $content): void
-    {
-        $this->content = $content;
     }
 }

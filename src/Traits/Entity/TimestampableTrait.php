@@ -5,58 +5,33 @@ namespace App\Traits\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
-/**
- * ThisTrait adds Timestampable fields to entity.
- */
 trait TimestampableTrait
 {
-    /**
-     * @var \DateTime $created
-     *
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Timestampable(on="create")
-     */
-    private $created;
+    #[ORM\Column(type: 'datetime')]
+    #[Gedmo\Timestampable(on: 'create')]
+    private ?\DateTime $created = null;
 
-    /**
-     * @var \DateTime $updated
-     *
-     * @ORM\Column(type="datetime")
-     * @Gedmo\Timestampable(on="update")
-     */
-    private $updated;
+    #[ORM\Column(type: 'datetime')]
+    #[Gedmo\Timestampable(on: 'update')]
+    private ?\DateTime $updated = null;
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated(): \DateTime
+    public function getCreated(): ?\DateTime
     {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime $created
-     * @return TimestampableTrait
-     */
-    public function setCreated(\DateTime $created): self
+    public function setCreated(\DateTime $created): static
     {
         $this->created = $created;
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getUpdated(): \DateTime
+    public function getUpdated(): ?\DateTime
     {
         return $this->updated;
     }
 
-    /**
-     * @param \DateTime $updated
-     * @return TimestampableTrait
-     */
-    public function setUpdated(\DateTime $updated): self
+    public function setUpdated(\DateTime $updated): static
     {
         $this->updated = $updated;
         return $this;

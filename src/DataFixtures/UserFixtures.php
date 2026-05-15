@@ -18,7 +18,7 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
     }
 
     #[NoReturn]
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
 
         //User Batman
@@ -81,7 +81,7 @@ class UserFixtures extends Fixture implements OrderedFixtureInterface
         $manager->flush();
     }
 
-    public function getOrder()
+    public function getOrder(): int
     {
         return 1;
     }
