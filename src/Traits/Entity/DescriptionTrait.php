@@ -10,4 +10,10 @@ trait DescriptionTrait
     #[ORM\Column(type: 'text', nullable: true)]
     #[Assert\NotBlank(message: 'Veuillez ajouter une description')]
     public private(set) ?string $description = null;
+
+    public function setDescription(?string $description): static
+    {
+        $this->description = $description;
+        return $this;
+    }
 }

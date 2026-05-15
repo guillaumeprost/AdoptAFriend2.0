@@ -1,7 +1,5 @@
 import './bootstrap.js';
-import './styles/app.scss';
 import 'bootstrap';
-import '@fortawesome/fontawesome-free/css/fontawesome.min.css';
 
 import $ from 'jquery';
 window.$ = window.jQuery = $;

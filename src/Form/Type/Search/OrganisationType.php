@@ -18,7 +18,7 @@ class OrganisationType extends AbstractType
             ->add('name', TextType::class, ['label' => 'Nom',]);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => SearchOrganisation::class
