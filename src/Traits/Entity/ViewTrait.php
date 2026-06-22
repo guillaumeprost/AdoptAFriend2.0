@@ -1,30 +1,20 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: guillaumeprost
- * Date: 03/07/2016
- * Time: 11:29
- */
-
 namespace App\Traits\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 trait ViewTrait
 {
-    /** @ORM\Column(type="integer") */
-    private $views = 0;
+    #[ORM\Column(type: 'integer')]
+    private int $views = 0;
 
-    public function incrementViews()
+    public function incrementViews(): void
     {
         $this->views++;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getViews()
+    public function getViews(): int
     {
         return $this->views;
     }

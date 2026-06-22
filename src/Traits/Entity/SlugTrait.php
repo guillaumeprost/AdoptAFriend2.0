@@ -1,44 +1,22 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: guillaumeprost
- * Date: 07/05/2016
- * Time: 10:26
- */
-
 namespace App\Traits\Entity;
 
-use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Class SlugTrait
- * @package App\Traits\Entity
- */
 trait SlugTrait
 {
-      /**
-       * @var string
-       * @ORM\Column(type="string", length=255, nullable=true)
-       */
-      private $slug;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $slug = null;
 
-      /**
-       * @return string
-       */
-    public function getSlug()
+    public function getSlug(): ?string
     {
-          return $this->slug;
+        return $this->slug;
     }
 
-      /**
-       * @param string $slug
-       * @return $this
-       */
-    public function setSlug($slug)
+    public function setSlug(?string $slug): static
     {
-          $this->slug = (new Slugify())->slugify($slug);
-          return $this;
+        $this->slug = $slug ? (new \Cocur\Slugify\Slugify())->slugify($slug) : null;
+        return $this;
     }
 }

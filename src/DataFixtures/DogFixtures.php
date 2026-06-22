@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Animal\Dog;
 use App\Entity\Organisation;
+use App\Entity\User;
 use App\Utils\Animal\Affinities;
 use App\Utils\Animal\Color;
 use App\Utils\Animal\Dog\Size;
@@ -17,7 +18,7 @@ use App\Entity\ValueObject\GeoPoint;
 
 class DogFixtures extends Fixture implements OrderedFixtureInterface
 {
-    public function load(ObjectManager $manager)
+    public function load(ObjectManager $manager): void
     {
         $organisations = $manager->getRepository(Organisation::class)->findAll();
 
@@ -84,7 +85,7 @@ class DogFixtures extends Fixture implements OrderedFixtureInterface
 
             $dog->setPrice(mt_rand(100, 500));
 
-            $dog->setManager($this->getReference(UserFixtures::USER_REFERENCE . random_int(1, 3)));
+            $dog->setManager($this->getReference(UserFixtures::USER_REFERENCE . random_int(1, 3), User::class));
 
             $dog->setOrganisation($organisations[array_rand($organisations)]);
 

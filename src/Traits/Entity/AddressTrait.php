@@ -1,163 +1,92 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: guillaumeprost
- * Date: 06/05/2016
- * Time: 19:12
- */
-
 namespace App\Traits\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Class AddressTrait
- * @package App\Traits\Entity
- */
 trait AddressTrait
 {
-      /**
-       * @var string
-       * @ORM\Column(type="string", length=255, nullable=true)
-       */
-      private $address1;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $address1 = null;
 
-      /**
-       * @var string
-       * @ORM\Column(type="string", length=255, nullable=true)
-       */
-      private $address2;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $address2 = null;
 
-      /**
-       * @var string
-       * @ORM\Column(type="string", length=255, nullable=true)
-       */
-      private $postalCode;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $postalCode = null;
 
-      /**
-       * @var string
-       * @ORM\Column(type="string", length=255, nullable=true)
-       */
-      private $city;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $city = null;
 
-      /**
-       * @var string
-       * @ORM\Column(type="string", length=255, nullable=true)
-       */
-      private $department;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $department = null;
 
-      /**
-       * @var string
-       * @ORM\Column(type="string", length=255, nullable=true)
-       */
-      private $phone;
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private ?string $phone = null;
 
-      /**
-       * @return string
-       */
-    public function getAddress1()
+    public function getAddress1(): ?string
     {
-          return $this->address1;
+        return $this->address1;
     }
 
-      /**
-       * @param string $address1
-       * @return $this
-       */
-    public function setAddress1($address1)
+    public function setAddress1(?string $address1): static
     {
-          $this->address1 = $address1;
-          return $this;
+        $this->address1 = $address1;
+        return $this;
     }
 
-      /**
-       * @return string
-       */
-    public function getAddress2()
+    public function getAddress2(): ?string
     {
-          return $this->address2;
+        return $this->address2;
     }
 
-      /**
-       * @param string $address2
-       * @return $this
-       */
-    public function setAddress2($address2)
+    public function setAddress2(?string $address2): static
     {
-          $this->address2 = $address2;
-          return $this;
+        $this->address2 = $address2;
+        return $this;
     }
 
-      /**
-       * @return string
-       */
-    public function getPostalCode()
+    public function getPostalCode(): ?string
     {
-          return $this->postalCode;
+        return $this->postalCode;
     }
 
-      /**
-       * @param string $postalCode
-       * @return $this
-       */
-    public function setPostalCode($postalCode)
+    public function setPostalCode(?string $postalCode): static
     {
-          $this->postalCode = $postalCode;
-          return $this;
+        $this->postalCode = $postalCode;
+        return $this;
     }
 
-      /**
-       * @return string
-       */
-    public function getCity()
+    public function getCity(): ?string
     {
-          return $this->city;
+        return $this->city;
     }
 
-      /**
-       * @param string $city
-       * @return $this
-       */
-    public function setCity($city)
+    public function setCity(?string $city): static
     {
-          $this->city = $city;
-          return $this;
+        $this->city = $city;
+        return $this;
     }
 
-      /**
-       * @return string
-       */
-    public function getDepartment()
+    public function getDepartment(): ?string
     {
-          return $this->department;
+        return $this->department;
     }
 
-      /**
-       * @param string $department
-       * @return $this
-       */
-    public function setDepartment($department)
+    public function setDepartment(?string $department): static
     {
-          $this->department = $department;
-          return $this;
+        $this->department = $department;
+        return $this;
     }
 
-      /**
-       * @return string
-       */
-    public function getPhone()
+    public function getPhone(): ?string
     {
-          return $this->phone;
+        return $this->phone;
     }
 
-      /**
-       * @param string $phone
-       * @return $this
-       */
-    public function setPhone($phone)
+    public function setPhone(?string $phone): static
     {
-          $this->phone = $phone;
-          return $this;
+        $this->phone = $phone;
+        return $this;
     }
 }

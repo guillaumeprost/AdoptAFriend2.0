@@ -10,7 +10,7 @@ class AdoptionRequestExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new \Twig\TwigFunction('status', 'displayStatus'),
+            new \Twig\TwigFunction('status', [$this, 'displayStatus']),
         ];
     }
 

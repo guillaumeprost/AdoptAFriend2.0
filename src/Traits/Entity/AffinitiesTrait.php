@@ -7,43 +7,28 @@ use Doctrine\ORM\Mapping as ORM;
 
 trait AffinitiesTrait
 {
-    #[ORM\Column(nullable:true)]
-    private Affinities $dogsAffinities;
+    #[ORM\Column(nullable: true)]
+    public private(set) ?Affinities $dogsAffinities = null;
 
-    #[ORM\Column(nullable:true)]
-    private Affinities $catsAffinities;
+    #[ORM\Column(nullable: true)]
+    public private(set) ?Affinities $catsAffinities = null;
 
-    #[ORM\Column(nullable:true)]
-    private Affinities $childAffinities;
+    #[ORM\Column(nullable: true)]
+    public private(set) ?Affinities $childAffinities = null;
 
-    public function getDogsAffinities(): ?Affinities
-    {
-        return $this->dogsAffinities;
-    }
-
-    public function setDogsAffinities(Affinities $dogsAffinities): self
+    public function setDogsAffinities(?Affinities $dogsAffinities): static
     {
         $this->dogsAffinities = $dogsAffinities;
         return $this;
     }
 
-    public function getCatsAffinities(): ?Affinities
-    {
-        return $this->catsAffinities;
-    }
-
-    public function setCatsAffinities(Affinities $catsAffinities): self
+    public function setCatsAffinities(?Affinities $catsAffinities): static
     {
         $this->catsAffinities = $catsAffinities;
         return $this;
     }
 
-    public function getChildAffinities(): ?Affinities
-    {
-        return $this->childAffinities;
-    }
-
-    public function setChildAffinities(Affinities $childAffinities): self
+    public function setChildAffinities(?Affinities $childAffinities): static
     {
         $this->childAffinities = $childAffinities;
         return $this;

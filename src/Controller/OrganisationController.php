@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/organisation', name: 'organisation_')]
 class OrganisationController extends AbstractController
@@ -121,7 +121,7 @@ class OrganisationController extends AbstractController
 
 
             $this->doctrine->getManager()->persist($organisation);
-            $this->doctrine->getManager()->flush($organisation);
+            $this->doctrine->getManager()->flush();
 
             $this->addFlash('success', 'Votre Association à été crée, elle vous a été attribuée');
             return $this->redirectToRoute('organisation_display', ['id' => $organisation->getId()]);
@@ -161,7 +161,7 @@ class OrganisationController extends AbstractController
 
             $this->fileService->addOrganisationImages($organisation);
 
-            $this->doctrine->getManager()->flush($organisation);
+            $this->doctrine->getManager()->flush();
 
             $this->addFlash('success', 'Votre Association à été modifiée');
             return $this->redirectToRoute('organisation_update', ['id' => $organisation->getId()]);

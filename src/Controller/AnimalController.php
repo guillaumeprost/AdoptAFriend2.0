@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/animal', name: 'animal_')]
 class AnimalController extends AbstractController
@@ -111,7 +111,7 @@ class AnimalController extends AbstractController
             $this->fileService->addAnimalImages($animal, $animal->getType());
 
             $entityManager = $this->doctrine->getManager();
-            $entityManager->flush($animal);
+            $entityManager->flush();
 
             $this->addFlash('success', 'Votre animal à été modifié');
             return $this->redirectToRoute('user_animals');

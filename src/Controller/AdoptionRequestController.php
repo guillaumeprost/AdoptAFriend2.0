@@ -14,7 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/adoption-request', name: 'adoption-request_')]
 class AdoptionRequestController extends AbstractController
@@ -118,10 +118,9 @@ class AdoptionRequestController extends AbstractController
 
             if ($adoptionRequest->getStatus() === AdoptionRequest::STATUS_ADOPTED){
                $adoptionRequest->getAnimal()->setStatus(Animal::STATUS_ADOPTED);
-                $this->doctrine->getManager()->flush($adoptionRequest->getAnimal());
             }
 
-            $this->doctrine->getManager()->flush($adoptionRequest);
+            $this->doctrine->getManager()->flush();
 
             $this->addFlash('success', 'La demande à été mise à jour');
             return $this->redirectToRoute('adoption-request_display', ['id' => $adoptionRequest->getId()]);
